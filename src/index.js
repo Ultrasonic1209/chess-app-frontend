@@ -10,7 +10,9 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+
 import App from "./App";
+import NotFound from "./NotFound"
 import Stats from "./routes/profile/stats";
 import Preferences from "./routes/profile/preferences";
 
@@ -20,13 +22,16 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
+
         <Route path="/" element={<App />}>
 
-
+          <Route path='*' element={<NotFound />} />
+          
           <Route path="profile">
             <Route path="stats" element={<Stats />} />
             <Route path="preferences" element={<Preferences />} />
           </Route>
+        
         </Route>
       </Routes>
     </BrowserRouter>
