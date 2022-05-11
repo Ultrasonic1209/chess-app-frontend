@@ -19,14 +19,14 @@ export default function App() {
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                   <Nav className="me-auto">
-                  <NavDropdown title="Play" id="collasible-nav-dropdown">
+                  <NavDropdown title="Play" id="play-nav-dropdown">
                       <NavDropdown.Item as={Link} to="#action/3.1">vs. online player</NavDropdown.Item>
                       <NavDropdown.Item as={Link} to="#action/3.2">vs. local player</NavDropdown.Item>
                       <NavDropdown.Item as={Link} to="#action/3.3">vs. computer</NavDropdown.Item>
                   </NavDropdown>
                   </Nav>
                   <Nav>
-                      <NavDropdown title="Profile" id="collasible-nav-dropdown" className="mx-3">
+                      <NavDropdown title="Profile" id="profile-nav-dropdown" className="mx-3">
                           <NavDropdown.Item as={Link} to="/profile/stats">Stats</NavDropdown.Item>
                           <NavDropdown.Item as={Link} to="/profile/preferences">Preferences</NavDropdown.Item>
                           <NavDropdown.Divider />
