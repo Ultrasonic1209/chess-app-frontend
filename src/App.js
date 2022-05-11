@@ -24,14 +24,14 @@ export default function App() {
                       <NavDropdown.Item as={Link} to="#action/3.2">vs. local player</NavDropdown.Item>
                       <NavDropdown.Item as={Link} to="#action/3.3">vs. computer</NavDropdown.Item>
                   </NavDropdown>
-                  </Nav>
-                  <Nav>
-                      <NavDropdown title="Profile" id="profile-nav-dropdown" className="mx-3">
+                  <NavDropdown title="Profile" id="profile-nav-dropdown" className="mx-3">
                           <NavDropdown.Item as={Link} to="/profile/stats">Stats</NavDropdown.Item>
                           <NavDropdown.Item as={Link} to="/profile/preferences">Preferences</NavDropdown.Item>
                           <NavDropdown.Divider />
                           <NavDropdown.Item as={Link} to="#action/3.3">Account</NavDropdown.Item>
                       </NavDropdown>
+                  </Nav>
+                  <Nav>
                       <Navbar.Text>
                           Signed in as: <Link to="/">Nobody</Link>
                       </Navbar.Text>
