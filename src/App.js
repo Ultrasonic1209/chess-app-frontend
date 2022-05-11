@@ -20,20 +20,20 @@ export default function App() {
               <Navbar.Collapse id="responsive-navbar-nav">
                   <Nav className="me-auto">
                   <NavDropdown title="Play" id="collasible-nav-dropdown">
-                      <NavDropdown.Item href="#action/3.1">vs. online player</NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.2">vs. local player</NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.3">vs. computer</NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="#action/3.1">vs. online player</NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="#action/3.2">vs. local player</NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="#action/3.3">vs. computer</NavDropdown.Item>
                   </NavDropdown>
                   </Nav>
                   <Nav>
                       <NavDropdown title="Profile" id="collasible-nav-dropdown" className="mx-3">
-                          <NavDropdown.Item as={Link} href="/profile/stats">Stats</NavDropdown.Item>
-                          <NavDropdown.Item as={Link} href="/profile/preferences">Preferences</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/profile/stats">Stats</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="/profile/preferences">Preferences</NavDropdown.Item>
                           <NavDropdown.Divider />
-                          <NavDropdown.Item href="#action/3.3">Account</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} to="#action/3.3">Account</NavDropdown.Item>
                       </NavDropdown>
                       <Navbar.Text>
-                          Signed in as: <a href="#login">Nobody</a>
+                          Signed in as: <Link to="/">Nobody</Link>
                       </Navbar.Text>
                   </Nav>
               </Navbar.Collapse>
