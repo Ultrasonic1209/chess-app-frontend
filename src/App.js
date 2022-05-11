@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
@@ -27,8 +27,8 @@ export default function App() {
                   </Nav>
                   <Nav>
                       <NavDropdown title="Profile" id="collasible-nav-dropdown" className="mx-3">
-                          <NavDropdown.Item href="/profile/stats">Stats</NavDropdown.Item>
-                          <NavDropdown.Item href="/profile/preferences">Preferences</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} href="/profile/stats">Stats</NavDropdown.Item>
+                          <NavDropdown.Item as={Link} href="/profile/preferences">Preferences</NavDropdown.Item>
                           <NavDropdown.Divider />
                           <NavDropdown.Item href="#action/3.3">Account</NavDropdown.Item>
                       </NavDropdown>
