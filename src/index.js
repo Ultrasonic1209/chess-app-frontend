@@ -1,6 +1,6 @@
 console.log(Modernizr);
 if (! (Modernizr.promises && Modernizr.es6array && es6object) ) {
-  import 'react-app-polyfill/stable';
+  import 'react-app-polyfill/ie9';
 }
 
 //import reportWebVitals from './reportWebVitals';
