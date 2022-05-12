@@ -1,9 +1,5 @@
-console.log(Modernizr);
-if (! (Modernizr.promises && Modernizr.es6array && es6object) ) {
-  import 'react-app-polyfill/ie9';
-  import 'react-app-polyfill/stable';
-}
-
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
 //import reportWebVitals from './reportWebVitals';
 
 import React from 'react';
