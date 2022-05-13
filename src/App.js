@@ -22,7 +22,7 @@ export default function App() {
                   <NavDropdown title="Play" id="play-nav-dropdown">
                       <NavDropdown.Item as={Link} to="#action/3.1">vs. online player</NavDropdown.Item>
                       <NavDropdown.Item as={Link} to="#action/3.2">vs. local player</NavDropdown.Item>
-                      <NavDropdown.Item as={Link} to="#action/3.3">vs. computer</NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/play/game">vs. computer</NavDropdown.Item>
                   </NavDropdown>
                   </Nav>
                   <Nav>
