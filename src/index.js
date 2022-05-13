@@ -12,8 +12,11 @@ import {
 
 import App from "./App";
 import NotFound from "./NotFound"
+
 import Stats from "./routes/profile/stats";
 import Preferences from "./routes/profile/preferences";
+
+import Game from "./routes/play/game";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -29,6 +32,10 @@ root.render(
           <Route path="profile">
             <Route path="stats" element={<Stats />} />
             <Route path="preferences" element={<Preferences />} />
+          </Route>
+
+          <Route path="game">
+            <Route path="play" element={<Game />} />
           </Route>
         
         </Route>
