@@ -20,9 +20,9 @@ export default function App() {
               <Navbar.Collapse id="responsive-navbar-nav">
                   <Nav className="me-auto">
                   <NavDropdown title="Play" id="play-nav-dropdown">
-                      <NavDropdown.Item as={Link} to="#action/3.1">vs. online player</NavDropdown.Item>
-                      <NavDropdown.Item as={Link} to="#action/3.2">vs. local player</NavDropdown.Item>
-                      <NavDropdown.Item as={Link} to="/play/game">vs. computer</NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/game/play">vs. online player</NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/game/play">vs. local player</NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/game/play">vs. computer</NavDropdown.Item>
                   </NavDropdown>
                   </Nav>
                   <Nav>
