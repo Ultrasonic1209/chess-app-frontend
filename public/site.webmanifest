@@ -1,6 +1,9 @@
 {
+    "$schema": "https://json.schemastore.org/web-manifest-combined.json",
     "name": "Checkmate",
     "short_name": "Checkmate",
+    "description": "A webapp allowing you to play chess on-the-go.",
+    "categories": ["games", "education"],
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -22,5 +25,7 @@
     "theme_color": "#000000",
     "background_color": "#000000",
     "start_url": "https://chessapp.ultras-playroom.xyz/",
+    "id": "https://chessapp.ultras-playroom.xyz/",
+    "scope": "https://chessapp.ultras-playroom.xyz/",
     "display": "standalone"
 }
