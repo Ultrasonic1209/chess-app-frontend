@@ -1,7 +1,7 @@
-export default function Game() {
+export default function Play() {
     return (
       <main style={{ padding: "1rem 0" }}>
-        <h2>Game</h2>
+        <h2>Play</h2>
       </main>
     );
   }

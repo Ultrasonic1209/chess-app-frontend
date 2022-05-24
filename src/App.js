@@ -15,7 +15,7 @@ export default function App() {
     <>
       <Navbar expand="sm" bg={theme} variant={theme} sticky="top">
           <Container className="rounded-3">
-              <Navbar.Brand as={Link} to="/">Chess App</Navbar.Brand>
+              <Navbar.Brand as={Link} to="/">Checkmate</Navbar.Brand>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                   <Nav className="me-auto">

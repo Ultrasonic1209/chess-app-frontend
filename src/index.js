@@ -16,7 +16,7 @@ import NotFound from "./NotFound"
 import Stats from "./routes/profile/stats";
 import Preferences from "./routes/profile/preferences";
 
-import Game from "./routes/play/game";
+import Game from "./routes/game/play";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
