@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { Chessboard } from "react-chessboard";
 
 export default function Play() {
