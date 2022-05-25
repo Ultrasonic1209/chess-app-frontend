@@ -13,7 +13,7 @@ export default function Play() {
         if (size >= 720) { // desktop/tablet
           size /= 2.15; // chess board on one side, list of moves on the other
         } else if (size <= 575) { // phone
-          size -= 75;
+          size -= 50;
         }
         setChessboardSize(size);
       }
