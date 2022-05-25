@@ -10,7 +10,11 @@ export default function Play() {
   useEffect(() => {
       function handleResize() {
         const display = document.getElementsByClassName('container')[0];
-        setChessboardSize(display.offsetWidth - 20);
+        var size = display.offsetWidth
+        if (size >= 720) {
+          size /= 2.15
+        }
+        setChessboardSize(display.offsetWidth);
       }
 
       window.addEventListener('resize', handleResize);
