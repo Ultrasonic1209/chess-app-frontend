@@ -7,14 +7,10 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
-const darkMode = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
-
-const theme = darkMode ? "dark": "light"
-
 export default function App() {
   return (
     <>
-      <Navbar expand="sm" bg={theme} variant={theme} sticky="top">
+      <Navbar expand="sm" sticky="top">
           <Container className="rounded-3">
               <Navbar.Brand as={Link} to="/">Checkmate</Navbar.Brand>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
