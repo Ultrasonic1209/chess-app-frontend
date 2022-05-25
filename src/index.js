@@ -60,7 +60,7 @@ root.render(
 
           <Route path="game">
             <Route path="play" element={
-              <Page title="Preferences">
+              <Page title="Match">
                 <Game />
               </Page>
             } />
