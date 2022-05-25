@@ -10,7 +10,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 export default function App() {
   return (
     <>
-      <Navbar expand="sm" sticky="top">
+      <Navbar expand="sm" variant="dark" sticky="top">
           <Container className="rounded-3">
               <Navbar.Brand as={Link} to="/">Checkmate</Navbar.Brand>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
