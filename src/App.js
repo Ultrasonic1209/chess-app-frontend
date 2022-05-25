@@ -7,10 +7,15 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
+// Internet Explorer 6-11 check
+const isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+const theme = isIE ? "light": "dark"
+
 export default function App() {
   return (
     <>
-      <Navbar expand="sm" bg="light" variant="light" sticky="top">
+      <Navbar expand="sm" bg={theme} variant={theme} sticky="top">
           <Container className="rounded-3">
               <Navbar.Brand as={Link} to="/">Checkmate</Navbar.Brand>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
