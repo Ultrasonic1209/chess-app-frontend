@@ -10,8 +10,10 @@ export default function Play() {
       function handleResize() {
         const display = document.getElementsByClassName('container')[0];
         var size = display.offsetWidth
-        if (size >= 720) {
-          size /= 2.15
+        if (size >= 720) { // desktop/tablet
+          size /= 2.15; // chess board on one side, list of moves on the other
+        } else if (size <= 575) { // phone
+          size -= 75;
         }
         setChessboardSize(size);
       }
