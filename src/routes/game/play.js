@@ -14,7 +14,7 @@ export default function Play() {
         if (size >= 720) {
           size /= 2.15
         }
-        setChessboardSize(display.offsetWidth);
+        setChessboardSize(size);
       }
 
       window.addEventListener('resize', handleResize);
