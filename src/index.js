@@ -11,6 +11,8 @@ import {
   Route,
 } from "react-router-dom";
 
+import Page from './page';
+
 import App from "./App";
 import NotFound from "./NotFound"
 
@@ -30,17 +32,38 @@ root.render(
 
         <Route path="/" element={<App />}>
 
-          <Route index element={<Home />} />
+          <Route index element={
+            <Page title="Home">
+              <Home />
+            </Page>
+          } />
 
-          <Route path='*' element={<NotFound />} />
+          <Route path='*' element={
+            <Page title="404">
+              <NotFound />
+            </Page>
+          } />
           
           <Route path="profile">
-            <Route path="stats" element={<Stats />} />
-            <Route path="preferences" element={<Preferences />} />
+            <Route path="stats" element={
+              <Page title="Stats">
+                <Stats />
+              </Page>
+            } />
+
+            <Route path="preferences" element={
+              <Page title="Preferences">
+                <Preferences />
+              </Page>
+            } />
           </Route>
 
           <Route path="game">
-            <Route path="play" element={<Game />} />
+            <Route path="play" element={
+              <Page title="Preferences">
+                <Game />
+              </Page>
+            } />
           </Route>
         
         </Route>
