@@ -14,6 +14,8 @@ import {
 import App from "./App";
 import NotFound from "./NotFound"
 
+import Home from "./routes/home";
+
 import Stats from "./routes/profile/stats";
 import Preferences from "./routes/profile/preferences";
 
@@ -27,6 +29,8 @@ root.render(
       <Routes>
 
         <Route path="/" element={<App />}>
+
+          <Route index element={<Home />} />
 
           <Route path='*' element={<NotFound />} />
           
