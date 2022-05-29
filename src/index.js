@@ -1,8 +1,6 @@
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 //import reportWebVitals from './reportWebVitals';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-
 import React from 'react';
 import ReactDOM from "react-dom/client";
 import {
@@ -71,8 +69,6 @@ root.render(
     </BrowserRouter>
   </React.StrictMode>
 );
-
-serviceWorkerRegistration.register();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

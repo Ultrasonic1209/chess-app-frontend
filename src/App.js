@@ -1,11 +1,18 @@
+import React, { useState } from 'react';
 import { Outlet, Link } from "react-router-dom";
+
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import './bootstrap-dark.min.css';
+
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import Button from 'react-bootstrap/Button';
+
+import './App.css';
 
 // Internet Explorer 6-11 check
 const isIE = /*@cc_on!@*/false || !!document.documentMode;
@@ -13,6 +20,23 @@ const isIE = /*@cc_on!@*/false || !!document.documentMode;
 const theme = isIE ? "light": "dark"
 
 export default function App() {
+
+  const [isOnline, setOnline] = useState(navigator.onLine);
+
+  function updateOnlineStatus(event) {
+    setOnline(navigator.onLine);
+  }
+
+  window.addEventListener('online',  updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+
+  const handleUpdate = () => {
+    serviceWorkerRegistration.unregister();
+    window.location.reload(true); // true is for full refresh, free from cache
+  };
+  
+  // footer from https://getbootstrap.com/docs/5.1/examples/footers/ - first example
+
   return (
     <>
       <Navbar expand="sm" bg={theme} variant={theme} sticky="top">
@@ -44,6 +68,28 @@ export default function App() {
       <Container>
         <Outlet />
       </Container>
+      <Container>
+        <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+          <p className="col-md-4 mb-0 text-muted">&copy; lol no</p>
+
+          <p className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            Checkmate
+          </p>
+
+          <ul className="nav col-md-4 justify-content-end">
+            <Button
+              variant="outline-secondary"
+              disabled={!isOnline}
+              onClick={isOnline ? handleUpdate : null}  
+            >
+              {isOnline ? 'Update' : 'Offline'}
+            </Button>
+          </ul>
+        </footer>
+      </Container>
+
     </>
   );
 }
+
+serviceWorkerRegistration.register();
