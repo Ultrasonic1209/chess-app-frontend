@@ -1,4 +1,4 @@
-name: CF Pages Deployment Integration
+name: Waiting for GH Environment Intergration
 on: push
 jobs:
   build:
