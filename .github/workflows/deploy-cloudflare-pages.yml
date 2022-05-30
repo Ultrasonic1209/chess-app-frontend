@@ -4,8 +4,10 @@ on: [push]
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     permissions:
       contents: write
+
     steps:
       # Checkout the branch
       - name: Checkout Branch
@@ -13,7 +15,6 @@ jobs:
 
       - name: Format _headers
       - uses: bluwy/substitute-string-action@v1
-        id: sub
         with:
           _input-file: './_headers'
           _format-key: '%%key%%'
