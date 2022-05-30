@@ -1,6 +1,35 @@
+name: Deploy to Cloudflare Pages
 on: [push]
 
 jobs:
+  headers:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the branch
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: format headers
+        uses: jacobtomlinson/gha-find-replace@v2
+        with:
+          find: "$COMMITHASH"
+          replace: $ {{ github.sha }}
+          regex: false
+          include: "_headers"
+
+      - name: setup git config
+        run: |
+          # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
+          git config user.name "Deployment"
+          git config user.email "<>"
+
+      - name: commit
+        run: |
+          # Stage the file, commit and push
+          git add _headers
+          git commit -m "Format headers"
+          git push origin master
+
   deploy:
     runs-on: ubuntu-latest
     name: Deploy
