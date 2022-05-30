@@ -17,18 +17,11 @@ jobs:
           regex: false
           include: "_headers"
 
-      - name: setup git config
-        run: |
-          # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
-          git config user.name "Deployment"
-          git config user.email "<>"
-
-      - name: commit
-        run: |
-          # Stage the file, commit and push
-          git add _headers
-          git commit -m "Format headers"
-          git push origin master
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
 
   deploy:
     runs-on: ubuntu-latest
