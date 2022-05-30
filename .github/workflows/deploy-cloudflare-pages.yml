@@ -14,7 +14,8 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Format _headers
-      - uses: bluwy/substitute-string-action@v1
+        uses: bluwy/substitute-string-action@v1
+        id: sub
         with:
           _input-file: './_headers'
           _format-key: '%%key%%'
