@@ -12,12 +12,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Format _headers
-        uses: jacobtomlinson/gha-find-replace@v2
+      - uses: bluwy/substitute-string-action@v1
+        id: sub
         with:
-          find: "$COMMITHASH"
-          replace: $ {{ github.sha }}
-          regex: false
-          include: "_headers"
+          _input-file: './_headers'
+          _format-key: '%%key%%'
+          commithash: ${{ github.sha }}
 
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
