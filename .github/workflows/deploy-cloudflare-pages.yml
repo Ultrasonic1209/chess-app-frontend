@@ -2,14 +2,16 @@ name: Deploy to Cloudflare Pages
 on: [push]
 
 jobs:
-  headers:
+  deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       # Checkout the branch
-      - name: checkout
+      - name: Checkout Branch
         uses: actions/checkout@v2
 
-      - name: format headers
+      - name: Format _headers
         uses: jacobtomlinson/gha-find-replace@v2
         with:
           find: "$COMMITHASH"
@@ -23,11 +25,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
 
-  deploy:
-    runs-on: ubuntu-latest
-    name: Deploy
-    steps:
-      - uses: actions/checkout@v3
       - name: Publish
         uses: cloudflare/wrangler-action@2.0.0
         with:
