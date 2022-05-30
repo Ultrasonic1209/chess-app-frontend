@@ -5,8 +5,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write
+    #permissions:
+    #  contents: write
 
     steps:
       # Checkout the branch
@@ -16,17 +16,17 @@ jobs:
       - name: Format _headers
         run: sed -i "s/commithash/${{ github.sha }}/g" _headers
 
-      - name: Commit changes
-        run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git commit -m "Format _headers" -a
+#      - name: Commit changes
+#        run: |
+#          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+#          git config --local user.name "github-actions[bot]"
+#          git commit -m "Format _headers" -a
 
-      - name: Push changes
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+#      - name: Push changes
+#        uses: ad-m/github-push-action@v0.6.0
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          branch: ${{ github.ref }}
 
       - name: Publish
         uses: cloudflare/wrangler-action@2.0.0
