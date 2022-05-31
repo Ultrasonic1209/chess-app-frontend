@@ -1,0 +1,3 @@
+#mainContainer > main {
+    min-height: calc(97vh - 2.5rem - 75px);
+}
