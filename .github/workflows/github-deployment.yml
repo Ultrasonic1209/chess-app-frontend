@@ -1,4 +1,4 @@
-name: Waiting for GH Environment Intergration
+name: GH Environments
 on: push
 jobs:
   build:
