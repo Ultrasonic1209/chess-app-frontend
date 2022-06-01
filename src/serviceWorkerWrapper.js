@@ -47,17 +47,17 @@ const ServiceWorkerWrapper = () => {
   );*/
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={showReload} onHide={handleClose}>
         <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>Update</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Body>An update is available for Checkmate.</Modal.Body>
         <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-                Close
+                Dismiss
             </Button>
             <Button variant="primary" onClick={reloadPage}>
-                Save Changes
+                Update
             </Button>
         </Modal.Footer>
     </Modal>
