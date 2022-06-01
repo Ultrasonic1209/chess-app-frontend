@@ -14,11 +14,6 @@ import Button from 'react-bootstrap/Button';
 
 import './App.css';
 
-// Internet Explorer 6-11 check
-const isIE = /*@cc_on!@*/false || !!document.documentMode;
-
-const theme = isIE ? "light": "dark"
-
 export default function App() {
 
   const [isOnline, setOnline] = useState(navigator.onLine);
@@ -39,7 +34,7 @@ export default function App() {
 
   return (
     <>
-      <Navbar expand="sm" bg={theme} variant={theme} sticky="top">
+      <Navbar expand="sm" bg="dark" variant="dark" sticky="top">
           <Container className="rounded-3">
               <Navbar.Brand as={Link} to="/">Checkmate</Navbar.Brand>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
