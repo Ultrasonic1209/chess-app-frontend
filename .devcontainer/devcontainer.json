@@ -11,7 +11,9 @@
 	},
 
 	// Set *default* container specific settings.json values on container create.
-	"settings": {},
+	"settings": {
+		"keyboard.layout": "00000809" // united kingdom
+	},
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
@@ -31,7 +33,9 @@
 	},
 	"portsAttributes": {
 		"3000": {
-			"label": "Dev Build"
+			"label": "Dev Build",
+			"onAutoForward": "openPreview",
+			"protocol": "http"
 		}
 	}
 }
