@@ -39,7 +39,7 @@ export default function App() {
                               <NavDropdown.Item as={Link} to="#action/3.3">Account</NavDropdown.Item>
                       </NavDropdown>
                       <Navbar.Text>
-                          Signed in as: <Link to="/">Nobody</Link>
+                          Signed in as: <Link to="/profile">Nobody</Link>
                       </Navbar.Text>
                   </Nav>
               </Navbar.Collapse>
@@ -50,13 +50,13 @@ export default function App() {
       </Container>
       <Container>
         <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-1S border-top">
-          <p className="col-md-4 mb-0 text-muted">&copy; lol no</p>
+          <p className="col-md-4 d-flex align-items-center mb-3 mb-md-0 me-md-auto text-muted">&copy; lol no</p>
 
           <p className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
             Checkmate
           </p>
 
-          <ul className="nav col-md-4 justify-content-end">
+          <ul className="col-md-4 mb-0 align-items-center justify-content-end text-muted">
             <p></p>
           </ul>
         </footer>
