@@ -2,12 +2,21 @@
 // needed conversion from typescript
 // also needed to make service worker registration work
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
 import * as serviceWorker from './serviceWorkerRegistration';
 
 const ServiceWorkerWrapper = () => {
+  const [isOnline, setOnline] = useState(navigator.onLine);
+
+  function updateOnlineStatus(event) {
+    setOnline(navigator.onLine);
+  }
+
+  window.addEventListener('online',  updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+
   const [showReload, setShowReload] = React.useState(false);
   const [waitingWorker, setWaitingWorker] = React.useState(null);
 
@@ -26,38 +35,32 @@ const ServiceWorkerWrapper = () => {
     window.location.reload(true);
   };
 
-  const handleClose = () => setShow(false);
-
-  /*return (
-    <Snackbar
-      open={showReload}
-      message="A new version is available!"
-      onClick={reloadPage}
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      action={
-        <Button
-          color="inherit"
-          size="small"
-          onClick={reloadPage}
-        >
-          Reload
-        </Button>
-      }
-    />
-  );*/
+  const handleClose = () => setShowReload(false);
 
   return (
-    <Modal show={showReload} onHide={handleClose}>
+    <Modal
+      show={showReload}
+      onHide={handleClose}
+      backdrop="static"
+      keyboard={false}
+    >
         <Modal.Header closeButton>
             <Modal.Title>Update</Modal.Title>
         </Modal.Header>
         <Modal.Body>An update is available for Checkmate.</Modal.Body>
         <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-                Dismiss
+            <Button
+              variant="secondary"
+              onClick={handleClose}
+            >
+              Dismiss
             </Button>
-            <Button variant="primary" onClick={reloadPage}>
-                Update
+            <Button
+              variant="primary"
+              onClick={isOnline? reloadPage: null}
+              disabled={!isOnline}
+            >
+              {isOnline ? 'Update' : 'Offline'}
             </Button>
         </Modal.Footer>
     </Modal>

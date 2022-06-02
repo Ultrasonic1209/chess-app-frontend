@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Outlet, Link } from "react-router-dom";
 
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import ServiceWorkerWrapper from './serviceWorkerWrapper';
 
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import './bootstrap-dark.min.css';
@@ -10,30 +10,15 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import Button from 'react-bootstrap/Button';
 
 import './App.css';
 
 export default function App() {
-
-  const [isOnline, setOnline] = useState(navigator.onLine);
-
-  function updateOnlineStatus(event) {
-    setOnline(navigator.onLine);
-  }
-
-  window.addEventListener('online',  updateOnlineStatus);
-  window.addEventListener('offline', updateOnlineStatus);
-
-  const handleUpdate = () => {
-    serviceWorkerRegistration.unregister();
-    window.location.reload(true); // true is for full refresh, free from cache
-  };
-  
   // footer from https://getbootstrap.com/docs/5.1/examples/footers/ - first example
 
   return (
     <>
+      <ServiceWorkerWrapper/>
       <Navbar expand="sm" bg="dark" variant="dark" sticky="top">
           <Container className="rounded-3">
               <Navbar.Brand as={Link} to="/">Checkmate</Navbar.Brand>
@@ -72,13 +57,7 @@ export default function App() {
           </p>
 
           <ul className="nav col-md-4 justify-content-end">
-            <Button
-              variant="outline-secondary"
-              disabled={!isOnline}
-              onClick={isOnline ? handleUpdate : null}  
-            >
-              {isOnline ? 'Update' : 'Offline'}
-            </Button>
+            <p></p>
           </ul>
         </footer>
       </Container>
@@ -86,5 +65,3 @@ export default function App() {
     </>
   );
 }
-
-serviceWorkerRegistration.register();
