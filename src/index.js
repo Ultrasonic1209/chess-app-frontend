@@ -1,4 +1,3 @@
-import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 //import reportWebVitals from './reportWebVitals';
 import React from 'react';
