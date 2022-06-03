@@ -52,13 +52,13 @@ export default function App() {
         <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-1S border-top">
           <p className="col-md-4 d-flex align-items-center mb-3 mb-md-0 me-md-auto text-muted">&copy; lol no</p>
 
-          <p className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+          <p className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-muted text-decoration-none">
             Checkmate
           </p>
 
-          <ul className="col-md-4 d-flex mb-0 align-items-center justify-content-end text-muted">
-            <p></p>
-          </ul>
+          <p className="col-md-4 d-flex mb-0 align-items-center justify-content-end text-muted">
+            
+          </p>
         </footer>
       </Container>
     </>
