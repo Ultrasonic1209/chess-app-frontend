@@ -32,7 +32,7 @@ export default function App() {
                   </NavDropdown>
                   </Nav>
                   <Nav>
-                      <NavDropdown title="Profile" id="profile-nav-dropdown" className="mx-3">
+                      <NavDropdown title="Profile" id="profile-nav-dropdown" className="me-3">
                               <NavDropdown.Item as={Link} to="/profile/stats">Stats</NavDropdown.Item>
                               <NavDropdown.Item as={Link} to="/profile/preferences">Preferences</NavDropdown.Item>
                               <NavDropdown.Divider />
