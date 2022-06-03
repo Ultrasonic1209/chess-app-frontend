@@ -56,7 +56,7 @@ export default function App() {
             Checkmate
           </p>
 
-          <ul className="col-md-4 mb-0 align-items-center justify-content-end text-muted">
+          <ul className="col-md-4 d-flex mb-0 align-items-center justify-content-end text-muted">
             <p></p>
           </ul>
         </footer>
