@@ -1,6 +1,6 @@
 export default function Stats() {
     return (
-      <main style={{ padding: "1rem 0" }}>
+      <main>
         <h2>Stats</h2>
       </main>
     );

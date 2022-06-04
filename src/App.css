@@ -1,3 +1,4 @@
-#mainContainer > main {
+#mainContainer {
+    padding: 1rem 0;
     min-height: calc(97vh - 2.5rem - 75px);
 }

@@ -42,6 +42,10 @@ root.render(
           } />
           
           <Route path="profile">
+            <Route index element={
+              <p>To be done</p>
+            } />
+
             <Route path="stats" element={
               <Page title="Stats">
                 <Stats />

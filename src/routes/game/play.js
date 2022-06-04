@@ -24,7 +24,7 @@ export default function Play() {
     }, []);
 
     return (
-      <main style={{ padding: "1rem 0" }}>
+      <main>
         <h2>Play</h2>
         <div className="container">
           <Chessboard id="BasicBoard" boardWidth={chessboardSize} />
