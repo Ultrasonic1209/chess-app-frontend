@@ -11,7 +11,8 @@ import {
 import Page from './page';
 
 import App from "./App";
-import NotFound from "./NotFound"
+
+import NotFound from "./routes/notfound"
 
 import Home from "./routes/home";
 
