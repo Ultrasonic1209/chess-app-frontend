@@ -1,6 +1,6 @@
 import 'react-app-polyfill/stable';
 //import reportWebVitals from './reportWebVitals';
-import React from 'react';
+import React, { lazy } from 'react';
 import ReactDOM from "react-dom/client";
 import {
   BrowserRouter,
@@ -18,7 +18,7 @@ import Home from "./routes/home";
 import Stats from "./routes/profile/stats";
 import Preferences from "./routes/profile/preferences";
 
-import Game from "./routes/game/play";
+const Game = lazy(() => import("./routes/game/play"));
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
