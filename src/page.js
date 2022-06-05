@@ -15,7 +15,11 @@ const Page = (props) => {
 
   return (
     <>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={
+        <main>
+          <p>Loading {props.title}...</p>
+        </main>
+      }>
         {props.children}
       </Suspense>
     </>
