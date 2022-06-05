@@ -64,9 +64,25 @@ registerRoute(
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
 self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
+  if (event.data) {
+    switch (event.data.type) {
+      case 'SKIP_WAITING':
+        self.skipWaiting();
+        break;
+      default:
+        console.log(event);
+    }
   }
 });
 
 // Any other custom service worker logic can go here.
+
+// https://whatwebcando.today/articles/handling-service-worker-updates/
+self.addEventListener('activate', async () => {
+  // after we've taken over, iterate over all the current clients (windows)
+  const tabs = await self.clients.matchAll({type: 'window'})
+  tabs.forEach((tab) => {
+    // ...and refresh each one of them
+    tab.navigate(tab.url)
+  })
+})
