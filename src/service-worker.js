@@ -7,6 +7,9 @@
 // You can also remove this file if you'd prefer not to use a
 // service worker, and the Workbox build step will be skipped.
 
+// i am reasonably confident that "self" here represents ServiceWorkerGlobalScope
+// https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope
+
 import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
@@ -63,27 +66,22 @@ registerRoute(
 
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
-self.addEventListener('message', (event) => {
+
+// (await navigator.serviceWorker.getRegistration()).active.postMessage({type: 'HI'})
+self.addEventListener('message', async (event) => {
   if (event.data) {
     switch (event.data.type) {
       case 'SKIP_WAITING':
         self.skipWaiting();
+        break;
+      case 'UPDATE_AND_RELOAD':
+        var tabs = await self.clients.matchAll({type: 'window'});
+        tabs.forEach((tab) => {
+          tab.navigate(tab.url)
+        });
         break;
       default:
         console.log(event);
     }
   }
 });
-
-// Any other custom service worker logic can go here.
-
-// https://whatwebcando.today/articles/handling-service-worker-updates/
-self.addEventListener('activate', async () => {
-  // after we've taken over, iterate over all the current clients (windows)
-  console.log(self.clients);
-  const tabs = await self.clients.matchAll({type: 'window'})
-  tabs.forEach((tab) => {
-    // ...and refresh each one of them
-    tab.navigate(tab.url)
-  })
-})

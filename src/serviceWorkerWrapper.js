@@ -23,6 +23,7 @@ const ServiceWorkerWrapper = () => {
   const onSWUpdate = (registration) => {
     setShowReload(true);
     setWaitingWorker(registration.waiting);
+    console.log(registration.active);
   };
 
   useEffect(() => {
