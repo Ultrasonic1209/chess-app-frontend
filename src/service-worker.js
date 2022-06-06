@@ -80,6 +80,7 @@ self.addEventListener('message', (event) => {
 // https://whatwebcando.today/articles/handling-service-worker-updates/
 self.addEventListener('activate', async () => {
   // after we've taken over, iterate over all the current clients (windows)
+  console.log(self.clients);
   const tabs = await self.clients.matchAll({type: 'window'})
   tabs.forEach((tab) => {
     // ...and refresh each one of them
