@@ -4,7 +4,6 @@ jobs:
   purge:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
     - name: Wait for CF Pages
       id: cf-pages
       uses: WalshyDev/cf-pages-await@v1
