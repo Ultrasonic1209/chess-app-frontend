@@ -1,0 +1,20 @@
+name: Purge Cloudflare Cache
+on: push
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Wait for CF Pages
+      id: cf-pages
+      uses: WalshyDev/cf-pages-await@v1
+      with:
+        apiToken: ${{ secrets.CF_API_TOKEN  }}
+        accountId: ${{ secrets.CF_ACCOUNT_ID  }}
+        project: 'chess-app'
+      - run: |
+        curl -X \
+          -H "Authorization: ${{ secrets.CF_API_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          --data '{"files":["https://chessapp.ultras-playroom.xyz/service-worker.js"]}' \
+          https://api.cloudflare.com/client/v4/zones/c885b8ad4d4f3f8f8cc3b7c2d509048a/purge_cache
