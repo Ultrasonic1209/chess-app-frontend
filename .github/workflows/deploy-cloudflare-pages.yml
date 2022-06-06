@@ -52,3 +52,11 @@ jobs:
           projectName: 'chess-app'
           directory: 'build'
           githubToken: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Clear Cloudflare Cache
+          run: |
+          curl -XPOST \
+          -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          --data '{"files":["https://chessapp.ultras-playroom.xyz/service-worker.js"]}' \
+          https://api.cloudflare.com/client/v4/zones/2c605334a67eb8cc841b11d0297b4542/purge_cache
