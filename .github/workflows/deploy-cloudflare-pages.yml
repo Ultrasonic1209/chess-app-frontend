@@ -53,8 +53,8 @@ jobs:
           directory: 'build'
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
-        - name: Clear Cloudflare Cache
-          run: |
+      - name: Clear Cloudflare Cache
+        run: |
           curl -XPOST \
           -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
           -H "Content-Type: application/json" \
