@@ -12,7 +12,7 @@ jobs:
           accountId: ${{ secrets.CF_ACCOUNT_ID  }}
           project: 'chess-app'
       - run: |
-          curl -X \
+          curl -XPOST \
           -H "Authorization: ${{ secrets.CF_API_TOKEN }}" \
           -H "Content-Type: application/json" \
           --data '{"files":["https://chessapp.ultras-playroom.xyz/service-worker.js"]}' \
