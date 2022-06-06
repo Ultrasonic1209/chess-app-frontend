@@ -13,7 +13,7 @@ class ServiceWorkerWrapper extends React.PureComponent {
 
     this.state = {
       online: navigator.onLine,
-      showReload: true,
+      showReload: false,
       waitingWorker: null
     };
 
