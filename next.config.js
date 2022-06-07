@@ -4,6 +4,7 @@ module.exports = async (phase, { defaultConfig }) => {
      */
     const nextConfig = {
         legacyBehavior: false
+        distDir: 'build',
     }
     return nextConfig
   }
