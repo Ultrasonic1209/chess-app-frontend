@@ -17,7 +17,7 @@ export function Navbar() {
     return (
         <RbNavbar expanded={navbarExpanded} expand="sm" bg="dark" variant="dark" sticky="top">
             <Container className="rounded-3">
-                <RbNavbar.Brand as={Link} href="/">{ process.env.PUBLIC_URL }</RbNavbar.Brand>
+                <RbNavbar.Brand as={Link} href="/">Checkmate</RbNavbar.Brand>
                 <RbNavbar.Toggle onClick={() => setNavbarExpansion(navbarExpanded ? false : "expanded")} aria-controls="responsive-navbar-nav" />
                 <RbNavbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
