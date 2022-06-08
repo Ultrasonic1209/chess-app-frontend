@@ -9,6 +9,8 @@
     "chess.js": "latest",
     "next": "latest",
     "next-pwa": "latest",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-purgecss": "^2.0.3",
     "react": "latest",
     "react-bootstrap": "^2.4.0",
     "react-chessboard": "latest",
