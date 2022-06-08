@@ -1,4 +1,5 @@
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
+const purgecss = require('@fullhuman/postcss-purgecss')
 
 module.exports = async (phase, { defaultConfig }) => {
     /**
@@ -11,22 +12,6 @@ module.exports = async (phase, { defaultConfig }) => {
         experimental: {
             newNextLinkBehavior: true /* this is not documented AT ALL. */
         },
-
-        plugins: [
-            "postcss-flexbugs-fixes",
-            [
-                '@fullhuman/postcss-purgecss',
-                {
-                  content: [
-                      './pages/**/*.{js,jsx,ts,tsx}',
-                      './components/**/*.{js,jsx,ts,tsx}'
-                  ],
-                  defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || [],
-                  safelist: ["html", "body"]
-                }
-            ]
-        ],
-
         env: {}
     }
 

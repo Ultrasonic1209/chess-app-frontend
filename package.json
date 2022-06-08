@@ -9,8 +9,8 @@
     "chess.js": "latest",
     "next": "latest",
     "next-pwa": "latest",
-    "postcss-flexbugs-fixes": "^5.0.2",
-    "postcss-purgecss": "^2.0.3",
+    "postcss": "^8.4.14",
+    "postcss-preset-env": "^7.7.1",
     "react": "latest",
     "react-bootstrap": "^2.4.0",
     "react-chessboard": "latest",
@@ -18,7 +18,9 @@
   },
   "devDependencies": {
     "eslint": "^8.17.0",
-    "eslint-config-next": "^12.1.6"
+    "eslint-config-next": "^12.1.6",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-purgecss": "^2.0.3"
   },
   "scripts": {
     "build": "next build",
