@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'npm'
+          cache: 'yarn'
 
       - name: Get current date
         run: echo "date=$(python -c "import datetime; print(datetime.datetime.utcnow().strftime('%a, %d %b %Y %X GMT'))")" >> $GITHUB_ENV
@@ -26,23 +26,11 @@ jobs:
       - name: Format _headers
         run: sed -i "s/DATE/${{ env.date }}/g" public/_headers
 
-#      - name: Commit changes
-#        run: |
-#          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-#          git config --local user.name "github-actions[bot]"
-#          git commit -m "Format _headers" -a
-
-#      - name: Push changes
-#        uses: ad-m/github-push-action@v0.6.0
-#        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          branch: ${{ github.ref }}
-
       - name: Install Node Dependencies
-        run: npm install
+        run: yarn install
 
-      - name: Build React App
-        run: CI=false && npm run build
+      - name: Build Next App
+        run: yarn run export
 
       - name: Publish
         uses: cloudflare/pages-action@1
