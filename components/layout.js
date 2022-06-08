@@ -17,35 +17,25 @@ export function Navbar() {
     return (
         <RbNavbar expanded={navbarExpanded} expand="sm" bg="dark" variant="dark" sticky="top">
             <Container className="rounded-3">
-                <RbNavbar.Brand href="/">{ process.env.public_url }</RbNavbar.Brand>
+                <RbNavbar.Brand as={Link} href="/">Checkmate</RbNavbar.Brand>
                 <RbNavbar.Toggle onClick={() => setNavbarExpansion(navbarExpanded ? false : "expanded")} aria-controls="responsive-navbar-nav" />
                 <RbNavbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
                     <NavDropdown title="Play" id="play-nav-dropdown">
                         <NavDropdown.Item as={Link} href="/game/play" onClick={() => setNavbarExpansion(false)}>vs. online player</NavDropdown.Item>
-                        <Link href="/game/play">
-                            <NavDropdown.Item onClick={() => setNavbarExpansion(false)}>vs. local player</NavDropdown.Item>
-                        </Link>
-                        <Link href="/game/play">
-                            <NavDropdown.Item onClick={() => setNavbarExpansion(false)}>vs. computer</NavDropdown.Item>
-                        </Link>
+                        <NavDropdown.Item as={Link} href="/game/play" onClick={() => setNavbarExpansion(false)}>vs. local player</NavDropdown.Item>
+                        <NavDropdown.Item as={Link} href="/game/play" onClick={() => setNavbarExpansion(false)}>vs. computer</NavDropdown.Item>
                     </NavDropdown>
                     </Nav>
                     <Nav>
                         <NavDropdown title="Profile" id="profile-nav-dropdown" className="me-3">
-                            <Link href="/profile/stats">
-                                <NavDropdown.Item onClick={() => setNavbarExpansion(false)}>Stats</NavDropdown.Item>
-                            </Link>
-                            <Link href="/profile/preferences">
-                                <NavDropdown.Item onClick={() => setNavbarExpansion(false)}>Preferences</NavDropdown.Item>
-                            </Link>
+                            <NavDropdown.Item as={Link} href="/profile/stats" onClick={() => setNavbarExpansion(false)}>Stats</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} href="/profile/preferences" onClick={() => setNavbarExpansion(false)}>Preferences</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <Link href="/profile">
-                                <NavDropdown.Item onClick={() => setNavbarExpansion(false)}><a>Account</a></NavDropdown.Item>
-                            </Link>
+                            <NavDropdown.Item as={Link} href="/profile" onClick={() => setNavbarExpansion(false)}><a>Account</a></NavDropdown.Item>
                         </NavDropdown>
                         <RbNavbar.Text>
-                            Signed in as: <Link href="/profile"><a onClick={() => setNavbarExpansion(false)}>Nobody</a></Link>
+                            Signed in as: <Link href="/profile" onClick={() => setNavbarExpansion(false)}>Nobody</Link>
                         </RbNavbar.Text>
                     </Nav>
                 </RbNavbar.Collapse>

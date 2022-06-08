@@ -9,9 +9,9 @@
             "type": "node",
             "request": "launch",
             "cwd": "${workspaceRoot}",
-            "runtimeExecutable": "npm",
+            "runtimeExecutable": "yarn",
             "runtimeArgs": [
-                "run-script", "start"
+                "run", "start"
             ],
             "env": {
                 "BROWSER": "none"
