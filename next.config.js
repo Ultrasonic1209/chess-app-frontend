@@ -14,11 +14,11 @@ module.exports = async (phase, { defaultConfig }) => {
 
     if (phase === PHASE_DEVELOPMENT_SERVER) {
         nextConfig.env = {
-            PUBLIC_URL: "http://127.0.0.1:3000"
+            PUBLIC_URL: "/"
         }
     } else {
         nextConfig.env = {
-            PUBLIC_URL: "" // whatever
+            PUBLIC_URL: "/" // todo: sort this out somehow
         }
     }
 
