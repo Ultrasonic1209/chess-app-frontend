@@ -45,7 +45,7 @@ export function Navbar() {
                             </Link>
                         </NavDropdown>
                         <RbNavbar.Text>
-                            Signed in as: <Link href="/profile" passhref><a onClick={() => setNavbarExpansion(false)}>Nobody</a></Link>
+                            Signed in as: <Link href="/profile"><a onClick={() => setNavbarExpansion(false)}>Nobody</a></Link>
                         </RbNavbar.Text>
                     </Nav>
                 </RbNavbar.Collapse>
