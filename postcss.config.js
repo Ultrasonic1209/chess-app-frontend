@@ -1,6 +1,17 @@
 // https://purgecss.com/guides/next.html
 module.exports = {
     "plugins": [
+      [
+        '@fullhuman/postcss-purgecss',
+        {
+            content: [
+                './pages/**/*.{js,jsx,ts,tsx}',
+                './components/**/*.{js,jsx,ts,tsx}'
+            ],
+            defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || [],
+            safelist: ["html", "body"]
+        }
+      ],
       "postcss-flexbugs-fixes",
       [
         "postcss-preset-env",
@@ -13,17 +24,6 @@ module.exports = {
             "custom-properties": false
           }
         }
-      ],
-      [
-        '@fullhuman/postcss-purgecss',
-        {
-          content: [
-              './pages/**/*.{js,jsx,ts,tsx}',
-              './components/**/*.{js,jsx,ts,tsx}'
-          ],
-          defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || [],
-          safelist: ["html", "body"]
-        }
-      ],
+      ]
     ]
   }
