@@ -20,7 +20,7 @@ jobs:
           node-version: 16
           cache: 'yarn'
 
-      - name: Cache next build deps
+      - name: Cache Next Duild Dependencies
         uses: actions/cache@v2
         with:
           # See here for caching with `yarn` https://github.com/actions/cache/blob/main/examples.md#node---yarn or you can leverage caching with actions/setup-node https://github.com/actions/setup-node
@@ -31,7 +31,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs
 
-      - name: Get current date
+      - name: Get Current Date
         run: echo "date=$(python -c "import datetime; print(datetime.datetime.utcnow().strftime('%a, %d %b %Y %X GMT'))")" >> $GITHUB_ENV
 
       - name: Format _headers
