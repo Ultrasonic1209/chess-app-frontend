@@ -9,6 +9,8 @@ import '../components/App.css';
 import { Navbar, Footer } from '../components/layout'
 import { Container, SSRProvider } from 'react-bootstrap';
 
+
+// todo: https://github.com/shadowwalker/next-pwa/blob/master/examples/lifecycle/pages/index.js
 export default function Checkmate({ Component, pageProps }) {
   return (
     <>
