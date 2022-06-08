@@ -38,7 +38,7 @@ jobs:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
           projectName: 'chess-app'
-          directory: 'build'
+          directory: 'out'
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Clear Cloudflare Cache
