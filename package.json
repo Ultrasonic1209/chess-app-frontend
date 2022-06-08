@@ -20,9 +20,8 @@
     "eslint-config-next": "^12.1.6"
   },
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next dev",
     "export": "next export",
     "staticbuild": "next build && next export"
   },
