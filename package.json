@@ -20,7 +20,7 @@
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-purgecss": "^2.0.3",
     "postcss": "^8.4.14",
-    "postcss-preset-env": "^7.7.1",
+    "postcss-preset-env": "^7.7.1"
   },
   "scripts": {
     "build": "next build",
