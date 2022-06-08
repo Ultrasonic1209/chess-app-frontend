@@ -14,11 +14,11 @@ module.exports = async (phase, { defaultConfig }) => {
 
     if (phase === PHASE_DEVELOPMENT_SERVER) {
         nextConfig.env = {
-            PUBLIC_URL: "/"
+            PUBLIC_URL: ""
         }
     } else {
         nextConfig.env = {
-            PUBLIC_URL: "/" // todo: sort this out somehow
+            PUBLIC_URL: "" // todo: sort this out somehow
         }
     }
 
