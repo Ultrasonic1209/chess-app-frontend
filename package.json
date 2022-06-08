@@ -23,7 +23,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "export": "next run export"
+    "export": "next export",
+    "staticbuild": "next build && next export"
   },
   "eslintConfig": {
     "extends": [
