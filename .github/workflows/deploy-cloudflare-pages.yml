@@ -35,8 +35,7 @@ jobs:
         run: echo "date=$(python -c "import datetime; print(datetime.datetime.utcnow().strftime('%a, %d %b %Y %X GMT'))")" >> $GITHUB_ENV
 
       - name: Format _headers
-        run: sed -i "s/DATE/
-        ${{ env.date }}/g" public/_headers
+        run: sed -i "s/DATE/${{ env.date }}/g" public/_headers
 
       - name: Install Node Dependencies
         run: yarn install
