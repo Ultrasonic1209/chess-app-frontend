@@ -8,6 +8,7 @@ const SWWrapper = () => {
 
   const [isOnline, setOnline] = useState(false);
 
+  // eslint-disable-next-line no-unused-vars
   function updateOnlineStatus(event) {
     setOnline(navigator.onLine);
   }
@@ -55,7 +56,9 @@ const SWWrapper = () => {
 
       // ISSUE - this is not working as expected, why?
       // I could only make message event listenser work when I manually add this listenser into sw.js file
-      wb.addEventListener('message', event => {
+
+      // eslint-disable-next-line no-unused-vars
+      wb.addEventListener('message', (event) => {
         console.log(`Event ${event.type} is triggered.`)
         console.log(event)
       })
@@ -85,7 +88,8 @@ const SWWrapper = () => {
   const startUpdate = () => {
     const wb = window.workbox
 
-    wb.addEventListener('controlling', event => {
+    // eslint-disable-next-line no-unused-vars
+    wb.addEventListener('controlling', (event) => {
       window.location.reload()
     })
 
