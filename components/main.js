@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { Suspense, useEffect } from "react";
 
 // https://stackoverflow.com/a/52695341
@@ -6,15 +7,17 @@ const isInStandaloneMode = () =>
 
 export default (props) => {
 
-  useEffect(() => {
-    document.title = (props.title || "");
-    if (!isInStandaloneMode()) {
-      document.title += " | Checkmate";
-    }
-  }, [props.title]);
+  var title = (props.title || "");
+
+  if (!(typeof window === 'undefined') && !isInStandaloneMode()) {
+    title += " | Checkmate";
+  }
 
   return (
     <>
+      <Head>
+        <title>{title}</title>
+      </Head>
       <Suspense fallback={
         <main>
           <p>Loading {props.title}...</p>
