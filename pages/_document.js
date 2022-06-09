@@ -24,7 +24,7 @@ export default function Document() {
         <meta name="msapplication-TileColor" content="#000000" />
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#3b3b3b" media="(prefers-color-scheme: dark)" />
-        <link rel="manifest" href={process.env.PUBLIC_URL+ "/site.webmanifest"} />
+        <link rel="manifest" href="/site.webmanifest" />
       </Head>
       <body>
         <Main />
