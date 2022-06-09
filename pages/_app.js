@@ -11,11 +11,15 @@ import { Container, SSRProvider } from 'react-bootstrap';
 
 import SwWrapper from '../components/sw-wrapper';
 
+const IS_DEV = process.env.IS_VERCEL;
+
+const APP_NAME = IS_DEV ? 'Checkmate Dev' : 'Checkmate';
+
 export default function Checkmate({ Component, pageProps }) {
   return (
     <>
         <Head>
-          <title>Checkmate</title>
+          <title>{APP_NAME}</title>
           <meta name='viewport' content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover' />
         </Head>
         <SSRProvider>

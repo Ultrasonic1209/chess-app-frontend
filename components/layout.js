@@ -11,13 +11,18 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 // navbar done with snippets from react-bootstrap docs and https://stackoverflow.com/a/67732995/
  // footer from https://getbootstrap.com/docs/5.1/examples/footers/ - first example
 
+
+const IS_DEV = process.env.IS_VERCEL;
+
+const APP_NAME = IS_DEV ? 'Checkmate Dev' : 'Checkmate';
+
 export function Navbar() {
     
     const [navbarExpanded, setNavbarExpansion] = useState(false);
     return (
         <RbNavbar expanded={navbarExpanded} expand="sm" bg="dark" variant="dark" sticky="top">
             <Container className="rounded-3">
-                <RbNavbar.Brand as={Link} href="/">Checkmate</RbNavbar.Brand>
+                <RbNavbar.Brand as={Link} href="/">{APP_NAME}</RbNavbar.Brand>
                 <RbNavbar.Toggle onClick={() => setNavbarExpansion(navbarExpanded ? false : "expanded")} aria-controls="responsive-navbar-nav" />
                 <RbNavbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
@@ -51,7 +56,7 @@ export function Footer() {
           <p className="col-md-4 d-flex align-items-center mb-3 mb-md-0 me-md-auto text-muted">&copy; lol no</p>
 
           <p className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-muted text-decoration-none">
-            Checkmate
+            {APP_NAME}
           </p>
 
           <p className="col-md-4 d-flex mb-0 align-items-center justify-content-end text-muted">
