@@ -18,5 +18,8 @@ module.exports = withPWA({
             '!_headers'
         ]
     },
+    "headers": { // for vercel
+        "Last-Modified": new Date().toUTCString()
+    },
     env: {}
 })
