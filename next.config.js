@@ -11,7 +11,10 @@ module.exports = withPWA({
         sw: 'service-worker.js',
         dynamicStartUrl: true,
         //cacheOnFrontEndNav: true,
-        reloadOnOnline: false
+        reloadOnOnline: false,
+        publicExcludes: [
+            '!_headers'
+        ]
     },
     env: {}
 })

@@ -28,5 +28,5 @@
     "id": "https://chessapp.ultras-playroom.xyz/",
     "scope": "https://chessapp.ultras-playroom.xyz/",
     "display": "standalone",
-    "orientation": "any"
+    "orientation": "portrait"
 }
