@@ -1,6 +1,6 @@
 import { Html, Head, Main, NextScript } from 'next/document';
 
-const IS_DEV = process.env.IS_VERCEL;
+const IS_DEV = process.env.NEXT_PUBLIC_IS_VERCEL;
 
 const APP_NAME = IS_DEV ? 'Checkmate Dev' : 'Checkmate';
 

@@ -12,7 +12,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
  // footer from https://getbootstrap.com/docs/5.1/examples/footers/ - first example
 
 
-const IS_DEV = process.env.IS_VERCEL;
+const IS_DEV = process.env.NEXT_PUBLIC_IS_VERCEL;
 
 const APP_NAME = IS_DEV ? 'Checkmate Dev' : 'Checkmate';
 
