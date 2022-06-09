@@ -1,11 +1,11 @@
 import Head from "next/head";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 
 // https://stackoverflow.com/a/52695341
 const isInStandaloneMode = () =>
       (window.matchMedia('(display-mode: standalone)').matches) || (window.navigator.standalone) || document.referrer.includes('android-app://');
 
-export default (props) => {
+const Main = (props) => {
 
   var title = (props.title || "");
 
@@ -30,3 +30,5 @@ export default (props) => {
     </>
   );
 };
+
+export default Main;

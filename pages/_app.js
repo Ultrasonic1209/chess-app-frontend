@@ -9,7 +9,7 @@ import '../components/App.css';
 import { Navbar, Footer } from '../components/layout'
 import { Container, SSRProvider } from 'react-bootstrap';
 
-import SwWrapper from '../components/sw-wrapper';
+import SWWrapper from '../components/sw-wrapper';
 
 const IS_DEV = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
 
@@ -23,7 +23,7 @@ export default function Checkmate({ Component, pageProps }) {
           <meta name='viewport' content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover' />
         </Head>
         <SSRProvider>
-            <SwWrapper/>
+            <SWWrapper/>
             <Navbar/>
             <Container id="mainContainer">  
                 <Component {...pageProps} />

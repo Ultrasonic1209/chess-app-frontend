@@ -2,21 +2,21 @@ import { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
 // from https://github.com/shadowwalker/next-pwa/blob/master/examples/lifecycle/pages/index.js
-export default () => {
+const SWWrapper = () => {
     
   const [showUpdate, setShowUpdate] = useState(false);
 
   const [isOnline, setOnline] = useState(false);
+
+  function updateOnlineStatus(event) {
+    setOnline(navigator.onLine);
+  }
 
   // This hook only run once in browser after the component is rendered for the first time.
   // It has same effect as the old componentDidMount lifecycle callback.
 
   useEffect(() => {
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator && window.workbox !== undefined) {
-
-      function updateOnlineStatus(event) {
-        setOnline(navigator.onLine);
-      }
     
       window.addEventListener('online',  updateOnlineStatus);
       window.addEventListener('offline', updateOnlineStatus);
@@ -123,3 +123,5 @@ export default () => {
     </Modal>
   )
 }
+
+export default SWWrapper;
