@@ -10,9 +10,22 @@ import { Navbar, Footer } from '../components/layout'
 import { Container, SSRProvider } from 'react-bootstrap';
 
 import SwWrapper from '../components/sw-wrapper';
+import { useEffect } from 'react';
 
-// todo: https://github.com/shadowwalker/next-pwa/blob/master/examples/lifecycle/pages/index.js
+// https://stackoverflow.com/a/52695341
+const isInStandaloneMode = () =>
+      (window.matchMedia('(display-mode: standalone)').matches) || (window.navigator.standalone) || document.referrer.includes('android-app://');
+
 export default function Checkmate({ Component, pageProps }) {
+
+  useEffect(() => {
+    document.title = "TODO: FIX";
+
+    if (!isInStandaloneMode()) {
+      document.title += " | Checkmate";
+    }
+  })
+
   return (
     <>
         <Head>
