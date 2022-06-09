@@ -1,6 +1,6 @@
 import Main from "../components/main";
 
-const IS_DEV = process.env.NEXT_PUBLIC_IS_VERCEL;
+const IS_DEV = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
 
 export default function Home() {
     return (

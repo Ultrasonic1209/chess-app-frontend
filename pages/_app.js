@@ -11,7 +11,7 @@ import { Container, SSRProvider } from 'react-bootstrap';
 
 import SwWrapper from '../components/sw-wrapper';
 
-const IS_DEV = process.env.NEXT_PUBLIC_IS_VERCEL;
+const IS_DEV = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
 
 const APP_NAME = IS_DEV ? 'Checkmate Dev' : 'Checkmate';
 

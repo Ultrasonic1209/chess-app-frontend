@@ -91,6 +91,7 @@ export default () => {
 
     // Send a message to the waiting service worker, instructing it to activate.
     wb.messageSkipWaiting()
+    handleClose()
   }
     
   return (
