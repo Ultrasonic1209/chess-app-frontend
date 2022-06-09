@@ -35,7 +35,8 @@
       "plugin:react/recommended",
       "next",
       "next/core-web-vitals"
-    ]
+    ],
+    "es6": true
   },
   "browserslist": {
     "production": [

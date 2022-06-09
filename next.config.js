@@ -1,17 +1,17 @@
+const withPWA = require('next-pwa')
 
-module.exports = async (phase, { defaultConfig }) => {
-    /**
-     * @type {import('next').NextConfig}
-     */
-    const nextConfig = {
-        ...defaultConfig,
-
-        reactStrictMode: true,
-        experimental: {
-            newNextLinkBehavior: true /* this is not documented AT ALL. */
-        },
-        env: {}
-    }
-
-    return nextConfig
-  }
+module.exports = withPWA({
+    reactStrictMode: true,
+    productionBrowserSourceMaps: true,
+    experimental: {
+        newNextLinkBehavior: true /* this is not documented AT ALL. */
+    },
+    pwa: {
+        dest: 'public',
+        sw: 'service-worker.js',
+        dynamicStartUrl: true,
+        //cacheOnFrontEndNav: true,
+        reloadOnOnline: false
+    },
+    env: {}
+})
