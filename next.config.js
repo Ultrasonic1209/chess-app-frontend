@@ -12,6 +12,8 @@ module.exports = withPWA({
         dynamicStartUrl: true,
         //cacheOnFrontEndNav: true,
         reloadOnOnline: false,
+        register: false,
+        skipWaiting: false,
         publicExcludes: [
             '!_headers'
         ]
