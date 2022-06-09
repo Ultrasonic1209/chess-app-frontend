@@ -1,29 +1,34 @@
-import { Suspense, useEffect } from "react";
+import Head from "next/head";
+import { Suspense } from "react";
 
 // https://stackoverflow.com/a/52695341
 const isInStandaloneMode = () =>
       (window.matchMedia('(display-mode: standalone)').matches) || (window.navigator.standalone) || document.referrer.includes('android-app://');
 
-const Page = (props) => {
+const Main = (props) => {
 
-  useEffect(() => {
-    document.title = (props.title || "");
-    if (!isInStandaloneMode()) {
-      document.title += " | Checkmate";
-    }
-  }, [props.title]);
+  var title = (props.title || "");
+
+  if (!(typeof window === 'undefined') && !isInStandaloneMode()) {
+    title += " | Checkmate";
+  }
 
   return (
     <>
+      <Head>
+        <title>{title}</title>
+      </Head>
       <Suspense fallback={
         <main>
           <p>Loading {props.title}...</p>
         </main>
       }>
-        {props.children}
+        <main>
+          {props.children}
+        </main>
       </Suspense>
     </>
   );
 };
 
-export default Page;
+export default Main;

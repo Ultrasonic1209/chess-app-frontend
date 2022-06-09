@@ -1,7 +1,7 @@
 {
     "$schema": "https://json.schemastore.org/web-manifest-combined.json",
-    "name": "Checkmate",
-    "short_name": "Checkmate",
+    "name": "Checkmate Dev",
+    "short_name": "Checkmate Dev",
     "description": "A webapp allowing you to play chess on-the-go.",
     "categories": ["games", "education"],
     "icons": [
@@ -30,9 +30,9 @@
     ],
     "theme_color": "#000000",
     "background_color": "#000000",
-    "start_url": "https://chessapp.ultras-playroom.xyz/",
-    "id": "https://chessapp.ultras-playroom.xyz/",
-    "scope": "https://chessapp.ultras-playroom.xyz/",
+    "start_url": "https://dev.chessapp.ultras-playroom.xyz/",
+    "id": "https://dev.chessapp.ultras-playroom.xyz/",
+    "scope": "https://dev.chessapp.ultras-playroom.xyz/",
     "display": "standalone",
     "orientation": "portrait"
 }

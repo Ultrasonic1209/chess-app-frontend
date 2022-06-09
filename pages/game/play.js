@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { Chessboard } from "react-chessboard";
 
+import Main from '../../components/main';
+
 export default function Play() {
   const [chessboardSize, setChessboardSize] = useState(undefined);
 
@@ -24,11 +26,11 @@ export default function Play() {
     }, []);
 
     return (
-      <main>
+      <Main title="Play">
         <h2>Play</h2>
         <div className="container">
           <Chessboard id="BasicBoard" boardWidth={chessboardSize} />
         </div>
-      </main>
+      </Main>
     );
   }
