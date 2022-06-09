@@ -20,6 +20,12 @@
             "sizes": "625x625",
             "type": "image/png",
             "purpose": "maskable"
+        },
+        {
+            "src": "/maskable_icon_large.png",
+            "sizes": "1204x1024",
+            "type": "image/png",
+            "purpose": "maskable"
         }
     ],
     "theme_color": "#000000",
