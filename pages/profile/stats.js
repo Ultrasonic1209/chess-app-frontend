@@ -1,7 +1,9 @@
+import Main from "../../components/main";
+
 export default function Stats() {
     return (
-      <main>
+      <Main title="Stats">
         <h2>Stats</h2>
-      </main>
+      </Main>
     );
   }

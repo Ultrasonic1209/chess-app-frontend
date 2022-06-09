@@ -1,7 +1,9 @@
+import Main from "../../components/main";
+
 export default function Preferences() {
     return (
-      <main>
+      <Main title="Preferences">
         <h2>Preferences</h2>
-      </main>
+      </Main>
     );
   }

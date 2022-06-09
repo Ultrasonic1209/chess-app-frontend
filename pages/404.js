@@ -1,8 +1,10 @@
+import Main from "../components/main";
+
 export default function NotFound() {
     return (
-      <main>
+      <Main title="404">
         <h2>HTTP 404</h2>
         <p>Page not found.</p>
-      </main>
+      </Main>
     );
   }
