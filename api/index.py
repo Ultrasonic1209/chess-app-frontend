@@ -13,7 +13,7 @@ app.extend(config=Config(
 ))
 
 @app.middleware('response')
-async def prevent_xss(request: sanic.Request, response: sanic.response.HTTPResponse):
+async def add_json(request: sanic.Request, response: sanic.response.HTTPResponse):
     if response.content_type == "application/json":
         parsed = ujson.loads(response.body)
 
@@ -26,9 +26,12 @@ async def prevent_xss(request: sanic.Request, response: sanic.response.HTTPRespo
         return None
 
 @app.get("/")
-@app.route('/<path:path>')
 async def index(request, path=""):
     return json({"message": "Hello, world.", "path": path})
+
+@app.get("bruh")
+async def index(request):
+    return json({"message": "bruh"})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, fast=True)
