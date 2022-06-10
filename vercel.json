@@ -1,5 +1,5 @@
 {
     "rewrites": [
-      { "source": "/api/:match*", "destination": "https://example.com/api/functions/:match*" }
+      { "source": "/api/:match*", "destination": "/api/python/:match*" }
     ]
   }
