@@ -5,7 +5,6 @@ name = "pypi"
 
 [packages]
 sanic = {extras = ["ext"], version = "*"}
-a2wsgi = "*"
 
 [dev-packages]
 
