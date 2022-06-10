@@ -89,6 +89,8 @@ const SWWrapper = () => {
 
   const startUpdate = () => {
     const wb = window.workbox
+    
+    handleClose()
 
     // eslint-disable-next-line no-unused-vars
     wb.addEventListener('controlling', (event) => {
@@ -97,7 +99,6 @@ const SWWrapper = () => {
 
     // Send a message to the waiting service worker, instructing it to activate.
     wb.messageSkipWaiting()
-    handleClose()
   }
     
   return (
