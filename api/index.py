@@ -4,15 +4,19 @@ from sanic.response import json
 
 from sanic_ext import Config
 
-app = Sanic("CheckmateBackend")
+from a2wsgi import ASGIMiddleware
 
-app.extend(config=Config(
+api = Sanic("CheckmateBackend")
+
+app = ASGIMiddleware(api)
+
+api.extend(config=Config(
     oas=True,
     oas_autodoc=True,
     oas_ui_default="swagger"
 ))
 
-@app.middleware('response')
+@api.middleware('response')
 async def add_json(request: sanic.Request, response: sanic.response.HTTPResponse):
     if response.content_type == "application/json":
         parsed = ujson.loads(response.body)
@@ -25,13 +29,10 @@ async def add_json(request: sanic.Request, response: sanic.response.HTTPResponse
     else:
         return None
 
-@app.get("/")
+@api.get("/")
+@api.route('/<path:path>',methods=["GET","POST"])
 async def index(request, path=""):
     return json({"message": "Hello, world.", "path": path})
 
-@app.get("bruh")
-async def index(request):
-    return json({"message": "bruh"})
-
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, fast=True)
+    api.run(host='0.0.0.0', port=8080, fast=True)
