@@ -26,8 +26,9 @@ async def prevent_xss(request: sanic.Request, response: sanic.response.HTTPRespo
         return None
 
 @app.get("/")
-async def hello_world(request):
-    return json({"message": "Hello, world."})
+@app.route('/<path:path>')
+async def index(request, path=""):
+    return json({"message": "Hello, world.", "path": path})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, fast=True)
