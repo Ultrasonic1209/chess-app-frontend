@@ -8,7 +8,6 @@ export default function Document() {
   return (
     <Html lang='en'>
       <Head>
-        <meta charSet="utf-8" />
         <meta
           name="description"
           content="A webapp where you can play chess."
