@@ -1,12 +1,9 @@
-<mxfile host="app.diagrams.net" modified="2022-06-12T19:12:38.406Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36 Edg/102.0.1245.39" etag="45kKf0NjnZI8Fgvh1F5C" version="18.2.0" type="github">
+<mxfile host="app.diagrams.net" modified="2022-06-12T19:23:52.844Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36 Edg/102.0.1245.39" etag="Y4zPx7w-IiKSIcZHIro3" version="18.2.0" type="github">
   <diagram id="kgpKYQtTHZ0yAKxKKP6v" name="Page-1">
     <mxGraphModel dx="1038" dy="571" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="13wobpfMggbVctalNo-t-4" value="Start" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="365" y="60" width="120" height="60" as="geometry" />
-        </mxCell>
         <mxCell id="13wobpfMggbVctalNo-t-46" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="13wobpfMggbVctalNo-t-5" target="13wobpfMggbVctalNo-t-12">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
@@ -40,9 +37,9 @@
             <mxPoint x="425" y="240" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="13wobpfMggbVctalNo-t-16" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="13wobpfMggbVctalNo-t-4" target="13wobpfMggbVctalNo-t-5">
+        <mxCell id="13wobpfMggbVctalNo-t-16" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitPerimeter=0;" edge="1" parent="1" source="13wobpfMggbVctalNo-t-73" target="13wobpfMggbVctalNo-t-5">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="435" y="230" as="sourcePoint" />
+            <mxPoint x="425" y="120" as="sourcePoint" />
             <mxPoint x="435" y="250" as="targetPoint" />
           </mxGeometry>
         </mxCell>
@@ -118,13 +115,10 @@
         <mxCell id="13wobpfMggbVctalNo-t-39" value="Obtain game code for user, enter game" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="40" y="380" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="13wobpfMggbVctalNo-t-40" value="End" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="365" y="700" width="120" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="13wobpfMggbVctalNo-t-41" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="13wobpfMggbVctalNo-t-39" target="13wobpfMggbVctalNo-t-40">
+        <mxCell id="13wobpfMggbVctalNo-t-41" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="13wobpfMggbVctalNo-t-39" target="13wobpfMggbVctalNo-t-72">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="110" y="540" as="sourcePoint" />
-            <mxPoint x="160" y="490" as="targetPoint" />
+            <mxPoint x="365" y="730" as="targetPoint" />
             <Array as="points">
               <mxPoint x="100" y="730" />
             </Array>
@@ -143,7 +137,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="13wobpfMggbVctalNo-t-47" value="User provides parameters for game (time, etc.)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="180" y="430" width="120" height="60" as="geometry" />
+          <mxGeometry x="180" y="460" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="13wobpfMggbVctalNo-t-48" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="13wobpfMggbVctalNo-t-47" target="13wobpfMggbVctalNo-t-49">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -152,13 +146,101 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="13wobpfMggbVctalNo-t-49" value="Game is created and entered" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="180" y="525" width="120" height="60" as="geometry" />
+          <mxGeometry x="180" y="550" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="13wobpfMggbVctalNo-t-50" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="13wobpfMggbVctalNo-t-49" target="13wobpfMggbVctalNo-t-40">
+        <mxCell id="13wobpfMggbVctalNo-t-50" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.11;entryY=0.11;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="13wobpfMggbVctalNo-t-49" target="13wobpfMggbVctalNo-t-72">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="292" y="657" as="sourcePoint" />
-            <mxPoint x="342" y="607" as="targetPoint" />
+            <mxPoint x="365" y="715" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-51" value="Ye" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="13wobpfMggbVctalNo-t-42" target="13wobpfMggbVctalNo-t-54">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="460" as="sourcePoint" />
+            <mxPoint x="560" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-52" value="Yes" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="13wobpfMggbVctalNo-t-51">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-54" value="Online or&lt;br&gt;local?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="420" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-57" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="13wobpfMggbVctalNo-t-54" target="13wobpfMggbVctalNo-t-47">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="510" as="sourcePoint" />
+            <mxPoint x="550" y="510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-58" value="Local" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="13wobpfMggbVctalNo-t-57">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-59" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="13wobpfMggbVctalNo-t-54" target="13wobpfMggbVctalNo-t-66">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="648" y="460" as="sourcePoint" />
+            <mxPoint x="720" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-60" value="Online" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="13wobpfMggbVctalNo-t-59">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-62" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="13wobpfMggbVctalNo-t-27" target="13wobpfMggbVctalNo-t-64">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="80" y="140" as="sourcePoint" />
+            <mxPoint x="120" y="110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-63" value="Yes" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;" connectable="0" vertex="1" parent="13wobpfMggbVctalNo-t-62">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-64" value="Load game that user specifies, and enter it." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry y="70" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-65" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.11;entryY=0.89;entryDx=0;entryDy=0;exitX=0.157;exitY=1.003;exitDx=0;exitDy=0;exitPerimeter=0;entryPerimeter=0;" edge="1" parent="1" source="13wobpfMggbVctalNo-t-64" target="13wobpfMggbVctalNo-t-72">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="30" y="130" as="sourcePoint" />
+            <mxPoint x="365" y="745" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="20" y="170" />
+              <mxPoint x="20" y="753" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-66" value="User provides parameters for game (time, etc.)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="707" y="430" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-67" value="User is given a game code, wait for opposing player to connect" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="707" y="540" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-68" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="13wobpfMggbVctalNo-t-66" target="13wobpfMggbVctalNo-t-67">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="740" y="540" as="sourcePoint" />
+            <mxPoint x="790" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-69" value="Game is created and entered" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="707" y="640" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-70" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.432;exitY=1.05;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.438;entryY=-0.03;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="13wobpfMggbVctalNo-t-67" target="13wobpfMggbVctalNo-t-69">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="650" y="650" as="sourcePoint" />
+            <mxPoint x="700" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-71" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="13wobpfMggbVctalNo-t-69" target="13wobpfMggbVctalNo-t-72">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="480" y="720" as="sourcePoint" />
+            <mxPoint x="485" y="730" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="767" y="730" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-72" value="End" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="375" y="700" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="13wobpfMggbVctalNo-t-73" value="Start" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="375" y="60" width="100" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
