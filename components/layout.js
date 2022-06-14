@@ -17,7 +17,14 @@ const IS_DEV = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
 
 const APP_NAME = IS_DEV ? 'Checkmate Dev' : 'Checkmate';
 
-const VERSION = (process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA ||= "Unknown").substring(0,7);
+const GIT_TAG = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA;
+
+var VERSION;
+if (GIT_TAG === undefined) {
+  VERSION = "Unknown";
+} else {
+  VERSION = GIT_TAG.substring(0,7);
+}
 
 export function Navbar() {
     
