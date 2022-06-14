@@ -17,6 +17,8 @@ const IS_DEV = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
 
 const APP_NAME = IS_DEV ? 'Checkmate Dev' : 'Checkmate';
 
+const VERSION = (process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA ||= "Unknown").substring(0,7);
+
 export function Navbar() {
     
     const [navbarExpanded, setNavbarExpansion] = useState(false);
@@ -53,27 +55,32 @@ export function Footer() {
 
     const popover = (
       <Popover id="popover-version">
-        <Popover.Header as="h3">Popover right</Popover.Header>
+        <Popover.Header as="h3">Version</Popover.Header>
         <Popover.Body>
-            Bruh
+          Description: {process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_MESSAGE}
+          <br/>
+          Made by: {process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_AUTHOR_NAME}
         </Popover.Body>
       </Popover>
     );
 
     return (
         <Container>
-        <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-1S border-top">
-          <p className="col-md-4 d-flex align-items-center mb-3 mb-md-0 me-md-auto text-muted">&copy; lol no</p>
+          <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-1S border-top">
+            <p className="col-md-4 d-flex align-items-center mb-3 mb-md-0 me-md-auto text-muted">&copy; lol no</p>
 
-          <p className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-muted text-decoration-none">
-            {APP_NAME}
-          </p>
-
-          <OverlayTrigger placement="left" overlay={popover}>
-            <p className="col-md-4 d-flex mb-0 align-items-center justify-content-end text-muted">
-              Version {(process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA ||= "Unknown").substring(0,7)}
+            <p className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-muted text-decoration-none">
+              {APP_NAME}
             </p>
-          </OverlayTrigger>
+
+            
+            <div className="col-md-4 d-flex mb-0 align-items-center justify-content-end text-muted">
+              <OverlayTrigger placement="left" overlay={popover}>
+               <p>
+                Version {VERSION}
+               </p>
+              </OverlayTrigger>
+            </div>
         </footer>
       </Container>
     )
