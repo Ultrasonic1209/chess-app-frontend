@@ -7,7 +7,7 @@ import Container from 'react-bootstrap/Container';
 import RbNavbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Popover, OverlayTrigger, Button } from 'react-bootstrap';
+import { Popover, OverlayTrigger } from 'react-bootstrap';
 
 // navbar done with snippets from react-bootstrap docs and https://stackoverflow.com/a/67732995/
  // footer from https://getbootstrap.com/docs/5.1/examples/footers/ - first example
@@ -55,8 +55,7 @@ export function Footer() {
       <Popover id="popover-version">
         <Popover.Header as="h3">Popover right</Popover.Header>
         <Popover.Body>
-            And here's some <strong>amazing</strong> content. It's very engaging.
-            right?
+            Bruh
         </Popover.Body>
       </Popover>
     );
