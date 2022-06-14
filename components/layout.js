@@ -27,9 +27,8 @@ export function Navbar() {
                 <RbNavbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
                     <NavDropdown title="Play" id="play-nav-dropdown">
-                        <NavDropdown.Item as={Link} href="/game/play" onClick={() => setNavbarExpansion(false)}>vs. online player</NavDropdown.Item>
-                        <NavDropdown.Item as={Link} href="/game/play" onClick={() => setNavbarExpansion(false)}>vs. local player</NavDropdown.Item>
-                        <NavDropdown.Item as={Link} href="/game/play" onClick={() => setNavbarExpansion(false)}>vs. computer</NavDropdown.Item>
+                        <NavDropdown.Item as={Link} href="/game/new" onClick={() => setNavbarExpansion(false)}>New game</NavDropdown.Item>
+                        <NavDropdown.Item as={Link} href="/game/load" onClick={() => setNavbarExpansion(false)}>Load game</NavDropdown.Item>
                     </NavDropdown>
                     </Nav>
                     <Nav>
@@ -37,7 +36,7 @@ export function Navbar() {
                             <NavDropdown.Item as={Link} href="/profile/stats" onClick={() => setNavbarExpansion(false)}>Stats</NavDropdown.Item>
                             <NavDropdown.Item as={Link} href="/profile/preferences" onClick={() => setNavbarExpansion(false)}>Preferences</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item as={Link} href="/profile" onClick={() => setNavbarExpansion(false)}><a>Account</a></NavDropdown.Item>
+                            <NavDropdown.Item as={Link} href="/profile" onClick={() => setNavbarExpansion(false)}>Account</NavDropdown.Item>
                         </NavDropdown>
                         <RbNavbar.Text>
                             Signed in as: <Link href="/profile" onClick={() => setNavbarExpansion(false)}>Nobody</Link>
