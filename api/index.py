@@ -9,7 +9,7 @@ app = Sanic("CheckmateBackend")
 app.extend(config=Config(
     oas=True,
     oas_autodoc=True,
-    oas_ui_default="swagger"
+    oas_ui_default="swagger",
 ))
 
 @app.middleware('response')
@@ -33,4 +33,3 @@ async def index(request, path=""):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, fast=True)
-
