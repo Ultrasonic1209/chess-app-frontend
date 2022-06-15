@@ -1,5 +1,17 @@
 const withPWA = require('next-pwa')
 
+const globalHeaders = [
+    {
+        key: 'X-DNS-Prefetch-Control',
+        value: 'on'
+    },
+
+    {
+        key: 'last-modified',
+        value: new Date().toUTCString(),
+    }
+]
+
 module.exports = withPWA({
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
@@ -18,8 +30,13 @@ module.exports = withPWA({
             '!_headers'
         ]
     },
-    "headers": { // for vercel
-        "Last-Modified": new Date().toUTCString()
+    async headers() { // for vercel
+        return [
+          {
+            source: '/:path*',
+            headers: globalHeaders
+          }
+        ]
     },
     env: {}
 })
