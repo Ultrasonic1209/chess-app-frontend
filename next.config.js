@@ -1,7 +1,26 @@
-const withPWA = require('next-pwa')
-//const IS_DEV =  === "preview";
+const child_process = require('child_process')
 
-const APP_NAME = process.env.NEXT_PUBLIC_VERCEL_ENV; //IS_DEV ? 'Checkmate Dev' : 'Checkmate';
+const withPWA = require('next-pwa')
+
+const GIT_BRANCH = child_process.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+
+var APP_NAME;
+
+if (process.env.__VERCEL_DEV_RUNNING) {
+    APP_NAME = "Checkmate Pre"
+} else {
+    switch (GIT_BRANCH) {
+        case "master":
+            APP_NAME = "Checkmate"
+            break;
+        case "staging":
+            APP_NAME = "Checkmate Dev"
+            break;
+        default:
+            APP_NAME = "Checkmate Pre"
+    }
+}
+
 
 const globalHeaders = [
     {
@@ -16,7 +35,7 @@ const globalHeaders = [
 
     {
         key: 'x-git-commit-sha',
-        value: require('child_process').execSync('git rev-parse HEAD').toString().trim() // https://stackoverflow.com/a/35778030
+        value: child_process.execSync('git rev-parse HEAD').toString().trim() // https://stackoverflow.com/a/35778030
     }
 ]
 
