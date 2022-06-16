@@ -11,7 +11,7 @@ if (GIT_TAG === undefined) {
 }
 
 // footer from https://getbootstrap.com/docs/5.1/examples/footers/ - first example
-export default function Footer({ updateTime }) {
+export default function Footer() {
 
     const popover = (
       <Popover id="popover-version">
@@ -19,7 +19,7 @@ export default function Footer({ updateTime }) {
         <Popover.Body>
           Description: {process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_MESSAGE}
           <br/>
-          Last updated: {updateTime}
+          Last updated: {process.env.lastModified}
         </Popover.Body>
       </Popover>
     );

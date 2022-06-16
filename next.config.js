@@ -21,6 +21,7 @@ if (process.env.__VERCEL_DEV_RUNNING) {
     }
 }
 
+const date = new Date();
 
 const globalHeaders = [
     {
@@ -30,7 +31,7 @@ const globalHeaders = [
 
     {
         key: 'last-modified',
-        value: new Date().toUTCString(),
+        value: date.toUTCString(),
     },
 
     {
@@ -66,6 +67,7 @@ module.exports = withPWA({
         ]
     },
     env: {
-        appName: APP_NAME
+        appName: APP_NAME,
+        lastModified: date.toLocaleString()
     }
 })
