@@ -1,6 +1,7 @@
 const withPWA = require('next-pwa')
+//const IS_DEV =  === "preview";
 
-console.log(process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA)
+const APP_NAME = process.env.NEXT_PUBLIC_VERCEL_ENV; //IS_DEV ? 'Checkmate Dev' : 'Checkmate';
 
 const globalHeaders = [
     {
@@ -45,5 +46,7 @@ module.exports = withPWA({
           }
         ]
     },
-    env: {}
+    env: {
+        appName: APP_NAME
+    }
 })
