@@ -45,8 +45,10 @@ const globalHeaders = [
 module.exports = withPWA({
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
+    swcMinify: true,
     experimental: {
-        newNextLinkBehavior: true /* this is not documented AT ALL. */
+        newNextLinkBehavior: true, /* this is not documented properly AT ALL. */
+        optimizeCss: true
     },
     pwa: {
         dest: 'public',
