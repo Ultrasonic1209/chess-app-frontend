@@ -4,6 +4,8 @@ const withPWA = require('next-pwa')
 
 const GIT_BRANCH = child_process.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 
+console.log(GIT_BRANCH);
+
 var APP_NAME;
 
 if (process.env.__VERCEL_DEV_RUNNING) {
