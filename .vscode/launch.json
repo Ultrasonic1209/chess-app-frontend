@@ -9,9 +9,9 @@
             "type": "node",
             "request": "launch",
             "cwd": "${workspaceRoot}",
-            "runtimeExecutable": "yarn",
+            "runtimeExecutable": "vercel",
             "runtimeArgs": [
-                "run", "start"
+                "dev"
             ],
             "env": {
                 "BROWSER": "none"

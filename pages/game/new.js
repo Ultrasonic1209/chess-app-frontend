@@ -5,7 +5,7 @@ import { Chessboard } from "react-chessboard";
 import Main from '../../components/main';
 
 export default function Play() {
-  const [chessboardSize, setChessboardSize] = useState(undefined);
+  const [chessboardSize, setChessboardSize] = useState(320);
 
   // https://github.com/Clariity/react-chessboard/blob/main/example/src/index.js
   useEffect(() => {

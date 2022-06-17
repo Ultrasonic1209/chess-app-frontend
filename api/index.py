@@ -9,7 +9,7 @@ app = Sanic("CheckmateBackend")
 app.extend(config=Config(
     oas=True,
     oas_autodoc=True,
-    oas_ui_default="swagger"
+    oas_ui_default="swagger",
 ))
 
 @app.middleware('response')
