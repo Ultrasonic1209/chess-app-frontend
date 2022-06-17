@@ -4,7 +4,7 @@ const withPWA = require('next-pwa')
 
 const GIT_BRANCH = child_process.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 
-console.log(GIT_BRANCH);
+console.log(process.env);
 
 var APP_NAME;
 
