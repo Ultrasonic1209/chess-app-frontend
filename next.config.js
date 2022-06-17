@@ -2,9 +2,9 @@ const child_process = require('child_process')
 
 const withPWA = require('next-pwa')
 
-const GIT_BRANCH = process.env.VERCEL_GIT_COMMIT_REF |= child_process.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+const GIT_BRANCH = process.env.VERCEL_GIT_COMMIT_REF ||= child_process.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 
-const GIT_COMMIT_SHA = process.env.VERCEL_GIT_COMMIT_SHA |= child_process.execSync('git rev-parse HEAD').toString().trim() // https://stackoverflow.com/a/35778030
+const GIT_COMMIT_SHA = process.env.VERCEL_GIT_COMMIT_SHA ||= child_process.execSync('git rev-parse HEAD').toString().trim() // https://stackoverflow.com/a/35778030
 
 var APP_NAME;
 
