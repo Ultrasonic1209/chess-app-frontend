@@ -29,7 +29,7 @@ export default function Footer() {
           <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-1S border-top">
             <p className="col-md-4 d-flex align-items-center mb-3 mb-md-0 me-md-auto text-muted">&copy; lol no</p>
 
-            <p className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-muted text-decoration-none">
+            <p className="col-md-4 d-none d-sm-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-muted text-decoration-none">
               {process.env.appName}
             </p>
 
