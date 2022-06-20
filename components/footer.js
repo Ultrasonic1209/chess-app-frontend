@@ -27,16 +27,22 @@ export default function Footer() {
     return (
         <Container>
           <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-1S border-top">
-            <p className="col-md-4 d-flex align-items-center mb-3 mb-md-0 me-md-auto text-muted">&copy; lol no</p>
+            <div className="col-md-4 d-flex mb-0 align-items-center">
+              <p className="align-top text-decoration-none text-muted">
+                &copy; lol no
+              </p>
+            </div>
 
-            <p className="col-md-4 d-none d-sm-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-muted text-decoration-none">
-              {process.env.appName}
-            </p>
+            <div className="col-md-4 d-none d-sm-flex mb-0 align-items-center justify-content-center">
+              <p className="align-top text-decoration-none text-muted">
+                {process.env.appName}
+              </p>
+            </div>
 
             
-            <div className="col-md-4 d-flex mb-0 align-items-center justify-content-end text-muted">
+            <div className="col-md-4 d-flex mb-0 align-items-center justify-content-end">
               <OverlayTrigger placement="left" overlay={popover}>
-               <p className="mb-0">
+               <p className="align-top text-decoration-none text-muted">
                 Version {VERSION}
                </p>
               </OverlayTrigger>
