@@ -36,7 +36,7 @@ export default function Footer() {
             
             <div className="col-md-4 d-flex mb-0 align-items-center justify-content-end text-muted">
               <OverlayTrigger placement="left" overlay={popover}>
-               <p>
+               <p className="mb-0">
                 Version {VERSION}
                </p>
               </OverlayTrigger>
