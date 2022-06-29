@@ -3,6 +3,10 @@ const child_process = require('child_process')
 const withPWA = require('next-pwa')
 
 const ContentSecurityPolicy = `
+    default-src 'self' https://*.ultras-playroom.xyz/;
+    script-src 'self' https://*.ultras-playroom.xyz/;
+    child-src 'self' https://*.ultras-playroom.xyz/;
+    style-src 'self' https://*.ultras-playroom.xyz/; 
 `
 
 const GIT_BRANCH = process.env.VERCEL_GIT_COMMIT_REF ||= child_process.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
@@ -63,13 +67,14 @@ const globalHeaders = [
         key: 'Referrer-Policy',
         value: 'origin-when-cross-origin'
     },
+]
 
-    {
+if (process.env.__VERCEL_DEV_RUNNING) {
+    globalHeaders.push({
         key: 'Content-Security-Policy',
         value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
-    }
-
-]
+    })
+}
 
 module.exports = withPWA({
     reactStrictMode: true,
