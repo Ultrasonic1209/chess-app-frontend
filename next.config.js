@@ -4,7 +4,7 @@ const withPWA = require('next-pwa')
 
 const ContentSecurityPolicy = `
     default-src 'self' https://*.ultras-playroom.xyz/;
-    script-src 'self' https://*.ultras-playroom.xyz/ 'unsafe-eval';
+    script-src 'self' https://*.ultras-playroom.xyz/ 'unsafe-eval' 'unsafe-inline';
     child-src 'self' https://*.ultras-playroom.xyz/;
     style-src 'self' https://*.ultras-playroom.xyz/ 'unsafe-inline'; 
 `
