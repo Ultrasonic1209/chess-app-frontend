@@ -3,14 +3,14 @@ const child_process = require('child_process')
 const withPWA = require('next-pwa')
 
 const ContentSecurityPolicy = `
-    default-src 'self' https://*.ultras-playroom.xyz/;
+    default-src 'self' https://*.ultras-playroom.xyz/ 'data:';
     script-src 'self' https://*.ultras-playroom.xyz/ 'unsafe-eval' 'unsafe-inline';
     child-src 'self' https://*.ultras-playroom.xyz/;
     style-src 'self' https://*.ultras-playroom.xyz/ 'unsafe-inline'; 
 `
 
 const ContentSecurityPolicyDev = `
-    default-src *;
+    default-src * 'data:';
     script-src * 'unsafe-eval';
     child-src *;
     style-src * 'unsafe-inline'; 
