@@ -2,6 +2,8 @@ const child_process = require('child_process')
 
 const withPWA = require('next-pwa')
 
+const RuntimeCaching = require('./cache')
+
 const ContentSecurityPolicy = `
     default-src 'self' https://*.ultras-playroom.xyz/ data:;
     script-src 'self' https://*.ultras-playroom.xyz/ 'unsafe-eval' 'unsafe-inline';
@@ -99,6 +101,7 @@ module.exports = withPWA({
     pwa: {
         dest: 'public',
         sw: 'service-worker.js',
+        runtimeCaching: RuntimeCaching,
         dynamicStartUrl: true,
         //cacheOnFrontEndNav: true,
         reloadOnOnline: false,
