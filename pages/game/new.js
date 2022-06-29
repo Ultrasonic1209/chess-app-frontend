@@ -28,9 +28,6 @@ export default function Play() {
     return (
       <Main title="Play">
         <h2>Play</h2>
-        <p style="text-decoration: line-through;">
-          America Simulator
-        </p>
         <div className="container">
           <Chessboard id="BasicBoard" boardWidth={chessboardSize} />
         </div>
