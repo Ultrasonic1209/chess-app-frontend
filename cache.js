@@ -81,6 +81,16 @@ module.exports = [
       }
     }
   },
+  { // todo: put (?:service-worker\.js)$ NetworkFirst
+    urlPattern: /(?:service-worker\.js)$/i,
+    handler: 'NetworkFirst',
+    options: {
+      cacheName: 'sw-cache',
+      expiration: {
+        maxEntries: 1
+      }
+    }
+  },
   {
     urlPattern: /\.(?:js)$/i,
     handler: 'CacheFirst',
