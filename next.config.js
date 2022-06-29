@@ -4,9 +4,16 @@ const withPWA = require('next-pwa')
 
 const ContentSecurityPolicy = `
     default-src 'self' https://*.ultras-playroom.xyz/;
-    script-src 'self' https://*.ultras-playroom.xyz/;
+    script-src 'self' https://*.ultras-playroom.xyz/ 'unsafe-eval';
     child-src 'self' https://*.ultras-playroom.xyz/;
-    style-src 'self' https://*.ultras-playroom.xyz/; 
+    style-src 'self' https://*.ultras-playroom.xyz/ 'unsafe-inline'; 
+`
+
+const ContentSecurityPolicyDev = `
+    default-src *;
+    script-src * 'unsafe-eval';
+    child-src *;
+    style-src * 'unsafe-inline'; 
 `
 
 const GIT_BRANCH = process.env.VERCEL_GIT_COMMIT_REF ||= child_process.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
@@ -73,6 +80,11 @@ if (process.env.__VERCEL_DEV_RUNNING) {
     globalHeaders.push({
         key: 'Content-Security-Policy',
         value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
+    })
+} else {
+    globalHeaders.push({
+        key: 'Content-Security-Policy',
+        value: ContentSecurityPolicyDev.replace(/\s{2,}/g, ' ').trim()
     })
 }
 
