@@ -4,3 +4,10 @@
 #mainContainer > main {
     padding: 1rem 0;
 }
+.container {
+    flex-flow: wrap;
+}  
+.container hr {
+    width: 100%;
+    display: none
+}

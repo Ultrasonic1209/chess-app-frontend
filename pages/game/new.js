@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { Chessboard } from "react-chessboard";
 
+import { Container } from "react-bootstrap";
+
 import Main from '../../components/main';
 
 export default function Play() {
@@ -28,9 +30,13 @@ export default function Play() {
     return (
       <Main title="Play">
         <h2>Play</h2>
-        <div className="container">
-          <Chessboard id="BasicBoard" boardWidth={chessboardSize} />
-        </div>
+        <Container className={"container-md d-flex"}>
+          <Chessboard id="BasicBoard" boardWidth={chessboardSize}/>
+          <hr className={"d-lg-block"}/>
+          <Container className={"d-inline-flex container-md p-2 bd-highlight"}>
+            <p>shut</p>
+          </Container>
+        </Container>
       </Main>
     );
   }
