@@ -106,10 +106,7 @@ module.exports = withPWA({
         //cacheOnFrontEndNav: true,
         reloadOnOnline: false,
         register: false,
-        skipWaiting: false,
-        publicExcludes: [
-            '!_headers'
-        ]
+        skipWaiting: false
     },
     async headers() { // for vercel
         return [
