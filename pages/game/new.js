@@ -30,12 +30,18 @@ export default function Play() {
     return (
       <Main title="Play">
         <h2>Play</h2>
-        <Container className={"container-md d-flex"}>
+        <Container className={"d-flex flex-row mb-3"}>
           <Chessboard id="BasicBoard" boardWidth={chessboardSize}/>
-          <hr className={"d-lg-block"}/>
-          <Container className={"d-inline-flex container-md p-2 bd-highlight"}>
-            <p>shut</p>
-          </Container>
+          <div className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
+            <Container>
+              <div className="row row-cols-2">
+                <div className={"col chessMove align-self-start"}>Column</div>
+                <div className={"col chessMove align-self-end"}>Column</div>
+                <div className={"col chessMove align-self-start"}>Column</div>
+                <div className={"col chessMove align-self-end"}>Column</div>
+              </div>
+            </Container>
+          </div>
         </Container>
       </Main>
     );

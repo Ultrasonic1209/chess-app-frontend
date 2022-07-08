@@ -11,3 +11,6 @@
     width: 100%;
     display: none
 }
+.chessMove {
+    max-width: 45%;
+}
