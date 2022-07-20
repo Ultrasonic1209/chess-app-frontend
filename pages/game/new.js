@@ -35,10 +35,10 @@ export default function Play() {
           <div className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
             <Container>
               <div className="row row-cols-2">
-                <div className={"col chessMove align-self-start"}>Column</div>
-                <div className={"col chessMove align-self-end"}>Column</div>
-                <div className={"col chessMove align-self-start"}>Column</div>
-                <div className={"col chessMove align-self-end"}>Column</div>
+                <div id="whiteTimer" className={"col chessMove align-self-start bg-white text-dark text-center"}>Time: <b>00:00:00</b></div>
+                <div id="blackTimer" className={"col chessMove align-self-end bg-secondary text-center"}>Time: <b>00:00:00</b></div>
+                <div className={"col chessMove align-self-start text-center"}>b2b3</div>
+                <div className={"col chessMove align-self-end text-center"}>ejdfoqfhqhu</div>
               </div>
             </Container>
           </div>
