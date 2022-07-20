@@ -14,3 +14,9 @@
 .chessMove {
     max-width: 45%;
 }
+#mainContainer > main > form > div.frc-captcha {
+    position: relative;
+}
+#mainContainer > main > form > div.frc-captcha > div > div {
+    overflow-x: inherit;
+}
