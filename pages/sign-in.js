@@ -63,10 +63,14 @@ export default function SignIn() {
                 </FloatingLabel>
             </FormFloating>
 
-            <div className="checkbox mb-3 mt-3">
-            <label>
-                <input type="checkbox" value="remember-me"/> Remember me
-            </label>
+            <div className="mb-3 mt-3">
+                <Form.Check
+                    type="checkbox"
+                    label={"Remember me"}
+                    value="remember-me"
+                    name="remember-me"
+                />
+            </div>
 
             <FriendlyCaptcha
                 ref={widgetRef}
@@ -77,8 +81,6 @@ export default function SignIn() {
                     setSubmitButtonEnabled(true);
                 }}
             ></FriendlyCaptcha>
-
-            </div>
             <Button disabled={submitButtonEnabled ? undefined : "null"} className="w-100 btn btn-lg btn-primary mt-2" type="submit">Sign in</Button>
         </Form>
 
