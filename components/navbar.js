@@ -31,7 +31,7 @@ export default function Navbar() {
                             <NavDropdown.Item as={Link} href="/profile" onClick={() => setNavbarExpansion(false)}>Account</NavDropdown.Item>
                         </NavDropdown>
                         <RbNavbar.Text>
-                            Signed in as: <Link href="/profile" onClick={() => setNavbarExpansion(false)}>Nobody</Link>
+                            Signed in as: <Link href="/sign-in" onClick={() => setNavbarExpansion(false)}>Nobody</Link>
                         </RbNavbar.Text>
                     </Nav>
                 </RbNavbar.Collapse>
