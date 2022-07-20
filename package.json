@@ -13,7 +13,8 @@
     "react": "latest",
     "react-bootstrap": "^2.4.0",
     "react-chessboard": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "friendly-challenge": "^0.9.0"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^4.1.3",

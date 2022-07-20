@@ -4,20 +4,6 @@ const withPWA = require('next-pwa')
 
 const RuntimeCaching = require('./cache')
 
-const ContentSecurityPolicy = `
-    default-src 'self' https://*.ultras-playroom.xyz/ data:;
-    script-src 'self' https://*.ultras-playroom.xyz/ 'unsafe-eval' 'unsafe-inline';
-    child-src 'self' https://*.ultras-playroom.xyz/;
-    style-src 'self' https://*.ultras-playroom.xyz/ 'unsafe-inline'; 
-`
-
-const ContentSecurityPolicyDev = `
-    default-src * data:;
-    script-src * 'unsafe-eval' 'unsafe-inline';
-    child-src *;
-    style-src * 'unsafe-inline'; 
-`
-
 const GIT_BRANCH = process.env.VERCEL_GIT_COMMIT_REF ||= child_process.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 
 const GIT_COMMIT_SHA = process.env.VERCEL_GIT_COMMIT_SHA ||= child_process.execSync('git rev-parse HEAD').toString().trim() // https://stackoverflow.com/a/35778030
@@ -78,18 +64,6 @@ const globalHeaders = [
     },
 ]
 
-if (process.env.__VERCEL_DEV_RUNNING) {
-    globalHeaders.push({
-        key: 'Content-Security-Policy',
-        value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
-    })
-} else {
-    globalHeaders.push({
-        key: 'Content-Security-Policy',
-        value: ContentSecurityPolicyDev.replace(/\s{2,}/g, ' ').trim()
-    })
-}
-
 module.exports = withPWA({
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
@@ -99,6 +73,7 @@ module.exports = withPWA({
         optimizeCss: true
     },
     pwa: {
+        disable: process.env.NODE_ENV === 'development',
         dest: 'public',
         sw: 'service-worker.js',
         runtimeCaching: RuntimeCaching,
@@ -118,6 +93,7 @@ module.exports = withPWA({
     },
     env: {
         appName: APP_NAME,
-        lastModified: date.toLocaleString()
+        lastModified: date.toLocaleString(),
+        friendlyCaptchaSitekey: "FCMM6JV285I5GS1J"
     }
 })
