@@ -85,10 +85,10 @@ export default function SignIn() {
         </Form>
 
         {message ? (
-        <Alert variant="primary">
-          <p>{message}</p>
-        </Alert>
-      ) : undefined}
+            <Alert variant="primary">
+            <p>{message}</p>
+            </Alert>
+        ) : undefined}
 
       </Main>
     );
