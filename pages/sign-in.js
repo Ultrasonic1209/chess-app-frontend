@@ -6,35 +6,38 @@ import { Button, Form, FormFloating, FloatingLabel, Alert } from "react-bootstra
 import FriendlyCaptcha from "../components/FriendlyCaptcha";
 import Main from "../components/main";
 
-const handleFormSubmit = async (event, setMessage, resetWidget) => {
-    event.preventDefault();
-  
-    console.log(event)
-
-    const res = await fetch("https://apichessapp.server.ultras-playroom.xyz/login", {
-      body: JSON.stringify({
-        username: event.target["username"].value,
-        password: event.target["password"].value,
-        rememberMe: event.target["remember-me"].checked,
-        frcCaptchaSolution: event.target["frc-captcha-solution"].value,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    });
-  
-    const result = await res.json(); // The endpoint currently returns `{msg: "some message"}
-    setMessage(result.userFacingMessage);
-  
-    // We should always reset the widget as a solution can not be used twice.
-    resetWidget();
-};
-
 export default function SignIn() {
     const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false);
+    const [loginSuccess, setSuccess] = useState(false);
     const [message, setMessage] = useState("");
     const widgetRef = useRef();
+
+    const handleFormSubmit = async (event, setMessage, resetWidget) => {
+      event.preventDefault();
+    
+      console.log(event)
+  
+      const res = await fetch("https://apichessapp.server.ultras-playroom.xyz/login", {
+        body: JSON.stringify({
+          username: event.target["username"].value,
+          password: event.target["password"].value,
+          rememberMe: event.target["remember-me"].checked,
+          frcCaptchaSolution: event.target["frc-captcha-solution"].value,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      });
+    
+      const result = await res.json(); // The endpoint currently returns `{msg: "some message"}
+      setSuccess(result.accept)
+      setMessage(result.userFacingMessage);
+    
+      // We should always reset the widget as a solution can not be used twice.
+      resetWidget();
+    };
+
     const reset = () => {
       setSubmitButtonEnabled(false);
       if (widgetRef.current) {
@@ -93,7 +96,7 @@ export default function SignIn() {
         </Form>
 
         {message ? (
-            <Alert className="mt-3" variant="primary">
+            <Alert className="mt-3" variant={loginSuccess ? "success" : "danger"}>
             <p>{message}</p>
             </Alert>
         ) : undefined}
