@@ -24,8 +24,8 @@ const handleFormSubmit = async (event, setMessage, resetWidget) => {
       method: "POST",
     });
   
-    const result = await res.text(); // The endpoint currently returns `{msg: "some message"}
-    setMessage(result);
+    const result = await res.json(); // The endpoint currently returns `{msg: "some message"}
+    setMessage(result.userFacingMessage);
   
     // We should always reset the widget as a solution can not be used twice.
     resetWidget();
