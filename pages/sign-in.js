@@ -93,7 +93,7 @@ export default function SignIn() {
         </Form>
 
         {message ? (
-            <Alert variant="primary">
+            <Alert className="mt-3" variant="primary">
             <p>{message}</p>
             </Alert>
         ) : undefined}
