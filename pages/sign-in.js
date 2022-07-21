@@ -97,7 +97,7 @@ export default function SignIn() {
 
         {message ? (
             <Alert className="mt-3" variant={loginSuccess ? "success" : "danger"}>
-            <p>{message}</p>
+            {message}
             </Alert>
         ) : undefined}
 
