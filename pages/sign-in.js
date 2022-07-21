@@ -6,42 +6,32 @@ import { Button, Form, FormFloating, FloatingLabel, Alert } from "react-bootstra
 import FriendlyCaptcha from "../components/FriendlyCaptcha";
 import Main from "../components/main";
 
-export default function SignIn() {
-    const [validated, setValidated] = useState(false);
-
-    const handleFormSubmit = async (event, setMessage, resetWidget) => {
-    
-      console.log(event)
-
-      const form = event.currentTarget;
-      
-      if (form.checkValidity() === false) {
-        event.stopPropagation();
-        event.preventDefault();
-        return
-      }
-      
-      setValidated(form.checkValidity());
-      event.preventDefault();
+const handleFormSubmit = async (event, setMessage, resetWidget) => {
+    event.preventDefault();
   
-      const res = await fetch("https://apichessapp.server.ultras-playroom.xyz/login", {
-        body: JSON.stringify({
-          name: event.target.name.value,
-          frcCaptchaSolution: event.target["frc-captcha-solution"].value,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      });
-    
-      const result = await res.text(); // The endpoint currently returns `{msg: "some message"}
-      setMessage(result);
-    
-      // We should always reset the widget as a solution can not be used twice.
-      resetWidget();
-  };
+    console.log(event)
 
+    const res = await fetch("https://apichessapp.server.ultras-playroom.xyz/login", {
+      body: JSON.stringify({
+        username: event.target["username"].value,
+        password: event.target["password"].value,
+        rememberMe: event.target["remember-me"].checked,
+        frcCaptchaSolution: event.target["frc-captcha-solution"].value,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    });
+  
+    const result = await res.text(); // The endpoint currently returns `{msg: "some message"}
+    setMessage(result);
+  
+    // We should always reset the widget as a solution can not be used twice.
+    resetWidget();
+};
+
+export default function SignIn() {
     const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false);
     const [message, setMessage] = useState("");
     const widgetRef = useRef();
@@ -55,7 +45,7 @@ export default function SignIn() {
     };
     return (
       <Main title="Sign in">
-        <Form noValidate={true} validated={validated} onSubmit={(ev) => handleFormSubmit(ev, setMessage, reset)}>
+        <Form name="sign-in" onSubmit={(ev) => handleFormSubmit(ev, setMessage, reset)}>
             <h1 className="h3 mb-3 fw-normal">Sign in</h1>
 
             <FormFloating>
@@ -65,9 +55,6 @@ export default function SignIn() {
                     className="mb-3 text-muted"
                 >
                     <Form.Control name="username" type="text" placeholder="Username" required={true} />
-                    <Form.Control.Feedback type="invalid">
-                      Please enter a username.
-                    </Form.Control.Feedback>
                 </FloatingLabel>
             </FormFloating>
             <FormFloating>
@@ -77,9 +64,6 @@ export default function SignIn() {
                     className="mb-3 text-muted"
                 >
                     <Form.Control name="password" type="password" placeholder="password" required={true} />
-                    <Form.Control.Feedback type="invalid">
-                      Please enter a password.
-                    </Form.Control.Feedback>
                 </FloatingLabel>
             </FormFloating>
 
