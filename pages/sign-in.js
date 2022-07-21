@@ -9,6 +9,8 @@ import Main from "../components/main";
 const handleFormSubmit = async (event, setMessage, resetWidget) => {
     event.preventDefault();
   
+    console.log(event.target)
+
     const res = await fetch("https://apichessapp.server.ultras-playroom.xyz/login", {
       body: JSON.stringify({
         name: event.target.name.value,
