@@ -70,9 +70,13 @@ export default function SignIn() {
             <div className="mb-3 mt-3">
                 <Form.Check
                     type="checkbox"
+                    
+                    title="Remember me"
                     label={"Remember me"}
+
                     value="remember-me"
                     name="remember-me"
+                    placeholder="remember-me"
                 />
             </div>
 
