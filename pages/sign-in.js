@@ -28,6 +28,8 @@ export default function SignIn() {
           "Content-Type": "application/json",
         },
         method: "POST",
+        withCredentials: true,
+        credentials: 'include',
       });
     
       const result = await res.json(); // The endpoint currently returns `{msg: "some message"}
