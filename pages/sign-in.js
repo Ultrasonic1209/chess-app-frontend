@@ -2,11 +2,13 @@
 // and https://github.com/FriendlyCaptcha/friendly-captcha-examples/blob/main/nextjs/pages/forms/basic.js
 
 import { useState, useRef } from "react";
+import { useRouter } from 'next/router'
 import { Button, Form, FormFloating, FloatingLabel, Alert } from "react-bootstrap";
 import FriendlyCaptcha from "../components/FriendlyCaptcha";
 import Main from "../components/main";
 
 export default function SignIn() {
+    const router = useRouter();
     const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false);
     const [loginSuccess, setSuccess] = useState(false);
     const [message, setMessage] = useState("");
@@ -14,8 +16,6 @@ export default function SignIn() {
 
     const handleFormSubmit = async (event, setMessage, resetWidget) => {
       event.preventDefault();
-    
-      console.log(event)
   
       const res = await fetch("https://apichessapp.server.ultras-playroom.xyz/login", {
         body: JSON.stringify({
@@ -32,12 +32,14 @@ export default function SignIn() {
         credentials: 'include',
       });
     
-      const result = await res.json(); // The endpoint currently returns `{msg: "some message"}
+      const result = await res.json();
       setSuccess(result.accept)
       setMessage(result.userFacingMessage);
-    
+
       // We should always reset the widget as a solution can not be used twice.
       resetWidget();
+    
+      if (result.accept) { router.push("/") }
     };
 
     const reset = () => {
