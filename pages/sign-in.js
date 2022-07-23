@@ -6,12 +6,15 @@ import { useRouter } from 'next/router'
 import { Button, Form, FormFloating, FloatingLabel, Alert } from "react-bootstrap";
 import FriendlyCaptcha from "../components/FriendlyCaptcha";
 
-import ClientOnlyPortal from "../components/ClientOnlyPortal"
+import { useToastContext } from "../contexts/ToastContext";
+
 import Main from "../components/main";
-import Toast from "../components/toast";
+
 
 export default function SignIn() {
+    const addToast = useToastContext();
     const router = useRouter();
+
     const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false);
     const [loginSuccess, setSuccess] = useState(false);
     const [message, setMessage] = useState("");
@@ -43,6 +46,10 @@ export default function SignIn() {
       resetWidget();
     
       if (loginSuccess) {
+        addToast({
+          "title": "Checkmate",
+          "message": "You have sucessfully logged in."
+        });
         router.push("/")
       }
     };
@@ -103,12 +110,6 @@ export default function SignIn() {
             ></FriendlyCaptcha>
             <Button disabled={submitButtonEnabled ? undefined : "null"} className="w-100 btn btn-lg btn-primary mt-2" type="submit">Sign in</Button>
         </Form>
-
-        {loginSuccess && (
-          <ClientOnlyPortal selector="#toastContainer">
-            <Toast title="Checkmate" message="Login successful."/>
-          </ClientOnlyPortal>
-        )}
 
         {message ? (
             <Alert className="mt-3" variant={loginSuccess ? "success" : "danger"}>
