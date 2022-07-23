@@ -46,7 +46,7 @@ export default function SignIn() {
       // We should always reset the widget as a solution can not be used twice.
       resetWidget();
     
-      if (loginSuccess) {
+      if (result.accept) {
         addToast({
           "title": "Checkmate",
           "message": "You have sucessfully logged in."
