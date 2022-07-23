@@ -5,6 +5,8 @@ import { useState, useRef } from "react";
 import { useRouter } from 'next/router'
 import { Button, Form, FormFloating, FloatingLabel, Alert } from "react-bootstrap";
 import FriendlyCaptcha from "../components/FriendlyCaptcha";
+
+import ClientOnlyPortal from "../components/ClientOnlyPortal"
 import Main from "../components/main";
 import Toast from "../components/toast";
 
@@ -41,8 +43,6 @@ export default function SignIn() {
       resetWidget();
     
       if (loginSuccess) {
-        var container = document.getElementById("toastContainer")
-        container.insertBefore(<Toast name="Checkmate" message="Login successful."/>, container.firstElementChild)
         router.push("/")
       }
     };
@@ -104,9 +104,15 @@ export default function SignIn() {
             <Button disabled={submitButtonEnabled ? undefined : "null"} className="w-100 btn btn-lg btn-primary mt-2" type="submit">Sign in</Button>
         </Form>
 
+        {loginSuccess && (
+          <ClientOnlyPortal selector="#toastContainer">
+            <Toast title="Checkmate" message="Login successful."/>
+          </ClientOnlyPortal>
+        )}
+
         {message ? (
             <Alert className="mt-3" variant={loginSuccess ? "success" : "danger"}>
-            {message}
+              {message}
             </Alert>
         ) : undefined}
 
