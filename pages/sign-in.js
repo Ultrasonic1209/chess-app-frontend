@@ -64,19 +64,8 @@ export default function SignIn() {
       }
     };
 
-    const debugOnClick = () => {
-      addToast({
-        "title": "Checkmate",
-        "message": "You have sucessfully logged in."
-      });
-      router.push("/")
-    }
-
     return (
       <Main title="Sign in">
-        <Button onClick={debugOnClick}>
-          Test
-        </Button>
         <Form name="sign-in" onSubmit={(ev) => handleFormSubmit(ev, setMessage, reset)}>
             <h1 className="h3 mb-3 fw-normal">Sign in</h1>
 
