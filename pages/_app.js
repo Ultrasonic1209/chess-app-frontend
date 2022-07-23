@@ -12,8 +12,6 @@ import { ToastContextProvider } from '../contexts/ToastContext';
 
 import { Container, SSRProvider } from 'react-bootstrap';
 
-import SWWrapper from '../components/sw-wrapper';
-
 export default function Checkmate({ Component, pageProps }) {
   return (
     <>
@@ -23,7 +21,6 @@ export default function Checkmate({ Component, pageProps }) {
         </Head>
         <SSRProvider>
             <ToastContextProvider>
-              <SWWrapper/>
               <Navbar/>
               <Container id="mainContainer">
                   <Component {...pageProps} />

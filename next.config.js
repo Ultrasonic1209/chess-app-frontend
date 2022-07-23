@@ -1,8 +1,8 @@
+/** @type {import('next').NextConfig} */
+
 const child_process = require('child_process')
 
 const withPWA = require('next-pwa')
-
-const RuntimeCaching = require('./cache')
 
 const GIT_BRANCH = process.env.VERCEL_GIT_COMMIT_REF ||= child_process.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 
@@ -76,12 +76,9 @@ module.exports = withPWA({
         disable: process.env.NODE_ENV === 'development',
         dest: 'public',
         sw: 'service-worker.js',
-        runtimeCaching: RuntimeCaching,
         dynamicStartUrl: true,
-        //cacheOnFrontEndNav: true,
+        cacheOnFrontEndNav: true,
         reloadOnOnline: false,
-        register: false,
-        skipWaiting: false
     },
     async headers() { // for vercel
         return [
