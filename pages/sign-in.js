@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import { Button, Form, FormFloating, FloatingLabel, Alert } from "react-bootstrap";
 import FriendlyCaptcha from "../components/FriendlyCaptcha";
 import Main from "../components/main";
+import Toast from "../components/toast";
 
 export default function SignIn() {
     const router = useRouter();
@@ -39,7 +40,11 @@ export default function SignIn() {
       // We should always reset the widget as a solution can not be used twice.
       resetWidget();
     
-      if (loginSuccess) { router.push("/") }
+      if (loginSuccess) {
+        var container = document.getElementById("toastContainer")
+        container.insertBefore(<Toast name="Checkmate" message="Login successful."/>, container.firstElementChild)
+        router.push("/")
+      }
     };
 
     const reset = () => {
