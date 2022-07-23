@@ -39,7 +39,7 @@ export default function SignIn() {
       // We should always reset the widget as a solution can not be used twice.
       resetWidget();
     
-      if (result.accept) { router.push("/") }
+      if (loginSuccess) { router.push("/") }
     };
 
     const reset = () => {
