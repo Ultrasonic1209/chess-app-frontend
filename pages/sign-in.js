@@ -12,13 +12,14 @@ import Main from "../components/main";
 
 
 export default function SignIn() {
-    const addToast = useToastContext();
     const router = useRouter();
 
     const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false);
     const [loginSuccess, setSuccess] = useState(false);
     const [message, setMessage] = useState("");
+    
     const widgetRef = useRef();
+    const addToast = useToastContext();
 
     const handleFormSubmit = async (event, setMessage, resetWidget) => {
       event.preventDefault();
@@ -62,8 +63,20 @@ export default function SignIn() {
         widgetRef.current.reset();
       }
     };
+
+    const debugOnClick = () => {
+      addToast({
+        "title": "Checkmate",
+        "message": "You have sucessfully logged in."
+      });
+      router.push("/")
+    }
+
     return (
       <Main title="Sign in">
+        <Button onClick={debugOnClick}>
+          Test
+        </Button>
         <Form name="sign-in" onSubmit={(ev) => handleFormSubmit(ev, setMessage, reset)}>
             <h1 className="h3 mb-3 fw-normal">Sign in</h1>
 
