@@ -24,7 +24,7 @@ export default function SignIn() {
     const handleFormSubmit = async (event, setMessage, resetWidget) => {
       event.preventDefault();
   
-      const res = await fetch("https://apichessapp.server.ultras-playroom.xyz/login", {
+      await fetch("https://apichessapp.server.ultras-playroom.xyz/login", {
         body: JSON.stringify({
           username: event.target["username"].value,
           password: event.target["password"].value,
@@ -37,22 +37,30 @@ export default function SignIn() {
         method: "POST",
         withCredentials: true,
         credentials: 'include',
-      });
+      })
+      .then(async (response) => {
+        const result = await response.json();
+        setSuccess(result.accept)
+        setMessage(result.userFacingMessage);
+  
+        // We should always reset the widget as a solution can not be used twice.
+        resetWidget();
+      
+        if (result.accept) {
+          addToast({
+            "title": "Checkmate",
+            "message": "You have sucessfully logged in."
+          });
+          router.push("/")
+        }
+      })
+      .catch( (error) => {
+        console.log('Logon failed', error);
+        setSuccess(false);
+        setMessage("An unknown error has occured.")
+      })
     
-      const result = await res.json();
-      setSuccess(result.accept)
-      setMessage(result.userFacingMessage);
 
-      // We should always reset the widget as a solution can not be used twice.
-      resetWidget();
-    
-      if (result.accept) {
-        addToast({
-          "title": "Checkmate",
-          "message": "You have sucessfully logged in."
-        });
-        router.push("/")
-      }
     };
 
     const reset = () => {
@@ -113,7 +121,7 @@ export default function SignIn() {
             <Button disabled={submitButtonEnabled ? undefined : "null"} className="w-100 btn btn-lg btn-primary mt-2" type="submit">Sign in</Button>
         </Form>
 
-        {message ? (
+        {(message && !loginSuccess) ? (
             <Alert className="mt-3" variant={loginSuccess ? "success" : "danger"}>
               {message}
             </Alert>
