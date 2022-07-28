@@ -39,23 +39,31 @@ export default function SignIn() {
         credentials: 'include',
       })
       .then(async (response) => {
-        const result = await response.json();
-        setSuccess(result.accept)
-        setMessage(result.userFacingMessage);
-  
-        // We should always reset the widget as a solution can not be used twice.
-        resetWidget();
-      
-        if (result.accept) {
-          addToast({
-            "title": "Checkmate",
-            "message": "You have sucessfully logged in."
-          });
-          router.push("/")
+        if (response.ok) {
+          const result = await response.json();
+          setSuccess(result.accept)
+          setMessage(result.userFacingMessage);
+    
+          // We should always reset the widget as a solution can not be used twice.
+          resetWidget();
+        
+          if (result.accept) {
+            addToast({
+              "title": "Checkmate",
+              "message": "You have sucessfully logged in."
+            });
+            router.push("/")
+          }
+        } else {
+          setSuccess(false)
+          setMessage("An unknown error occured connecting to the server. HTTP " + response.status + " (" + response.statusText + ")");
+    
+          // We should always reset the widget as a solution can not be used twice.
+          resetWidget();
         }
       })
       .catch( (error) => {
-        console.log('Logon failed', error);
+        console.log('Log-inn failed', error);
         setSuccess(false);
         setMessage("An unknown error has occured.")
       })
