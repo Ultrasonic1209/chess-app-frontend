@@ -9,6 +9,7 @@ export default function ProfileIndicator({onClick}) {
 
   if (error) return <>Signed in as: <Link href="/sign-in" onClick={onClick}>Nobody</Link></>
   if (!data) return <>Loading...</>
+  if (!data.name) return <>Signed in as: <Link href="/sign-in" onClick={onClick}>Nobody</Link></>
 
   return <>Signed in as: <Link href="/profile" onClick={onClick}>{data.name}</Link></>
 }
