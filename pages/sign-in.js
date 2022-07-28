@@ -3,6 +3,7 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from 'next/router'
+import { useSWRConfig } from 'swr'
 import { Button, Form, FormFloating, FloatingLabel, Alert } from "react-bootstrap";
 import FriendlyCaptcha from "../components/FriendlyCaptcha";
 
@@ -13,6 +14,8 @@ import Main from "../components/Main";
 
 export default function SignIn() {
     const router = useRouter();
+
+    const { mutate } = useSWRConfig()
 
     const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false);
     const [loginSuccess, setSuccess] = useState(false);
@@ -48,6 +51,7 @@ export default function SignIn() {
           resetWidget();
         
           if (result.accept) {
+            mutate('https://apichessapp.server.ultras-playroom.xyz/login/identify')
             addToast({
               "title": "Checkmate",
               "message": "You have sucessfully logged in."
