@@ -1,4 +1,4 @@
-import Main from "../components/main";
+import Main from "../components/Main";
 
 const statusCodes = {
     400: 'Bad request.',

@@ -4,7 +4,7 @@ import { Chessboard } from "react-chessboard";
 
 import { Container } from "react-bootstrap";
 
-import Main from '../../components/main';
+import Main from '../../components/Main';
 
 export default function Play() {
   const [chessboardSize, setChessboardSize] = useState(320);

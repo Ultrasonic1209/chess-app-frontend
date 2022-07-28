@@ -2,7 +2,7 @@
 import React from 'react';
 import { useCallback, useContext, useState, createContext, Fragment } from "react";
 import ToastContainer from 'react-bootstrap/ToastContainer';
-import Toast from '../components/toast';
+import Toast from '../components/Toast';
 
 const ToastContext = createContext();
 

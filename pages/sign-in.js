@@ -8,7 +8,7 @@ import FriendlyCaptcha from "../components/FriendlyCaptcha";
 
 import { useToastContext } from "../contexts/ToastContext";
 
-import Main from "../components/main";
+import Main from "../components/Main";
 
 
 export default function SignIn() {

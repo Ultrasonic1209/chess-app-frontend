@@ -6,8 +6,8 @@ import Head from 'next/head';
 import '../components/bootstrap-dark.min.css';
 import '../components/App.css';
 
-import Navbar from '../components/navbar';
-import Footer from '../components/footer';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import { ToastContextProvider } from '../contexts/ToastContext';
 
 import { Container, SSRProvider } from 'react-bootstrap';

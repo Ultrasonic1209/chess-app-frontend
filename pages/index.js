@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Main from "../components/main";
+import Main from "../components/Main";
 
 const IS_DEV = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
 
