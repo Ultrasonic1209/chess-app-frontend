@@ -83,7 +83,7 @@ export default function SignIn() {
                     label="Username"
                     className="mb-3 text-muted"
                 >
-                    <Form.Control name="username" type="text" placeholder="Username" required={true} />
+                    <Form.Control name="username" type="text" placeholder="Username" autoComplete="username" required={true} />
                 </FloatingLabel>
             </FormFloating>
             <FormFloating>
@@ -92,7 +92,7 @@ export default function SignIn() {
                     label="Password"
                     className="mb-3 text-muted"
                 >
-                    <Form.Control name="password" type="password" placeholder="password" required={true} />
+                    <Form.Control name="password" type="password" placeholder="password" autoComplete="current-password" required={true} />
                 </FloatingLabel>
             </FormFloating>
 
