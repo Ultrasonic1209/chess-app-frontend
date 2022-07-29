@@ -108,7 +108,7 @@ export default function SignIn() {
                 </FloatingLabel>
             </FormFloating>
 
-            <div className="mb-3 mt-3">
+            <div className="mb-2 mt-3">
                 <Form.Check
                     type="checkbox"
                     
@@ -131,6 +131,9 @@ export default function SignIn() {
                 }}
             ></FriendlyCaptcha>
             <Button disabled={submitButtonEnabled ? undefined : "null"} className="w-100 btn btn-lg btn-primary mt-2" type="submit">Sign in</Button>
+            <Form.Text className="text-muted">
+              By signing in, you agree to cookies being stored on your computer.
+            </Form.Text>
         </Form>
 
         {(message && !loginSuccess) ? (
