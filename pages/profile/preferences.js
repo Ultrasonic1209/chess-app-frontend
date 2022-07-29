@@ -6,4 +6,4 @@ export default function Preferences() {
         <h2>Preferences</h2>
       </Main>
     );
-  }
+}
