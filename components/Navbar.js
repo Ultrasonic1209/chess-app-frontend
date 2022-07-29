@@ -7,6 +7,8 @@ import RbNavbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
+import ProfileIndicator from './ProfileIndicator';
+
 // navbar done with snippets from react-bootstrap docs
 export default function Navbar() {
     
@@ -31,7 +33,7 @@ export default function Navbar() {
                             <NavDropdown.Item as={Link} href="/profile" onClick={() => setNavbarExpansion(false)}>Account</NavDropdown.Item>
                         </NavDropdown>
                         <RbNavbar.Text>
-                            Signed in as: <Link href="/profile" onClick={() => setNavbarExpansion(false)}>Nobody</Link>
+                            <ProfileIndicator onClick={() => setNavbarExpansion(false)}/>
                         </RbNavbar.Text>
                     </Nav>
                 </RbNavbar.Collapse>

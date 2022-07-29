@@ -1,4 +1,4 @@
-import Main from "../../components/main";
+import Main from "../../components/Main";
 
 export default function Stats() {
     return (
@@ -6,4 +6,4 @@ export default function Stats() {
         <h2>Stats</h2>
       </Main>
     );
-  }
+}

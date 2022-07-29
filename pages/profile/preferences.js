@@ -1,4 +1,4 @@
-import Main from "../../components/main";
+import Main from "../../components/Main";
 
 export default function Preferences() {
     return (
@@ -6,4 +6,4 @@ export default function Preferences() {
         <h2>Preferences</h2>
       </Main>
     );
-  }
+}
