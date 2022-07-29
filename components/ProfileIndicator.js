@@ -8,8 +8,7 @@ export default function ProfileIndicator({onClick}) {
   const { data, error } = useSWR('https://apichessapp.server.ultras-playroom.xyz/login/identify', fetcher)
 
   if (error) return <>Signed in as: <Link href="/sign-in" onClick={onClick}>Nobody</Link></>
-  if (!data) return <>Loading...</>
-  if (!data.name) return <>Signed in as: <Link href="/sign-in" onClick={onClick}>Nobody</Link></>
-
-  return <>Signed in as: <Link href="/profile" onClick={onClick}>{data.name}</Link></>
+  else if (!data) return <>Loading...</>
+  else if (!data.name) return <>Signed in as: <Link href="/sign-in" onClick={onClick}>Nobody</Link></>
+  else return <>Signed in as: <Link href="/profile" onClick={onClick}>{data.name}</Link></>
 }
