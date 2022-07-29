@@ -43,15 +43,15 @@ export default function Profile() {
       const handleSignOut = async () => {
         await fetch("https://apichessapp.server.ultras-playroom.xyz/login/logout", {
           method: "DELETE",
-          mode: "cors",
-          withCredentials: true
+          withCredentials: true,
+          credentials: 'include'
         })
         .then(async (response) => {
           if (response.ok) {
             mutate('https://apichessapp.server.ultras-playroom.xyz/login/identify', () => {})
             addToast({
               "title": "Checkmate",
-              "message": "You have sucessfully signed out."
+              "message": "You have sucessfully logged out."
             });
             router.push("/")
           } else {
