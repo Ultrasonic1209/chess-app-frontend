@@ -61,6 +61,8 @@ export default function SignIn() {
               "message": "You have sucessfully logged in."
             });
             router.push("/")
+          } else {
+            setLoggingIn(false);
           }
         } else {
           setSuccess(false)
