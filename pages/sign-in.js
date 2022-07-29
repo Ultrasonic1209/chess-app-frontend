@@ -4,8 +4,9 @@
 import { useState, useRef } from "react";
 import { useRouter } from 'next/router'
 import { useSWRConfig } from 'swr'
-import { Button, Form, FormFloating, FloatingLabel, Alert } from "react-bootstrap";
+import { Form, FormFloating, FloatingLabel, Alert } from "react-bootstrap";
 import FriendlyCaptcha from "../components/FriendlyCaptcha";
+import Button from 'react-bootstrap-button-loader';
 
 import { useToastContext } from "../contexts/ToastContext";
 
@@ -19,6 +20,7 @@ export default function SignIn() {
 
     const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false);
     const [loginSuccess, setSuccess] = useState(false);
+    const [loggingIn, setLoggingIn] = useState(false);
     const [message, setMessage] = useState("");
     
     const widgetRef = useRef();
@@ -26,6 +28,8 @@ export default function SignIn() {
 
     const handleFormSubmit = async (event, setMessage, resetWidget) => {
       event.preventDefault();
+
+      setLoggingIn(true);
   
       await fetch("https://apichessapp.server.ultras-playroom.xyz/login", {
         body: JSON.stringify({
@@ -61,6 +65,7 @@ export default function SignIn() {
         } else {
           setSuccess(false)
           setMessage("An unknown error occured connecting to the server. HTTP " + response.status + " (" + response.statusText + ")");
+          setLoggingIn(false);
     
           // We should always reset the widget as a solution can not be used twice.
           resetWidget();
@@ -70,6 +75,7 @@ export default function SignIn() {
         console.error('Log-in failed', error);
         setSuccess(false);
         setMessage("An unknown error has occured.")
+        setLoggingIn(false);
       })
     
 
@@ -113,7 +119,7 @@ export default function SignIn() {
                     type="checkbox"
                     
                     title="Remember me"
-                    label={"Remember me"}
+                    label={'Remember Me'}
 
                     value="remember-me"
                     name="remember-me"
@@ -130,7 +136,7 @@ export default function SignIn() {
                     setSubmitButtonEnabled(true);
                 }}
             ></FriendlyCaptcha>
-            <Button disabled={submitButtonEnabled ? undefined : "null"} className="w-100 btn btn-lg btn-primary mt-2" type="submit">Sign in</Button>
+            <Button loading={loggingIn} disabled={!submitButtonEnabled} className="w-100 btn btn-lg btn-primary mt-2" type="submit">Sign in</Button>
             <Form.Text className="text-muted">
               By signing in, you agree to cookies being stored on your computer.
             </Form.Text>
