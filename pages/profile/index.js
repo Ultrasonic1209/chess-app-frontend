@@ -5,7 +5,7 @@ import useSWR from 'swr'
 
 import { Button } from 'react-bootstrap';
 
-import { useToastContext } from "../contexts/ToastContext";
+import { useToastContext } from "../../contexts/ToastContext";
 
 const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'}).then(r => r.json())
 export default function Profile() {
