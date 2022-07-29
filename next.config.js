@@ -73,9 +73,8 @@ module.exports = withPWA({
         optimizeCss: true
     },
     pwa: {
-        disable: process.env.NODE_ENV === 'development',
+        //disable: process.env.NODE_ENV === 'development',
         dest: 'public',
-        sw: 'service-worker.js',
         dynamicStartUrl: true,
         cacheOnFrontEndNav: true,
         reloadOnOnline: false,
