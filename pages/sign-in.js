@@ -67,7 +67,7 @@ export default function SignIn() {
         }
       })
       .catch( (error) => {
-        console.log('Log-in failed', error);
+        console.error('Log-in failed', error);
         setSuccess(false);
         setMessage("An unknown error has occured.")
       })
