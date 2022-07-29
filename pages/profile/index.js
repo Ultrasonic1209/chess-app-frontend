@@ -27,7 +27,7 @@ export default function Profile() {
     else if (!data.name) {
       router.push("/sign-in")
       return (
-        <Main title="Profile">
+        <Main title="Sign in">
         </Main>
       )
     }
