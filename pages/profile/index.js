@@ -42,8 +42,9 @@ export default function Profile() {
 
       const handleSignOut = async () => {
         await fetch("https://apichessapp.server.ultras-playroom.xyz/login/logout", {
-          "method": "DELETE",
-          "mode": "cors",
+          method: "DELETE",
+          mode: "cors",
+          withCredentials: true
         })
         .then(async (response) => {
           if (response.ok) {
