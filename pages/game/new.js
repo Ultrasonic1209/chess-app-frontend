@@ -31,9 +31,11 @@ export default function Play() {
       return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    // eslint-disable-next-line no-unused-vars
     var [whiteTimerActive, setWhiteTimerActive] = useState(true);
     var whiteTime = 0;
 
+    // eslint-disable-next-line no-unused-vars
     var [blackTimerActive, setBlackTimerActive] = useState(false);
     var blackTime = 48;
 
