@@ -17,7 +17,7 @@ export default function Checkmate({ Component, pageProps }) {
     <>
         <Head>
           <title>{process.env.appName}</title>
-          <meta name='viewport' content='minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover' />
+          <meta name='viewport' content='initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, width=device=width, shrink-to-fit=no, user-scalable=no' />
         </Head>
         <SSRProvider>
             <ToastContextProvider>
