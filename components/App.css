@@ -7,9 +7,9 @@
 .container {
     flex-flow: wrap;
 }
-.chessMove {
+/*.chessMove {
     max-width: 45%;
-}
+}*/
 #mainContainer > main > form > div.frc-captcha {
     position: relative;
 }
