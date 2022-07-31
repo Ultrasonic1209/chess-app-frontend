@@ -6,6 +6,8 @@ import { Container } from "react-bootstrap";
 
 import Main from '../../components/Main';
 
+import CountUp from '../../components/CountUp';
+
 export default function Play() {
   const [chessboardSize, setChessboardSize] = useState(320);
 
@@ -29,6 +31,12 @@ export default function Play() {
       return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    var [whiteTimerActive, setWhiteTimerActive] = useState(true);
+    var whiteTime = 0;
+
+    var [blackTimerActive, setBlackTimerActive] = useState(false);
+    var blackTime = 0;
+
     return (
       <Main title="Play">
         <h2>Play</h2>
@@ -37,8 +45,8 @@ export default function Play() {
           <div className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
             <Container>
               <div className="row row-cols-2">
-                <div id="whiteTimer" className={"col chessMove align-self-start bg-white text-dark text-center"}>Time: <b>00:00:00</b></div>
-                <div id="blackTimer" className={"col chessMove align-self-end bg-secondary text-center"}>Time: <b>00:00:00</b></div>
+                <div id="whiteTimer" className={"col chessMove align-self-start bg-white text-dark text-center"}>Time: <b><CountUp initial={whiteTime} running={whiteTimerActive}/></b></div>
+                <div id="blackTimer" className={"col chessMove align-self-end bg-secondary text-center"}>Time: <b><CountUp initial={blackTime} running={blackTimerActive}/></b></div>
                 <div className={"col chessMove align-self-start text-center"}>b2b3</div>
                 <div className={"col chessMove align-self-end text-center"}>ejdfoqfhqhu</div>
               </div>
