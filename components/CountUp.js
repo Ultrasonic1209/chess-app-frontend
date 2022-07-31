@@ -14,7 +14,7 @@ function secondsToTime(e){
 export default function CountUp ({initial, running}) {
     // initial is to be an int
     // running is to be a useState defined from elsewhere
-    const [time, setTime] = useState(() => {return initial}); // we only need it once
+    const [time, setTime] = useState(initial);
     useEffect(() => {
       let interval;
       if (running) {
