@@ -16,3 +16,6 @@
 #mainContainer > main > form > div.frc-captcha > div > div {
     overflow-x: inherit;
 }
+* {
+    user-select: none;
+}
