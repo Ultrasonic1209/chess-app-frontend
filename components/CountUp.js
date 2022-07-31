@@ -20,10 +20,7 @@ export default function CountUp ({initial, running}) {
       if (running) {
         interval = setInterval(() => {
           setTime((prevTime) => {
-            var newTime = prevTime;
-            newTime++;
-            console.log(prevTime + " + 1 = " + newTime);
-            prevTime + 1;
+            return prevTime + 1;
           });
         }, 1000);
       } else if (!running) {

@@ -35,7 +35,7 @@ export default function Play() {
     var whiteTime = 0;
 
     var [blackTimerActive, setBlackTimerActive] = useState(false);
-    var blackTime = 0;
+    var blackTime = 48;
 
     return (
       <Main title="Play">
