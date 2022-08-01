@@ -11,7 +11,7 @@ import CountUp from '../../components/CountUp';
 
 export default function Play() {
   const router = useRouter()
-  const { gameid } = router.query
+  const gameid = router.query.gameid || "";
   const [chessboardSize, setChessboardSize] = useState(320);
 
   if (gameid.startsWith("LOCAL")) {
