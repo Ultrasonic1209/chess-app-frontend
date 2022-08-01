@@ -1,60 +1,61 @@
-import { useEffect, useState } from 'react';
+import Main from "../../components/Main";
 
-import { Chessboard } from "react-chessboard";
+import { useState } from "react";
+import { Button, Container, ListGroup } from "react-bootstrap";
 
-import { Container } from "react-bootstrap";
+import { useOnlineStatus } from "../../contexts/OnlineStatus";
 
-import Main from '../../components/Main';
+export default function Preferences() {
+    const isOnline = useOnlineStatus();
 
-import CountUp from '../../components/CountUp';
+    const [gamemode, setGamemode] = useState();
+    const [difficulty, setDifficulty] = useState();
+    const [starter, setStarter] = useState("ANY");
 
-export default function Play() {
-  const [chessboardSize, setChessboardSize] = useState(320);
-
-  // https://github.com/Clariity/react-chessboard/blob/main/example/src/index.js
-  useEffect(() => {
-      function handleResize() {
-        setTimeout(() => {
-          const display = document.getElementsByClassName('container')[0];
-          var size = display.offsetWidth
-          if (size >= 720) { // desktop/tablet
-            size /= 2.15; // chess board on one side, list of moves on the other
-          } else if (size <= 575) { // phone
-            size -= 50;
-          }
-          setChessboardSize(size);
-       }, 0) // setTimeout to prevent force reflows (bad for resizing window on low-end systems!)
-      }
-
-      window.addEventListener('resize', handleResize);
-      handleResize();
-      return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    const gamemodeOnClick = (ev) => setGamemode(ev.target.getAttribute("data-gamemode"));
+    const difficultyOnClick = (ev) => setDifficulty(ev.target.getAttribute("data-difficulty"));
+    const starterOnClick = (ev) => setStarter(ev.target.getAttribute("data-starter"));
 
     // eslint-disable-next-line no-unused-vars
-    var [whiteTimerActive, setWhiteTimerActive] = useState(true);
-    var whiteTime = 0;
+    const createGame = (ev) => {
+      console.log(gamemode, difficulty, starter);
+    }
 
-    // eslint-disable-next-line no-unused-vars
-    var [blackTimerActive, setBlackTimerActive] = useState(false);
-    var blackTime = 48;
+    const difficultyEnabled = gamemode === "BOT";
+    const starterEnabled = (difficultyEnabled && difficulty) || (!difficultyEnabled && gamemode);
 
     return (
-      <Main title="Play">
-        <h2>Play</h2>
-        <Container className={"d-flex flex-row mb-3"}>
-          <Chessboard id="BasicBoard" boardWidth={chessboardSize}/>
-          <div className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
-            <Container>
-              <div className="row row-cols-2">
-                <div id="whiteTimer" className={"col chessMove align-self-start bg-white text-dark text-center"}>Time: <b><CountUp initial={whiteTime} running={whiteTimerActive}/></b></div>
-                <div id="blackTimer" className={"col chessMove align-self-end bg-secondary text-center"}>Time: <b><CountUp initial={blackTime} running={blackTimerActive}/></b></div>
-                <div className={"col chessMove align-self-start text-center"}>b2b3</div>
-                <div className={"col chessMove align-self-end text-center"}>ejdfoqfhqhu</div>
-              </div>
-            </Container>
-          </div>
+      <Main title="New Game">
+        <p>Gamemode: {gamemode}</p>
+        <p>Difficulty: {(gamemode === "BOT") ? difficulty : 'N/A'}</p>
+        <p>Starting colour: {starter}</p>
+        <h2>New Game</h2>
+        <Container id="selectGamemode" className="p-0 pt-3">
+          <h5>Choose your gamemode</h5>
+          <ListGroup horizontal="sm">
+            <ListGroup.Item active={gamemode === "BOT"} onClick={gamemodeOnClick} data-gamemode="BOT" type="button" action>Vs. Bot</ListGroup.Item>
+            <ListGroup.Item active={gamemode === "LOCAL"} onClick={gamemodeOnClick} data-gamemode="LOCAL" type="button" action>Vs. Player</ListGroup.Item>
+            <ListGroup.Item active={gamemode === "NET"} onClick={gamemodeOnClick} data-gamemode="NET" type="button" action disabled={!isOnline}>Vs. Online Player</ListGroup.Item>
+          </ListGroup>
         </Container>
+        <Container id="selectDifficulty" className={difficultyEnabled ? "p-0 pt-3" : "d-none"}>
+          <h5>Choose your difficulty</h5>
+          <ListGroup horizontal="sm">
+            <ListGroup.Item active={difficulty === "EASY"} onClick={difficultyOnClick} data-difficulty="EASY" type="button" action>Easy</ListGroup.Item>
+            <ListGroup.Item active={difficulty === "MEDIUM"} onClick={difficultyOnClick} data-difficulty="MEDIUM" type="button" disabled action>Medium</ListGroup.Item>
+            <ListGroup.Item active={difficulty === "HARD"} onClick={difficultyOnClick} data-difficulty="HARD" type="button" disabled action>Hard</ListGroup.Item>
+          </ListGroup>
+        </Container>
+        <Container id="selectStarter" className={starterEnabled ? "p-0 pt-3" : "d-none"}>
+          <h5>Choose your starting colour</h5>
+          <ListGroup horizontal="sm">
+            <ListGroup.Item active={starter === "WHITE"} onClick={starterOnClick} data-starter="WHITE" type="button" action>White</ListGroup.Item>
+            <ListGroup.Item active={starter === "BLACK"} onClick={starterOnClick} data-starter="BLACK" type="button" action>Black</ListGroup.Item>
+            <ListGroup.Item active={starter === "ANY"} onClick={starterOnClick} data-starter="ANY" type="button" action>Any</ListGroup.Item>
+          </ListGroup>
+        </Container>
+
+        <Button className={starterEnabled ? "mt-4" : "d-none"} type="button" onClick={createGame} disabled={!starterEnabled}>Create Game</Button>
       </Main>
     );
-  }
+}
