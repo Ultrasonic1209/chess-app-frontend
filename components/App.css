@@ -7,6 +7,9 @@
 .container {
     flex-flow: wrap;
 }
+#toastContainer {
+    z-index: 10;
+}
 /*.chessMove {
     max-width: 45%;
 }*/

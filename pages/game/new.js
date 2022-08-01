@@ -4,9 +4,11 @@ import { useState } from "react";
 import { Button, Container, ListGroup } from "react-bootstrap";
 
 import { useOnlineStatus } from "../../contexts/OnlineStatus";
+import { useToastContext } from "../../contexts/ToastContext";
 
 export default function Preferences() {
     const isOnline = useOnlineStatus();
+    const addToast = useToastContext();
 
     const [gamemode, setGamemode] = useState();
     const [difficulty, setDifficulty] = useState();
@@ -18,6 +20,22 @@ export default function Preferences() {
 
     // eslint-disable-next-line no-unused-vars
     const createGame = (ev) => {
+      switch (gamemode) {
+        case "BOT":
+
+          break;
+        case "LOCAL":
+
+          break;
+        case "NET":
+          
+          break;
+        default:
+          addToast({
+            "title": "Checkmate",
+            "message": "Error: Unknown gamemode " + gamemode
+          });
+      }
       console.log(gamemode, difficulty, starter);
     }
 
