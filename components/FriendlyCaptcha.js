@@ -50,7 +50,7 @@ const FriendlyCaptcha = ({ sitekey, doneCallback, errorCallback, startMode }, wi
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [container]);
 
-  return <div ref={container} className={darkMode? "frc-captcha dark" : "frc-captcha"} data-sitekey={sitekey} />;
+  return <div ref={container} className={darkMode ? "frc-captcha dark" : "frc-captcha"} data-sitekey={sitekey} />;
 };
 
 export default forwardRef(FriendlyCaptcha);
