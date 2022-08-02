@@ -8,17 +8,16 @@ const FriendlyCaptcha = ({ sitekey, doneCallback, errorCallback, startMode }, wi
   const [darkMode, setMode] = useState(false);
 
   const container = useRef();
+  const _doneCallback = (solution) => {
+    if (doneCallback) doneCallback(solution);
+  };
+
+  const _errorCallback = (err) => {
+    if (errorCallback) errorCallback(err);
+    console.error("There was an error when trying to solve the Friendly Captcha puzzle.", err);
+  };
 
   useEffect(() => {
-    const _doneCallback = (solution) => {
-      if (doneCallback) doneCallback(solution);
-    };
-  
-    const _errorCallback = (err) => {
-      if (errorCallback) errorCallback(err);
-      console.error("There was an error when trying to solve the Friendly Captcha puzzle.", err);
-    };
-
     if (!widget.current && container.current) {
       widget.current = new WidgetInstance(container.current, {
         startMode: startMode || "none", // You could default to "auto" if you want to start even before interaction
@@ -45,7 +44,8 @@ const FriendlyCaptcha = ({ sitekey, doneCallback, errorCallback, startMode }, wi
           .removeEventListener('change', updateMode)
       }
     };
-  }, [container, doneCallback, errorCallback, startMode, widget]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [container]);
 
   return <div ref={container} className={darkMode ? "frc-captcha dark" : "frc-captcha"} data-sitekey={sitekey} />;
 };
