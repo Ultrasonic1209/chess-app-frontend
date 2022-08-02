@@ -27,16 +27,13 @@ const FriendlyCaptcha = ({ sitekey, doneCallback, errorCallback, startMode }, wi
       });
     }
 
-    const updateMode = (event) => {
-      const colorScheme = event.matches ? "dark" : "light";
-      setMode(colorScheme === "dark");
-    }
+    const updateMode = (event) => setMode(event.matches);
 
     if (window.matchMedia) {
       window.matchMedia('(prefers-color-scheme: dark)')
         .addEventListener('change', updateMode);
 
-      setMode(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      setMode(window.matchMedia('(prefers-color-scheme: dark)').matches)
     }
 
 
