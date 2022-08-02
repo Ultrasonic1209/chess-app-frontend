@@ -25,7 +25,7 @@ export default function Profile() {
         </Main>
       )
     }
-    else if (!data) {
+    else if (!data && shouldUpdate) {
       return (
         <Main title="Profile">
           <h2>Profile</h2>
@@ -33,7 +33,7 @@ export default function Profile() {
         </Main>
       )
     }
-    else if (!data.name) {
+    else if (!data.name && shouldUpdate) {
       router.push("/sign-in")
       return (
         <Main title="Sign in">
