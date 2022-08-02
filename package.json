@@ -43,8 +43,7 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "ie 11"
+      "cover 100%"
     ],
     "development": [
       "last 1 chrome version",
