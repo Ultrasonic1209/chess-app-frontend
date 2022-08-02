@@ -43,7 +43,9 @@
   },
   "browserslist": {
     "production": [
-      "cover 100%"
+      ">0.2%",
+      "not dead",
+      "not ie 11"
     ],
     "development": [
       "last 1 chrome version",
