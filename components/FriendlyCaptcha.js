@@ -1,4 +1,5 @@
 // https://www.kindacode.com/article/react-check-if-user-device-is-in-dark-mode-light-mode/
+// https://stackoverflow.com/a/56198098
 
 import { useState, useEffect, useRef, forwardRef } from "react";
 import { WidgetInstance } from "friendly-challenge";
@@ -27,8 +28,7 @@ const FriendlyCaptcha = ({ sitekey, doneCallback, errorCallback, startMode }, wi
 
     const updateMode = (event) => {
       const colorScheme = event.matches ? "dark" : "light";
-      console.log(colorScheme); // "dark" or "light"
-      setMode(colorScheme);
+      setMode(colorScheme === "dark");
     }
 
     if (window.matchMedia) {
