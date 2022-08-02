@@ -23,7 +23,6 @@ const FriendlyCaptcha = ({ sitekey, doneCallback, errorCallback, startMode }, wi
         startMode: startMode || "none", // You could default to "auto" if you want to start even before interaction
         doneCallback: _doneCallback,
         errorCallback: _errorCallback,
-        skipStyleInjection: true
       });
     }
 
