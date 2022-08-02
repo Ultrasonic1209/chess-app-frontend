@@ -15,7 +15,7 @@ export default function Profile() {
 
     const [shouldUpdate, setShouldUpdate] = useState(true);
 
-    const { data, error, mutate } = useSWR(shouldUpdate ? 'https://apichessapp.server.ultras-playroom.xyz/login/identify' : null, fetcher)
+    const { data, error, isValidating, mutate } = useSWR(shouldUpdate ? 'https://apichessapp.server.ultras-playroom.xyz/login/identify' : null, fetcher)
 
     if (error) {
       return (
@@ -25,7 +25,7 @@ export default function Profile() {
         </Main>
       )
     }
-    else if (!data && shouldUpdate) {
+    else if (!data && isValidating) { // state changes are async, would prefer to avoid content flashes
       return (
         <Main title="Profile">
           <h2>Profile</h2>
