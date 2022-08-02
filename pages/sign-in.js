@@ -48,8 +48,8 @@ export default function SignIn() {
       .then(async (response) => {
         if (response.ok) {
           const result = await response.json();
-          setSuccess(result.accept)
-          setMessage(result.userFacingMessage);
+          setSuccess(result.accept || false)
+          setMessage(result.userFacingMessage || "An unknown error occured while logging you in.");
     
           // We should always reset the widget as a solution can not be used twice.
           resetWidget();
@@ -66,7 +66,7 @@ export default function SignIn() {
           }
         } else {
           setSuccess(false)
-          setMessage("An unknown error occured connecting to the server. HTTP " + response.status + " (" + response.statusText + ")");
+          setMessage("An unknown error occured while logging you in. HTTP " + response.status);
           setLoggingIn(false);
     
           // We should always reset the widget as a solution can not be used twice.
@@ -76,7 +76,7 @@ export default function SignIn() {
       .catch( (error) => {
         console.error('Log-in failed', error);
         setSuccess(false);
-        setMessage("An unknown error has occured.")
+        setMessage("An unknown error occured while connecting to the server.")
         setLoggingIn(false);
       })
     
