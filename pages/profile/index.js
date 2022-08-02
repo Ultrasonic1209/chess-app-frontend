@@ -6,13 +6,16 @@ import useSWR from 'swr'
 import { Button } from 'react-bootstrap';
 
 import { useToastContext } from "../../contexts/ToastContext";
+import { useState } from 'react';
 
 const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'}).then(r => r.json())
 export default function Profile() {
     const router = useRouter();
     const addToast = useToastContext();
 
-    const { data, error, mutate } = useSWR('https://apichessapp.server.ultras-playroom.xyz/login/identify', fetcher)
+    const [shouldUpdate, setShouldUpdate] = useState(true);
+
+    const { data, error, mutate } = useSWR(shouldUpdate ? 'https://apichessapp.server.ultras-playroom.xyz/login/identify' : null, fetcher)
 
     if (error) {
       return (
@@ -47,6 +50,7 @@ export default function Profile() {
         })
         .then(async (response) => {
           if (response.ok) {
+            setShouldUpdate(false)
             mutate({})
             addToast({
               "title": "Checkmate",
