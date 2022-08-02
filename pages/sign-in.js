@@ -55,7 +55,7 @@ export default function SignIn() {
           resetWidget();
         
           if (result.accept) {
-            mutate('https://apichessapp.server.ultras-playroom.xyz/login/identify', () => result.profile)
+            mutate('https://apichessapp.server.ultras-playroom.xyz/login/identify', result.profile)
             addToast({
               "title": "Checkmate",
               "message": "You have sucessfully logged in."
