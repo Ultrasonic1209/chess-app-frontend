@@ -5,6 +5,7 @@ import Head from 'next/head';
 
 import '../components/bootstrap-dark.min.css';
 import '../components/App.css';
+import '../components/FriendlyCaptcha.css'
 
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
