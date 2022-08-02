@@ -1,7 +1,7 @@
 // https://nextjs.org/docs/basic-features/data-fetching/client-side
 import { useRouter } from 'next/router'
 import Main from "../../components/Main";
-import useSWR, { useSWRConfig } from 'swr'
+import useSWR from 'swr'
 
 import { Button } from 'react-bootstrap';
 
@@ -12,8 +12,7 @@ export default function Profile() {
     const router = useRouter();
     const addToast = useToastContext();
 
-    const { data, error } = useSWR('https://apichessapp.server.ultras-playroom.xyz/login/identify', fetcher)
-    const { mutate } = useSWRConfig()
+    const { data, error, mutate } = useSWR('https://apichessapp.server.ultras-playroom.xyz/login/identify', fetcher)
 
     if (error) {
       return (
@@ -48,7 +47,7 @@ export default function Profile() {
         })
         .then(async (response) => {
           if (response.ok) {
-            mutate('https://apichessapp.server.ultras-playroom.xyz/login/identify', () => {})
+            mutate({})
             addToast({
               "title": "Checkmate",
               "message": "You have sucessfully logged out."
