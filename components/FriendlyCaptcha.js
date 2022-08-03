@@ -28,21 +28,17 @@ const FriendlyCaptcha = ({ sitekey, doneCallback, errorCallback, startMode }, wi
 
     const updateMode = (event) => setMode(event.matches);
 
-    if (window.matchMedia) {
-      window.matchMedia('(prefers-color-scheme: dark)')
-        .addEventListener('change', updateMode);
+    window.matchMedia?.('(prefers-color-scheme: dark)')
+      .addEventListener('change', updateMode);
 
-      setMode(window.matchMedia('(prefers-color-scheme: dark)').matches)
-    }
+    setMode((window.matchMedia?.('(prefers-color-scheme: dark)').matches) || false)
 
 
     return () => {
       if (widget.current != undefined) widget.current.destroy();
 
-      if (window.matchMedia) {
-        window.matchMedia('(prefers-color-scheme: dark)')
-          .removeEventListener('change', updateMode)
-      }
+      window.matchMedia?.('(prefers-color-scheme: dark)')
+        .removeEventListener('change', updateMode)
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [container]);
