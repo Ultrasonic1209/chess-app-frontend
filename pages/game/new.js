@@ -44,9 +44,6 @@ export default function Preferences() {
 
     return (
       <Main title="New Game">
-        <p>Gamemode: {gamemode}</p>
-        <p>Difficulty: {(gamemode === "BOT") ? difficulty : 'N/A'}</p>
-        <p>Starting colour: {starter}</p>
         <h2>New Game</h2>
         <Container id="selectGamemode" className="p-0 pt-3">
           <h5>Choose your gamemode</h5>
