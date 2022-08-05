@@ -10,7 +10,6 @@ export const db = new Dexie(
     'testDatabase',
     args
 );
-db.delete().then(() => db.open());
 db.version(1).stores({
-  games: '++id, gameType, gameWasWon', // Primary key and indexed props
+  games: '++id, gameType, colourPlaying, gameWon', // Primary key and indexed props
 });

@@ -8,7 +8,7 @@ import { useToastContext } from "../../contexts/ToastContext";
 
 import { db } from "../../db";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Chess } from "chess.js";
+import { Chess, BLACK, WHITE } from "chess.js";
 
 export default function Preferences() {
     const isOnline = useOnlineStatus();
@@ -49,13 +49,35 @@ export default function Preferences() {
           
       }
 
-      db.games.put({
+      // PGN only shows moves, it doesnt provide the absolute status of the board
+
+      while (!chess.game_over()) {
+        const moves = chess.moves()
+        const move = moves[Math.floor(Math.random() * moves.length)]
+        chess.move(move)
+      }
+
+      var gameWinner = "TIE";
+      if (chess.in_checkmate()) {
+        if (chess.turn() === BLACK) {
+          gameWinner = "WHITE"
+        } else if (chess.turn() === WHITE) {
+          gameWinner = "BLACK"
+        }
+      }
+
+      const payload = {
         gameType: "BOT",
         game: chess.pgn(),
         difficulty: difficulty,
-        gameWasWon: null
-      });
-      console.log(gamemode, difficulty, starter);
+        colourPlaying: starter,
+        gameWon: starter === gameWinner
+      }
+
+      console.log(payload)
+
+      db.games.put(payload);
+      console.log(gamemode, difficulty, starter, chess);
     }
 
     const difficultyEnabled = gamemode === "BOT";
@@ -65,7 +87,7 @@ export default function Preferences() {
       <Main title="New Game">
       <ul>
           {games?.map(game => <li key={game.id}>
-            ID: {game.id} Won: {game.gameWasWon} PGN: {game.game}
+            ID: {game.id} Color: {game.colourPlaying} Won: {game.gameWon.toString()} PGN: {game.game}
               </li>
             )
           }
