@@ -19,6 +19,8 @@ export default function Play() {
   const router = useRouter()
   const gameid = router.query.gameid || "1";
 
+  console.log(gameid);
+
   const addToast = useToastContext();
   const [chessboardSize, setChessboardSize] = useState(320);
 
