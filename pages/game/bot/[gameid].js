@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
 
 import { Chessboard } from "react-chessboard";
-import { Chess } from 'chess.js';
+import { Chess, WHITE, BLACK } from 'chess.js';
 
 import { Container } from "react-bootstrap";
 
@@ -93,6 +93,18 @@ export default function Play() {
   // eslint-disable-next-line no-unused-vars
   var [blackTimerActive, setBlackTimerActive] = useState(false);
   var blackTime = 48;
+
+  useEffect(() => {
+    const possibleMoves = game.moves();
+    if (game.game_over() || game.in_draw() || possibleMoves.length === 0) {
+        setWhiteTimerActive(false);
+        setBlackTimerActive(false);
+    } else {
+        setWhiteTimerActive(game.turn() === WHITE);
+        setBlackTimerActive(game.turn() === BLACK);
+    }
+
+  }, [game])
 
   console.log("board: " + game?.fen());
 

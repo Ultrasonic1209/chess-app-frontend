@@ -79,7 +79,7 @@ export default function Preferences() {
         } else if (chess.turn() === WHITE) {
           gameWinner = "BLACK"
         }
-      }*/
+      }
 
       const payload = {
         gameType: "BOT",
@@ -91,7 +91,7 @@ export default function Preferences() {
 
       console.log(payload)
 
-      db.games.put(payload);
+      db.games.put(payload);*/
       console.log(gamemode, difficulty, starter, chess);
     }
 
