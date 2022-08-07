@@ -8,6 +8,8 @@ import { Container } from "react-bootstrap";
 
 import Main from '../../../components/Main';
 
+import { useToastContext } from "../../../contexts/ToastContext";
+
 import { db } from "../../../db";
 import { useLiveQuery } from "dexie-react-hooks";
 
@@ -16,15 +18,15 @@ import CountUp from '../../../components/CountUp';
 export default function Play() {
   const router = useRouter()
   const gameid = router.query.gameid || "1";
+
+  const addToast = useToastContext();
   const [chessboardSize, setChessboardSize] = useState(320);
 
   const [game, setGame] = useState(new Chess());
 
   const storedgame = useLiveQuery(async () => {
     if (typeof window === 'undefined') { return }
-
-    console.log("gameid:" + gameid);
-    console.log("as int: " + parseInt(gameid))
+    
     const loadedgame = db.table("games").get(parseInt(gameid)).then((retrievedgame) => {
         console.log(retrievedgame);
         const gameCopy = { ...game };
@@ -49,7 +51,17 @@ export default function Play() {
     if (game.game_over() || game.in_draw() || possibleMoves.length === 0)
       return; // exit if the game is over
     const randomIndex = Math.floor(Math.random() * possibleMoves.length);
-    makeAMove(possibleMoves[randomIndex]);
+    const resp = makeAMove(possibleMoves[randomIndex]);
+    if (resp === true) {
+        db.table("games").update(parseInt(gameid), {"game": game.pgn()}).then(function(updated) {
+            if (!updated) {
+                addToast(
+                    "Checkmate Game ID " + parseInt(gameid),
+                    "Failed to save move"
+                )
+            }
+        })
+    }
   }
 
   function onDrop(sourceSquare, targetSquare) {
@@ -105,8 +117,6 @@ export default function Play() {
     }
 
   }, [game])
-
-  console.log("board: " + game?.fen());
 
   return (
     <Main title="Play">
