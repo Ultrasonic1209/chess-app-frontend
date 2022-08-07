@@ -17,9 +17,17 @@ import CountUp from '../../../components/CountUp';
 
 export default function Play() {
   const router = useRouter()
-  const gameid = router.query.gameid || "1";
+  const gameid = parseInt(router.query.gameid);
 
-  console.log(router.query);
+  if (isNaN(game)) {
+    router.push("/").then(() => {
+        addToast(
+          "Checkmate Game ID " + gameid,
+          "Invalid ID"
+        )
+      }
+    )
+  }
 
   const addToast = useToastContext();
   const [chessboardSize, setChessboardSize] = useState(320);
