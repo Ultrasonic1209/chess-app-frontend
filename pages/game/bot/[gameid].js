@@ -19,15 +19,17 @@ export default function Play() {
   const router = useRouter()
   const gameid = parseInt(router.query.gameid);
 
-  if (isNaN(game)) {
-    router.push("/").then(() => {
-        addToast(
-          "Checkmate Game ID " + gameid,
-          "Invalid ID"
-        )
-      }
-    )
-  }
+  useEffect(() => {
+    if (isNaN(gameid) && (typeof window != 'undefined')) {
+      router.push("/").then(() => {
+        addToast({
+          "title": "Checkmate Game ID " + router.query.gameid,
+          "message": "Invalid ID"
+        })
+      })
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // empty because i dont want this running more than once. best way is to not make it listen for changes in variables!
 
   const addToast = useToastContext();
   const [chessboardSize, setChessboardSize] = useState(320);
@@ -35,7 +37,7 @@ export default function Play() {
   const [game, setGame] = useState(new Chess());
 
   const storedgame = useLiveQuery(async () => {
-    if (typeof window === 'undefined') { return }
+    if ((typeof window === 'undefined') || isNaN(gameid)) { return }
 
     const loadedgame = db.table("games").get(gameid).then((retrievedgame) => {
         console.log(retrievedgame);
