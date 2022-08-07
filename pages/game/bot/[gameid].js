@@ -22,6 +22,7 @@ export default function Play() {
   useEffect(() => {
     if (isNaN(gameid) && (typeof window != 'undefined')) {
       router.push("/").then(() => {
+        console.log(router);
         addToast({
           "title": "Checkmate Game ID " + router.query.gameid,
           "message": "Invalid ID"
