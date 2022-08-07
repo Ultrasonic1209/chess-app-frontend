@@ -37,7 +37,7 @@ export default function Play() {
   const storedgame = useLiveQuery(async () => {
     if (typeof window === 'undefined') { return }
 
-    const loadedgame = db.table("games").get(parseInt(gameid)).then((retrievedgame) => {
+    const loadedgame = db.table("games").get(gameid).then((retrievedgame) => {
         console.log(retrievedgame);
         const gameCopy = { ...game };
         gameCopy.reset()
@@ -58,10 +58,10 @@ export default function Play() {
     console.log(result);
     if (result) {
         console.log(gameCopy.pgn());
-        db.table("games").update(parseInt(gameid), {"game": gameCopy.pgn()}).then(function(updated) {
+        db.table("games").update(gameid, {"game": gameCopy.pgn()}).then(function(updated) {
             if (!updated) {
                 addToast(
-                    "Checkmate Game ID " + parseInt(gameid),
+                    "Checkmate Game ID " + gameid,
                     "Failed to save move"
                 )
             }
