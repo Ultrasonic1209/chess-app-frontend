@@ -26,7 +26,7 @@ export default function Play() {
 
   const storedgame = useLiveQuery(async () => {
     if (typeof window === 'undefined') { return }
-    
+
     const loadedgame = db.table("games").get(parseInt(gameid)).then((retrievedgame) => {
         console.log(retrievedgame);
         const gameCopy = { ...game };
@@ -42,7 +42,21 @@ export default function Play() {
   function makeAMove(move) {
     const gameCopy = { ...game };
     const result = gameCopy.move(move);
+
     setGame(gameCopy);
+    
+    console.log(result);
+    if (result) {
+        console.log(gameCopy.pgn());
+        db.table("games").update(parseInt(gameid), {"game": gameCopy.pgn()}).then(function(updated) {
+            if (!updated) {
+                addToast(
+                    "Checkmate Game ID " + parseInt(gameid),
+                    "Failed to save move"
+                )
+            }
+        })
+    }
     return result; // null if the move was illegal, the move object if the move was legal
   }
 
@@ -52,16 +66,7 @@ export default function Play() {
       return; // exit if the game is over
     const randomIndex = Math.floor(Math.random() * possibleMoves.length);
     const resp = makeAMove(possibleMoves[randomIndex]);
-    if (resp === true) {
-        db.table("games").update(parseInt(gameid), {"game": game.pgn()}).then(function(updated) {
-            if (!updated) {
-                addToast(
-                    "Checkmate Game ID " + parseInt(gameid),
-                    "Failed to save move"
-                )
-            }
-        })
-    }
+    return resp;
   }
 
   function onDrop(sourceSquare, targetSquare) {
