@@ -3,14 +3,18 @@ import Main from "../../components/Main";
 import { useState } from "react";
 import { Button, Container, ListGroup } from "react-bootstrap";
 
+import { useRouter } from 'next/router'
+
 import { useOnlineStatus } from "../../contexts/OnlineStatus";
 import { useToastContext } from "../../contexts/ToastContext";
 
 import { db } from "../../db";
-import { useLiveQuery } from "dexie-react-hooks";
-import { Chess, BLACK, WHITE } from "chess.js";
+//import { useLiveQuery } from "dexie-react-hooks";
+import { Chess/*, BLACK, WHITE*/ } from "chess.js";
 
 export default function Preferences() {
+    const router = useRouter();
+
     const isOnline = useOnlineStatus();
     const addToast = useToastContext();
 
@@ -22,18 +26,29 @@ export default function Preferences() {
     const difficultyOnClick = (ev) => setDifficulty(ev.target.getAttribute("data-difficulty"));
     const starterOnClick = (ev) => setStarter(ev.target.getAttribute("data-starter"));
 
-    const games = useLiveQuery(
+    /*const games = useLiveQuery(
       () => db.games.toArray()
-    );
+    );*/
 
     // eslint-disable-next-line no-unused-vars
-    const createGame = (ev) => {
+    const createGame = async (ev) => {
 
       const chess = new Chess()
 
       switch (gamemode) {
         case "BOT":
-
+            var key = await db.games.put({
+              gameType: "BOT",
+              game: chess.pgn(),
+              difficulty: difficulty,
+              colourPlaying: starter,
+              gameWon: null//starter === gameWinner
+            });
+            addToast({
+              "title": "Checkmate",
+              "message": "Game created. ID" + key
+            });
+            router.push("/game/bot/" + key);
           break;
         case "LOCAL":
 
@@ -51,7 +66,7 @@ export default function Preferences() {
 
       // PGN only shows moves, it doesnt provide the absolute status of the board
 
-      while (!chess.game_over()) {
+      /*while (!chess.game_over()) {
         const moves = chess.moves()
         const move = moves[Math.floor(Math.random() * moves.length)]
         chess.move(move)
@@ -64,14 +79,14 @@ export default function Preferences() {
         } else if (chess.turn() === WHITE) {
           gameWinner = "BLACK"
         }
-      }
+      }*/
 
       const payload = {
         gameType: "BOT",
         game: chess.pgn(),
         difficulty: difficulty,
         colourPlaying: starter,
-        gameWon: starter === gameWinner
+        gameWon: null//starter === gameWinner
       }
 
       console.log(payload)
@@ -83,15 +98,16 @@ export default function Preferences() {
     const difficultyEnabled = gamemode === "BOT";
     const starterEnabled = (difficultyEnabled && difficulty) || (!difficultyEnabled && gamemode);
 
-    return (
-      <Main title="New Game">
-      <ul>
+    /*       <ul>
           {games?.map(game => <li key={game.id}>
             ID: {game.id} Color: {game.colourPlaying} Won: {game.gameWon.toString()} PGN: {game.game}
               </li>
             )
           }
-        </ul>
+        </ul> */
+
+    return (
+      <Main title="New Game">
         <h2>New Game</h2>
         <Container id="selectGamemode" className="p-0 pt-3">
           <h5>Choose your gamemode</h5>
