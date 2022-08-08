@@ -32,7 +32,7 @@ export default function Play() {
       });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameid]);
+  }, [isReady]);
 
   const addToast = useToastContext();
   const [chessboardSize, setChessboardSize] = useState(320);
@@ -71,7 +71,7 @@ export default function Play() {
     });
 
     return loadedgame;
-  }, [isReady, gameid]);
+  }, [isReady]);
 
   function makeAMove(move) {
     const gameCopy = { ...game };
