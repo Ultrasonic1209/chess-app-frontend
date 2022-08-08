@@ -23,7 +23,6 @@ export default function Play() {
   useEffect(() => {
     if (isNaN(gameid) && (typeof window != 'undefined') && (router.isReady === true)) {
       router.push("/").then(() => {
-        console.log(router);
         addToast({
           "title": "Checkmate Local Game ID " + router.query.gameid,
           "message": "Invalid ID"
@@ -40,13 +39,11 @@ export default function Play() {
 
   const storedgame = useLiveQuery(async () => {
     if ((typeof window === 'undefined') || isNaN(gameid) || (router.isReady === false)) { return }
-    console.log("Getting game " + gameid)
 
     const loadedgame = db.table("games").get(gameid)
     .then((retrievedgame) => {
         if (!retrievedgame) {
           router.push("/").then(() => {
-            console.log(router);
             addToast({
               "title": "Checkmate Local Game ID " + router.query.gameid,
               "message": "No game could be found"
@@ -54,7 +51,6 @@ export default function Play() {
           })
           return;
         }
-        console.log(retrievedgame, game);
         const gameCopy = { ...game };
         gameCopy.reset();
         gameCopy.load_pgn(retrievedgame.game);
@@ -78,9 +74,7 @@ export default function Play() {
 
     setGame(gameCopy);
     
-    console.log(result);
     if (result) {
-        console.log(gameCopy.pgn());
         db.table("games").update(gameid, {"game": gameCopy.pgn()}).then(function(updated) {
             if (!updated) {
                 addToast(
