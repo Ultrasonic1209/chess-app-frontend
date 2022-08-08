@@ -39,8 +39,9 @@ export default function Play() {
   const [game, setGame] = useState(new Chess());
 
   const storedgame = useLiveQuery(async () => {
-    if ((typeof window === 'undefined') || isNaN(gameid)) { return }
     console.log("Getting game " + gameid)
+    if ((typeof window === 'undefined') || isNaN(gameid)) { return }
+    console.log("Still getting game " + gameid)
 
     const loadedgame = db.table("games").get(gameid)
     .then((retrievedgame) => {
