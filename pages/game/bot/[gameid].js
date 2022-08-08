@@ -139,6 +139,11 @@ export default function Play() {
 
   }, [storedgame, game])
 
+  const placeholderStyle = {
+    width: chessboardSize + "px",
+    height: chessboardSize + "px"
+  }
+
   return (
     <Main title="Play">
       <h2>Play</h2>
@@ -147,7 +152,7 @@ export default function Play() {
         {
             storedgame
             ? (<Chessboard position={game.fen()} onPieceDrop={onDrop} id="BasicBoard" boardWidth={chessboardSize}/>)
-            : (<Container style={"width: " + chessboardSize + "px; height: " + chessboardSize + "px;"} >Loading</Container>)
+            : (<Container id="BasicBoard" className={"bg-secondary"} style={placeholderStyle} >Loading</Container>)
         }
         <div className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
           <Container>
