@@ -18,6 +18,7 @@ import CountUp from '../../../components/CountUp';
 export default function Play() {
   const router = useRouter()
   const gameid = parseInt(router.query.gameid);
+  const isReady = router.isReady
 
   useEffect(() => {
     console.log(router);
@@ -61,7 +62,7 @@ export default function Play() {
     })
 
     return loadedgame
-  });
+  }, [isReady]);
 
   function makeAMove(move) {
     const gameCopy = { ...game };
