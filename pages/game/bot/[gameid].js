@@ -21,7 +21,6 @@ export default function Play() {
   const isReady = router.isReady;
 
   useEffect(() => {
-    console.log("rechecking gameid validity!")
     if (isNaN(gameid) && (typeof window != 'undefined') && (router.isReady === true)) {
       router.push("/").then(() => {
         console.log(router);
@@ -40,7 +39,7 @@ export default function Play() {
   const [game, setGame] = useState(new Chess());
 
   const storedgame = useLiveQuery(async () => {
-    if ((typeof window === 'undefined') || isNaN(gameid)) { return }
+    if ((typeof window === 'undefined') || isNaN(gameid) && (router.isReady === true)) { return }
     console.log("Getting game " + gameid)
 
     const loadedgame = db.table("games").get(gameid)
