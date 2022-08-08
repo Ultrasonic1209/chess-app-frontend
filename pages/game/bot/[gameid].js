@@ -39,6 +39,7 @@ export default function Play() {
 
   const storedgame = useLiveQuery(async () => {
     if ((typeof window === 'undefined') || isNaN(gameid)) { return }
+    console.log("Getting game " + gameid)
 
     const loadedgame = db.table("games").get(gameid)
     .then((retrievedgame) => {
