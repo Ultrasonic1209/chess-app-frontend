@@ -40,13 +40,21 @@ export default function Play() {
   const storedgame = useLiveQuery(async () => {
     if ((typeof window === 'undefined') || isNaN(gameid)) { return }
 
-    const loadedgame = db.table("games").get(gameid).then((retrievedgame) => {
+    const loadedgame = db.table("games").get(gameid)
+    .then((retrievedgame) => {
         console.log(retrievedgame);
         const gameCopy = { ...game };
         gameCopy.reset()
         gameCopy.load_pgn(retrievedgame.game);
         setGame(gameCopy);
         return retrievedgame;
+    })
+    .catch((reason) => {
+      console.error(reason);
+      addToast({
+        "title": "Checkmate Game ID " + router.query.gameid,
+        "message": "Loading Failure"
+      })
     })
 
     return loadedgame
