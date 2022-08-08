@@ -37,18 +37,22 @@ export default function Preferences() {
 
       switch (gamemode) {
         case "BOT":
-            var key = await db.games.put({
-              gameType: "BOT",
-              game: chess.pgn(),
-              difficulty: difficulty,
-              colourPlaying: starter,
-              gameWon: null//starter === gameWinner
-            });
-            addToast({
-              "title": "Checkmate",
-              "message": "Local Game created. ID " + key
-            });
-            router.push("/game/bot/" + key);
+          var toStarter = starter;
+          if (toStarter === "ANY") {
+            toStarter = Math.random() < 0.5 ? "WHITE" : "BLACK";
+          }
+          var key = await db.games.put({
+            gameType: "BOT",
+            game: chess.pgn(),
+            difficulty: difficulty,
+            colourPlaying: starter,
+            gameWon: null//starter === gameWinner
+          });
+          addToast({
+            "title": "Checkmate",
+            "message": "Local Game created. ID " + key
+          });
+          router.push("/game/bot/" + key);
           break;
         case "LOCAL":
 

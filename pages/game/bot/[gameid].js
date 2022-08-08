@@ -123,6 +123,13 @@ export default function Play() {
     return resp;
   }
 
+  useEffect(() => {
+    if (storedgame?.game === '') {
+      makeRandomMove()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storedgame])
+
   function onDrop(sourceSquare, targetSquare) {
     const move = makeAMove({
       from: sourceSquare,
@@ -163,7 +170,7 @@ export default function Play() {
 
   // eslint-disable-next-line no-unused-vars
   var [blackTimerActive, setBlackTimerActive] = useState(false);
-  var blackTime = 48;
+  var blackTime = 0;
 
   useEffect(() => {
     const possibleMoves = game.moves();
