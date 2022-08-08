@@ -75,7 +75,8 @@ export default function Play() {
     setGame(gameCopy);
     
     if (result) {
-        db.table("games").update(gameid, {"game": gameCopy.pgn()}).then(function(updated) {
+        db.table("games").update(gameid, {"game": gameCopy.pgn()})
+        .then(function(updated) {
             if (!updated) {
                 addToast(
                     "Checkmate Local Game ID " + gameid,
@@ -90,9 +91,30 @@ export default function Play() {
   function makeRandomMove() {
     const possibleMoves = game.moves();
     if (game.game_over() || game.in_draw() || possibleMoves.length === 0) {
-      addToast({
-        "title": "Checkmate Local Game ID " + router.query.gameid,
-        "message": "Game Over"
+
+      var gameWinner = "TIE";
+      if (game.in_checkmate()) {
+        if (game.turn() === BLACK) {
+          gameWinner = "WHITE"
+        } else if (game.turn() === WHITE) {
+          gameWinner = "BLACK"
+        }
+      }
+      db.table("games").update(gameid, {
+        gameWon: storedgame.starter === gameWinner
+      })
+      .then(function(updated) {
+        if (updated) {
+          addToast({
+            "title": "Checkmate Local Game ID " + router.query.gameid,
+            "message": "Game Over. Winner: " + gameWinner
+          });
+        } else {
+          addToast({
+            "title": "Checkmate Local Game ID " + gameid,
+            "message": "Game Over. Winner: " + gameWinner + "\nFailed to save win."
+          });
+        }
       });
       return;
     }
