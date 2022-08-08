@@ -20,7 +20,7 @@ export default function Play() {
   const gameid = parseInt(router.query.gameid);
 
   useEffect(() => {
-    if (isNaN(gameid) && (typeof window != 'undefined')) {
+    if (isNaN(gameid) && (typeof window != 'undefined') && (router.isReady === true)) {
       router.push("/").then(() => {
         console.log(router);
         addToast({
