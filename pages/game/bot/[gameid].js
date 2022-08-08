@@ -21,7 +21,6 @@ export default function Play() {
   const isReady = router.isReady
 
   useEffect(() => {
-    console.log(router);
     if (isNaN(gameid) && (typeof window != 'undefined') && (router.isReady === true)) {
       router.push("/").then(() => {
         console.log(router);
@@ -40,13 +39,12 @@ export default function Play() {
   const [game, setGame] = useState(new Chess());
 
   const storedgame = useLiveQuery(async () => {
-    console.log("Getting game " + gameid)
     if ((typeof window === 'undefined') || isNaN(gameid)) { return }
-    console.log("Still getting game " + gameid)
+    console.log("Getting game " + gameid)
 
     const loadedgame = db.table("games").get(gameid)
     .then((retrievedgame) => {
-        console.log(retrievedgame);
+        console.log(retrievedgame, game);
         const gameCopy = { ...game };
         gameCopy.reset()
         gameCopy.load_pgn(retrievedgame.game);
