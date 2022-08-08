@@ -21,6 +21,7 @@ export default function Play() {
   const isReady = router.isReady;
 
   useEffect(() => {
+    console.log("rechecking gameid validity!")
     if (isNaN(gameid) && (typeof window != 'undefined') && (router.isReady === true)) {
       router.push("/").then(() => {
         console.log(router);
