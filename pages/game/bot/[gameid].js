@@ -39,7 +39,7 @@ export default function Play() {
   const [game, setGame] = useState(new Chess());
 
   const storedgame = useLiveQuery(async () => {
-    if ((typeof window === 'undefined') || isNaN(gameid) && (router.isReady === true)) { return }
+    if ((typeof window === 'undefined') || isNaN(gameid) || (router.isReady === false)) { return }
     console.log("Getting game " + gameid)
 
     const loadedgame = db.table("games").get(gameid)
