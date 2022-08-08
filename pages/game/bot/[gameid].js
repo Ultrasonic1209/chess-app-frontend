@@ -60,7 +60,7 @@ export default function Play() {
     .catch((reason) => {
       console.error(reason);
       addToast({
-        "title": "Checkmate Game ID " + router.query.gameid,
+        "title": "Checkmate Local Game ID " + router.query.gameid,
         "message": "Loading Failure"
       });
     });
@@ -78,7 +78,7 @@ export default function Play() {
         db.table("games").update(gameid, {"game": gameCopy.pgn()}).then(function(updated) {
             if (!updated) {
                 addToast(
-                    "Checkmate Game ID " + gameid,
+                    "Checkmate Local Game ID " + gameid,
                     "Failed to save move"
                 );
             }
@@ -89,8 +89,13 @@ export default function Play() {
 
   function makeRandomMove() {
     const possibleMoves = game.moves();
-    if (game.game_over() || game.in_draw() || possibleMoves.length === 0)
-      return; // exit if the game is over
+    if (game.game_over() || game.in_draw() || possibleMoves.length === 0) {
+      addToast({
+        "title": "Checkmate Local Game ID " + router.query.gameid,
+        "message": "Game Over"
+      });
+      return;
+    }
     const randomIndex = Math.floor(Math.random() * possibleMoves.length);
     const resp = makeAMove(possibleMoves[randomIndex]);
     return resp;
