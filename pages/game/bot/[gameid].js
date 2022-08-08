@@ -144,7 +144,7 @@ export default function Play() {
         {
             storedgame
             ? (<Chessboard position={game.fen()} onPieceDrop={onDrop} id="BasicBoard" boardWidth={chessboardSize}/>)
-            : (<Container width={chessboardSize} height={chessboardSize}>Loading</Container>)
+            : (<Container style={"width: " + chessboardSize + "px; height: " + chessboardSize + "px;"} >Loading</Container>)
         }
         <div className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
           <Container>
