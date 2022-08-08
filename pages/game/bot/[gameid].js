@@ -32,7 +32,7 @@ export default function Play() {
       })
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []) // empty because i dont want this running more than once. best way is to not make it listen for changes in variables!
+  }, [isReady, gameid])
 
   const addToast = useToastContext();
   const [chessboardSize, setChessboardSize] = useState(320);
@@ -62,7 +62,7 @@ export default function Play() {
     })
 
     return loadedgame
-  }, [isReady]);
+  }, [isReady, gameid]);
 
   function makeAMove(move) {
     const gameCopy = { ...game };
