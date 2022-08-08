@@ -31,7 +31,7 @@ export default function Play() {
       });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isReady, gameid]);
+  }, [gameid]);
 
   const addToast = useToastContext();
   const [chessboardSize, setChessboardSize] = useState(320);
