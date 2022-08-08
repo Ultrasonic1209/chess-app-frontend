@@ -101,7 +101,7 @@ export default function Play() {
         }
       }
       db.table("games").update(gameid, {
-        gameWon: storedgame.starter === gameWinner
+        gameWon: gameWinner
       })
       .then(function(updated) {
         if (updated) {
@@ -124,7 +124,7 @@ export default function Play() {
   }
 
   useEffect(() => {
-    if (storedgame?.game === '') {
+    if ((storedgame?.game === '') && (storedgame?.colourPlaying === "BLACK")) {
       makeRandomMove()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

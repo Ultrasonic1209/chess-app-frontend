@@ -22,13 +22,9 @@ export default function Preferences() {
     const [difficulty, setDifficulty] = useState();
     const [starter, setStarter] = useState("ANY");
 
-    const gamemodeOnClick = (ev) => setGamemode(ev.target.getAttribute("data-gamemode"));
-    const difficultyOnClick = (ev) => setDifficulty(ev.target.getAttribute("data-difficulty"));
-    const starterOnClick = (ev) => setStarter(ev.target.getAttribute("data-starter"));
-
-    /*const games = useLiveQuery(
-      () => db.games.toArray()
-    );*/
+    const gamemodeOnClick = (ev) => setGamemode(ev.target.dataset.gamemode);
+    const difficultyOnClick = (ev) => setDifficulty(ev.target.dataset.difficulty);
+    const starterOnClick = (ev) => setStarter(ev.target.dataset.starter);
 
     // eslint-disable-next-line no-unused-vars
     const createGame = async (ev) => {
@@ -67,48 +63,11 @@ export default function Preferences() {
           });
           
       }
-
-      // PGN only shows moves, it doesnt provide the absolute status of the board
-
-      /*while (!chess.game_over()) {
-        const moves = chess.moves()
-        const move = moves[Math.floor(Math.random() * moves.length)]
-        chess.move(move)
-      }
-
-      var gameWinner = "TIE";
-      if (chess.in_checkmate()) {
-        if (chess.turn() === BLACK) {
-          gameWinner = "WHITE"
-        } else if (chess.turn() === WHITE) {
-          gameWinner = "BLACK"
-        }
-      }
-
-      const payload = {
-        gameType: "BOT",
-        game: chess.pgn(),
-        difficulty: difficulty,
-        colourPlaying: starter,
-        gameWon: null//starter === gameWinner
-      }
-
-      console.log(payload)
-
-      db.games.put(payload);*/
       console.log(gamemode, difficulty, starter, chess);
     }
 
     const difficultyEnabled = gamemode === "BOT";
     const starterEnabled = (difficultyEnabled && difficulty) || (!difficultyEnabled && gamemode);
-
-    /*       <ul>
-          {games?.map(game => <li key={game.id}>
-            ID: {game.id} Color: {game.colourPlaying} Won: {game.gameWon.toString()} PGN: {game.game}
-              </li>
-            )
-          }
-        </ul> */
 
     return (
       <Main title="New Game">
