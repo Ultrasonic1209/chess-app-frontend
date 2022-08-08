@@ -127,14 +127,17 @@ export default function Play() {
   useEffect(() => {
     const possibleMoves = game.moves();
     if (game.game_over() || game.in_draw() || possibleMoves.length === 0) {
-        setWhiteTimerActive(false);
-        setBlackTimerActive(false);
+      setWhiteTimerActive(false);
+      setBlackTimerActive(false);
+    } else if (!storedgame) {
+      setWhiteTimerActive(false);
+      setBlackTimerActive(false);
     } else {
-        setWhiteTimerActive(game.turn() === WHITE);
-        setBlackTimerActive(game.turn() === BLACK);
+      setWhiteTimerActive(game.turn() === WHITE);
+      setBlackTimerActive(game.turn() === BLACK);
     }
 
-  }, [game])
+  }, [storedgame, game])
 
   return (
     <Main title="Play">
