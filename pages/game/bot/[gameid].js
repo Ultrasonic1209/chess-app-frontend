@@ -16,22 +16,22 @@ import { useLiveQuery } from "dexie-react-hooks";
 import CountUp from '../../../components/CountUp';
 
 export default function Play() {
-  const router = useRouter()
+  const router = useRouter();
   const gameid = parseInt(router.query.gameid);
-  const isReady = router.isReady
+  const isReady = router.isReady;
 
   useEffect(() => {
     if (isNaN(gameid) && (typeof window != 'undefined') && (router.isReady === true)) {
       router.push("/").then(() => {
         console.log(router);
         addToast({
-          "title": "Checkmate Game ID " + router.query.gameid,
+          "title": "Checkmate Local Game ID " + router.query.gameid,
           "message": "Invalid ID"
-        })
-      })
+        });
+      });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isReady, gameid])
+  }, [isReady, gameid]);
 
   const addToast = useToastContext();
   const [chessboardSize, setChessboardSize] = useState(320);
@@ -44,9 +44,19 @@ export default function Play() {
 
     const loadedgame = db.table("games").get(gameid)
     .then((retrievedgame) => {
+        if (!retrievedgame) {
+          router.push("/").then(() => {
+            console.log(router);
+            addToast({
+              "title": "Checkmate Local Game ID " + router.query.gameid,
+              "message": "No game could be found"
+            });
+          })
+          return;
+        }
         console.log(retrievedgame, game);
         const gameCopy = { ...game };
-        gameCopy.reset()
+        gameCopy.reset();
         gameCopy.load_pgn(retrievedgame.game);
         setGame(gameCopy);
         return retrievedgame;
@@ -56,10 +66,10 @@ export default function Play() {
       addToast({
         "title": "Checkmate Game ID " + router.query.gameid,
         "message": "Loading Failure"
-      })
-    })
+      });
+    });
 
-    return loadedgame
+    return loadedgame;
   }, [isReady, gameid]);
 
   function makeAMove(move) {
@@ -76,9 +86,9 @@ export default function Play() {
                 addToast(
                     "Checkmate Game ID " + gameid,
                     "Failed to save move"
-                )
+                );
             }
-        })
+        });
     }
     return result; // null if the move was illegal, the move object if the move was legal
   }
