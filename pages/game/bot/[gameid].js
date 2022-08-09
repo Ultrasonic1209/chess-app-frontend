@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router'
 
 import { Chessboard } from "react-chessboard";
@@ -68,9 +68,26 @@ export default function Play() {
     return loadedgame;
   }, [isReady]);
 
+  const whiteTimer = useRef(null);
+  const blackTimer = useRef(null);
+
+  // eslint-disable-next-line no-unused-vars
+  const [whiteTimerActive, setWhiteTimerActive] = useState(true);
+  var whiteTime = 0;
+
+  // eslint-disable-next-line no-unused-vars
+  const [blackTimerActive, setBlackTimerActive] = useState(false);
+  var blackTime = 0;
+
+
   function makeAMove(move) {
+    const gametime = parseInt(whiteTimer.current.dataset.time) + parseInt(blackTimer.current.dataset.time);
+
+    console.log(gametime)
+
     const gameCopy = { ...game };
     const result = gameCopy.move(move);
+    //gameCopy.set_comment("[%clk 0:29:59]");
 
     setGame(gameCopy);
     
@@ -164,14 +181,6 @@ export default function Play() {
       return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-  // eslint-disable-next-line no-unused-vars
-  var [whiteTimerActive, setWhiteTimerActive] = useState(true);
-  var whiteTime = 0;
-
-  // eslint-disable-next-line no-unused-vars
-  var [blackTimerActive, setBlackTimerActive] = useState(false);
-  var blackTime = 0;
-
   useEffect(() => {
     const possibleMoves = game.moves();
     if (game.game_over() || game.in_draw() || possibleMoves.length === 0) {
@@ -205,8 +214,8 @@ export default function Play() {
         <div className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
           <Container>
             <div className="row row-cols-2">
-              <div id="whiteTimer" className={"col chessMove align-self-start bg-white text-dark text-center"}>Time: <b><CountUp initial={whiteTime} running={whiteTimerActive}/></b></div>
-              <div id="blackTimer" className={"col chessMove align-self-end bg-secondary text-center"}>Time: <b><CountUp initial={blackTime} running={blackTimerActive}/></b></div>
+              <div id="whiteTimer" className={"col chessMove align-self-start bg-white text-dark text-center"}>Time: <b><CountUp initial={whiteTime} running={whiteTimerActive} ref={whiteTimer}/></b></div>
+              <div id="blackTimer" className={"col chessMove align-self-end bg-secondary text-center"}>Time: <b><CountUp initial={blackTime} running={blackTimerActive} ref={blackTimer}/></b></div>
               <div className={"col chessMove align-self-start text-center"}>b2b3</div>
               <div className={"col chessMove align-self-end text-center"}>ejdfoqfhqhu</div>
             </div>
