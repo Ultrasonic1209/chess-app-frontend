@@ -13,7 +13,11 @@ import { useToastContext } from "../../../contexts/ToastContext";
 import { db } from "../../../db";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import CountUp from '../../../components/CountUp';
+import CountUp, { round, secondsToTime } from '../../../components/CountUp';
+
+const clkRegex = new RegExp(
+  /\[%clk (?<hours>([0-9][0-9])+):(?<minutes>[0-5][0-9]):(?<seconds>[0-5][0-9]\.[0-9])]/g
+);
 
 export default function Play() {
   const router = useRouter();
@@ -37,6 +41,17 @@ export default function Play() {
 
   const [game, setGame] = useState(new Chess());
 
+  const whiteTimer = useRef(null);
+  const blackTimer = useRef(null);
+
+  // eslint-disable-next-line no-unused-vars
+  const [whiteTimerActive, setWhiteTimerActive] = useState(true);
+  const [whiteTime, setWhiteTime] = useState(0.0);
+
+  // eslint-disable-next-line no-unused-vars
+  const [blackTimerActive, setBlackTimerActive] = useState(false);
+  const [blackTime, setBlackTime] = useState(0.0);
+
   const storedgame = useLiveQuery(async () => {
     if ((typeof window === 'undefined') || isNaN(gameid) || (router.isReady === false)) { return }
 
@@ -54,6 +69,41 @@ export default function Play() {
         const gameCopy = { ...game };
         gameCopy.reset();
         gameCopy.load_pgn(retrievedgame.game);
+
+        const comments = gameCopy.get_comments()
+
+        const times = comments.map((comment) => {
+          const text = comment.comment
+
+          const { hours, minutes, seconds } = clkRegex.exec(text).groups;
+          clkRegex.lastIndex = 0;
+
+          return (parseInt(hours) * 3600) + (parseInt(minutes) * 60) + parseFloat(seconds)
+        })
+
+        console.log(times);
+
+        var isWhite = true;
+        var lastValue = 0;
+
+        var white = 0;
+        var black = 0;
+
+        times.forEach((time) => {
+          if (isWhite) {
+            white += time - lastValue;
+          } else {
+            black += time - lastValue;
+          }
+          isWhite = !isWhite;
+          lastValue = time;
+        })
+
+        console.log(white, whiteTime);
+
+        setWhiteTime(white)
+        setBlackTime(black);
+
         setGame(gameCopy);
         return retrievedgame;
     })
@@ -68,26 +118,16 @@ export default function Play() {
     return loadedgame;
   }, [isReady]);
 
-  const whiteTimer = useRef(null);
-  const blackTimer = useRef(null);
-
-  // eslint-disable-next-line no-unused-vars
-  const [whiteTimerActive, setWhiteTimerActive] = useState(true);
-  var whiteTime = 0;
-
-  // eslint-disable-next-line no-unused-vars
-  const [blackTimerActive, setBlackTimerActive] = useState(false);
-  var blackTime = 0;
-
 
   function makeAMove(move) {
-    const gametime = parseInt(whiteTimer.current.dataset.time) + parseInt(blackTimer.current.dataset.time);
+    const gametime = round(parseFloat(whiteTimer.current.dataset.time) + parseFloat(blackTimer.current.dataset.time), 1);
+    const formattedtime = secondsToTime(gametime);
 
-    console.log(gametime)
+    console.log(gametime, formattedtime)
 
     const gameCopy = { ...game };
     const result = gameCopy.move(move);
-    //gameCopy.set_comment("[%clk 0:29:59]");
+    gameCopy.set_comment(`[%clk ${formattedtime}}]`);
 
     setGame(gameCopy);
     
@@ -214,8 +254,8 @@ export default function Play() {
         <div className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
           <Container>
             <div className="row row-cols-2">
-              <div id="whiteTimer" className={"col chessMove align-self-start bg-white text-dark text-center"}>Time: <b><CountUp initial={whiteTime} running={whiteTimerActive} ref={whiteTimer}/></b></div>
-              <div id="blackTimer" className={"col chessMove align-self-end bg-secondary text-center"}>Time: <b><CountUp initial={blackTime} running={blackTimerActive} ref={blackTimer}/></b></div>
+              <div id="whiteTimer" className={"col chessMove align-self-start bg-white text-dark text-center"}>Time: <b><CountUp getTime={whiteTime} setTime={setWhiteTime} running={whiteTimerActive} ref={whiteTimer}/></b></div>
+              <div id="blackTimer" className={"col chessMove align-self-end bg-secondary text-center"}>Time: <b><CountUp getTime={blackTime} setTime={setBlackTime} running={blackTimerActive} ref={blackTimer}/></b></div>
               <div className={"col chessMove align-self-start text-center"}>b2b3</div>
               <div className={"col chessMove align-self-end text-center"}>ejdfoqfhqhu</div>
             </div>
