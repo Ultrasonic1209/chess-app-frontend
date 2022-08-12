@@ -25,3 +25,9 @@
 body {
     overscroll-behavior-y: contain;
 }
+
+@media (min-width: 992px) {
+    #moveBoard {
+        max-width: 48%;
+    }
+}

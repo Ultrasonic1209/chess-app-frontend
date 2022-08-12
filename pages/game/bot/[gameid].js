@@ -28,7 +28,7 @@ export default function Play() {
     if (isNaN(gameid) && (typeof window != 'undefined') && (router.isReady === true)) {
       router.push("/").then(() => {
         addToast({
-          "title": "Checkmate Local Game ID " + router.query.gameid,
+          "title": "Checkmate Bot Game ID " + router.query.gameid,
           "message": "Invalid ID"
         });
       });
@@ -40,6 +40,10 @@ export default function Play() {
   const [chessboardSize, setChessboardSize] = useState(320);
 
   const [game, setGame] = useState(new Chess());
+
+  //const [whiteMoves, setWhiteMoves] = useState([]);
+  //const [blackMoves, setBlackMoves] = useState([]);
+  const [moves, setMoves] = useState([]);
 
   const whiteTimer = useRef(null);
   const blackTimer = useRef(null);
@@ -60,7 +64,7 @@ export default function Play() {
         if (!retrievedgame) {
           router.push("/").then(() => {
             addToast({
-              "title": "Checkmate Local Game ID " + router.query.gameid,
+              "title": "Checkmate Bot Game ID " + router.query.gameid,
               "message": "No game could be found"
             });
           })
@@ -69,6 +73,26 @@ export default function Play() {
         const gameCopy = { ...game };
         gameCopy.reset();
         gameCopy.load_pgn(retrievedgame.game);
+
+        setMoves(gameCopy.history())
+
+        /*var isWhite = true;
+        const whiteMoves = []
+        const blackMoves = []
+
+        gameCopy.history().forEach((move) => {
+          if (isWhite) {
+            whiteMoves.push(move);
+          } else {
+            blackMoves.push(move);
+          }
+          isWhite = !isWhite;
+        })
+
+        setWhiteMoves(whiteMoves);
+        setBlackMoves(blackMoves);*/
+
+
 
         const comments = gameCopy.get_comments()
 
@@ -80,8 +104,6 @@ export default function Play() {
 
           return (parseInt(hours) * 3600) + (parseInt(minutes) * 60) + parseFloat(seconds)
         })
-
-        console.log(times);
 
         var isWhite = true;
         var lastValue = 0;
@@ -99,8 +121,6 @@ export default function Play() {
           lastValue = time;
         })
 
-        console.log(white, whiteTime);
-
         setWhiteTime(white)
         setBlackTime(black);
 
@@ -110,7 +130,7 @@ export default function Play() {
     .catch((reason) => {
       console.error(reason);
       addToast({
-        "title": "Checkmate Local Game ID " + router.query.gameid,
+        "title": "Checkmate Bot Game ID " + router.query.gameid,
         "message": "Loading Failure"
       });
     });
@@ -123,8 +143,6 @@ export default function Play() {
     const gametime = round(parseFloat(whiteTimer.current.dataset.time) + parseFloat(blackTimer.current.dataset.time), 1);
     const formattedtime = secondsToTime(gametime);
 
-    console.log(gametime, formattedtime)
-
     const gameCopy = { ...game };
     const result = gameCopy.move(move);
     gameCopy.set_comment(`[%clk ${formattedtime}}]`);
@@ -136,7 +154,7 @@ export default function Play() {
         .then(function(updated) {
             if (!updated) {
                 addToast(
-                    "Checkmate Local Game ID " + gameid,
+                    "Checkmate Bot Game ID " + gameid,
                     "Failed to save move"
                 );
             }
@@ -163,12 +181,12 @@ export default function Play() {
       .then(function(updated) {
         if (updated) {
           addToast({
-            "title": "Checkmate Local Game ID " + router.query.gameid,
+            "title": "Checkmate Bot Game ID " + router.query.gameid,
             "message": "Game Over. Winner: " + gameWinner
           });
         } else {
           addToast({
-            "title": "Checkmate Local Game ID " + gameid,
+            "title": "Checkmate Bot Game ID " + gameid,
             "message": "Game Over. Winner: " + gameWinner + "\nFailed to save win."
           });
         }
@@ -241,23 +259,34 @@ export default function Play() {
     height: chessboardSize + "px"
   }
 
+  var whiteMove = !(storedgame?.colourPlaying === "BLACK");
+
   return (
     <Main title="Play">
       <h2>Play</h2>
-      <h3>Game ID: {storedgame?.id}</h3>
+      <h3>Vs: Bot ({storedgame?.difficulty})</h3>
       <Container className={"d-flex flex-row mb-3"}>
         {
             storedgame
             ? (<Chessboard position={game.fen()} onPieceDrop={onDrop} id="BasicBoard" boardWidth={chessboardSize}/>)
             : (<Container id="BasicBoard" className={"bg-secondary"} style={placeholderStyle} >Loading</Container>)
         }
-        <div className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
+        <div id={"moveBoard"} className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
           <Container>
             <div className="row row-cols-2">
               <div id="whiteTimer" className={"col chessMove align-self-start bg-white text-dark text-center"}>Time: <b><CountUp getTime={whiteTime} setTime={setWhiteTime} running={whiteTimerActive} ref={whiteTimer}/></b></div>
               <div id="blackTimer" className={"col chessMove align-self-end bg-secondary text-center"}>Time: <b><CountUp getTime={blackTime} setTime={setBlackTime} running={blackTimerActive} ref={blackTimer}/></b></div>
-              <div className={"col chessMove align-self-start text-center"}>b2b3</div>
-              <div className={"col chessMove align-self-end text-center"}>ejdfoqfhqhu</div>
+              {
+                (moves.length > 0)
+                ? (
+                  moves.map((move, index) => {
+                    var moveclass = whiteMove ? "col chessMove align-self-start text-center" : "col chessMove align-self-end text-center";
+                    whiteMove = !whiteMove;
+                    return (<div key={move + index + whiteMove} className={moveclass}>{move}</div>)
+                  })
+                )
+                : undefined
+              }
             </div>
           </Container>
         </div>
