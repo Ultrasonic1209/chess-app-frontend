@@ -149,7 +149,7 @@ export default function Play() {
       } else if (game.in_threefold_repetition()) {
         gameWinner = "DRAW - THREEFOLD REPETITION";
       } else if (game.in_stalemate()) {
-        gameWinner = "DRAW - " + ((game.turn() === WHITE) ? "WHITE" : "BLACK") + "STALEMATED"
+        gameWinner = "DRAW - " + ((game.turn() === WHITE) ? "WHITE" : "BLACK") + " STALEMATED"
       } else {
         gameWinner = "DRAW - 100+ HALF MOVES"
       }
