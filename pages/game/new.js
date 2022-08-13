@@ -37,7 +37,7 @@ export default function Preferences() {
             gameType: "BOT",
             game: "",
             difficulty: difficulty,
-            colourPlaying: starter,
+            colourPlaying: toStarter,
             gameWon: null//starter === gameWinner
           });
           addToast({

@@ -31,6 +31,8 @@ export default function Preferences() {
       },
     [gamemode]);
 
+    //const remotegames = 
+
 
     const onClick = (ev) => {
       const { id, type } = ev.target.dataset;
@@ -54,7 +56,11 @@ export default function Preferences() {
               <thead>
                 <tr>
                   <th>Game #</th>
-                  <th>Vs.</th>
+                  {
+                    (gamemode === "BOT") || (gamemode === "NET")
+                    ? (<th>Vs.</th>)
+                    : (undefined)
+                  }
                   <th>Winner</th>
                   <th>-</th>
                 </tr>
@@ -63,12 +69,16 @@ export default function Preferences() {
                 {games?.map(game => (
                   <tr key={game.id}>
                     <td>{game.id}</td>
-                    <td>
-                      {game.gameType === "BOT"
+                    {
+                      (gamemode === "BOT") || (gamemode === "NET")
+                      ? (<td>
+                        {gamemode === "BOT"
                         ? "Bot (" + game.difficulty + ")"
-                        : (game.gameType)
-                      }
-                    </td>
+                        : (undefined)
+                        }
+                      </td>)
+                      : (undefined)
+                    }
                     <td>
                       {game.gameWon ? game.gameWon : "None yet"}
                     </td>
