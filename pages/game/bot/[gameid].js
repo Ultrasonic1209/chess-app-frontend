@@ -1,10 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router'
 
-import { Chessboard } from "react-chessboard";
 import { Chess, WHITE, BLACK } from 'chess.js';
-
-import { Container } from "react-bootstrap";
 
 import Main from '../../../components/Main';
 
@@ -13,7 +10,8 @@ import { useToastContext } from "../../../contexts/ToastContext";
 import { db } from "../../../db";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import CountUp, { round, secondsToTime } from '../../../components/CountUp';
+import { round, secondsToTime } from '../../../components/CountUp';
+import CheckmateBoard from '../../../components/CheckmateBoard';
 
 const clkRegex = new RegExp(
   /\[%clk (?<hours>([0-9][0-9])+):(?<minutes>[0-5][0-9]):(?<seconds>[0-5][0-9]\.[0-9])]/g
@@ -37,23 +35,14 @@ export default function Play() {
   }, [isReady]);
 
   const addToast = useToastContext();
-  const [chessboardSize, setChessboardSize] = useState(320);
 
   const [game, setGame] = useState(new Chess());
-
-  //const [whiteMoves, setWhiteMoves] = useState([]);
-  //const [blackMoves, setBlackMoves] = useState([]);
-  const [moves, setMoves] = useState([]);
 
   const whiteTimer = useRef(null);
   const blackTimer = useRef(null);
 
-  // eslint-disable-next-line no-unused-vars
-  const [whiteTimerActive, setWhiteTimerActive] = useState(true);
   const [whiteTime, setWhiteTime] = useState(0.0);
 
-  // eslint-disable-next-line no-unused-vars
-  const [blackTimerActive, setBlackTimerActive] = useState(false);
   const [blackTime, setBlackTime] = useState(0.0);
 
   const storedgame = useLiveQuery(async () => {
@@ -73,26 +62,6 @@ export default function Play() {
         const gameCopy = { ...game };
         gameCopy.reset();
         gameCopy.load_pgn(retrievedgame.game);
-
-        setMoves(gameCopy.history())
-
-        /*var isWhite = true;
-        const whiteMoves = []
-        const blackMoves = []
-
-        gameCopy.history().forEach((move) => {
-          if (isWhite) {
-            whiteMoves.push(move);
-          } else {
-            blackMoves.push(move);
-          }
-          isWhite = !isWhite;
-        })
-
-        setWhiteMoves(whiteMoves);
-        setBlackMoves(blackMoves);*/
-
-
 
         const comments = gameCopy.get_comments()
 
@@ -165,16 +134,26 @@ export default function Play() {
 
   function makeRandomMove() {
     const possibleMoves = game.moves();
-    if (game.game_over() || game.in_draw() || possibleMoves.length === 0) {
+    if (game.game_over()) {
 
-      var gameWinner = "TIE";
+      var gameWinner = "UNKNOWN";
+
       if (game.in_checkmate()) {
         if (game.turn() === BLACK) {
-          gameWinner = "WHITE"
+          gameWinner = "WHITE";
         } else if (game.turn() === WHITE) {
-          gameWinner = "BLACK"
+          gameWinner = "BLACK";
         }
+      } else if (game.insufficient_material()) {
+        gameWinner = "DRAW - INSUFFICENT MATERIAL"
+      } else if (game.in_threefold_repetition()) {
+        gameWinner = "DRAW - THREEFOLD REPETITION";
+      } else if (game.in_stalemate()) {
+        gameWinner = "DRAW - " + ((game.turn() === WHITE) ? "WHITE" : "BLACK") + "STALEMATED"
+      } else {
+        gameWinner = "DRAW - 100+ HALF MOVES"
       }
+
       db.table("games").update(gameid, {
         gameWon: gameWinner
       })
@@ -219,78 +198,24 @@ export default function Play() {
     return true;
   }
 
-  // https://github.com/Clariity/react-chessboard/blob/main/example/src/index.js
-  useEffect(() => {
-      function handleResize() {
-        setTimeout(() => {
-          const display = document.getElementsByClassName('container')[0];
-          var size = display.offsetWidth
-          if (size >= 720) { // desktop/tablet
-            size /= 2.15; // chess board on one side, list of moves on the other
-          } else if (size <= 575) { // phone
-            size -= 50;
-          }
-          setChessboardSize(size);
-       }, 0) // setTimeout to prevent force reflows (bad for resizing window on low-end systems!)
-      }
-
-      window.addEventListener('resize', handleResize);
-      handleResize();
-      return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-  useEffect(() => {
-    const possibleMoves = game.moves();
-    if (game.game_over() || game.in_draw() || possibleMoves.length === 0) {
-      setWhiteTimerActive(false);
-      setBlackTimerActive(false);
-    } else if (!storedgame) {
-      setWhiteTimerActive(false);
-      setBlackTimerActive(false);
-    } else {
-      setWhiteTimerActive(game.turn() === WHITE);
-      setBlackTimerActive(game.turn() === BLACK);
-    }
-
-  }, [storedgame, game])
-
-  const placeholderStyle = {
-    width: chessboardSize + "px",
-    height: chessboardSize + "px"
-  }
-
-  var whiteMove = !(storedgame?.colourPlaying === "BLACK");
-
   return (
     <Main title="Play">
       <h2>Play</h2>
       <h3>Vs: Bot ({storedgame?.difficulty})</h3>
-      <Container className={"d-flex flex-row mb-3"}>
-        {
-            storedgame
-            ? (<Chessboard position={game.fen()} onPieceDrop={onDrop} id="BasicBoard" boardWidth={chessboardSize}/>)
-            : (<Container id="BasicBoard" className={"bg-secondary"} style={placeholderStyle} >Loading</Container>)
-        }
-        <div id={"moveBoard"} className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
-          <Container>
-            <div className="row row-cols-2">
-              <div id="whiteTimer" className={"col chessMove align-self-start bg-white text-dark text-center"}>Time: <b><CountUp getTime={whiteTime} setTime={setWhiteTime} running={whiteTimerActive} ref={whiteTimer}/></b></div>
-              <div id="blackTimer" className={"col chessMove align-self-end bg-secondary text-center"}>Time: <b><CountUp getTime={blackTime} setTime={setBlackTime} running={blackTimerActive} ref={blackTimer}/></b></div>
-              {
-                (moves.length > 0)
-                ? (
-                  moves.map((move, index) => {
-                    var moveclass = whiteMove ? "col chessMove align-self-start text-center" : "col chessMove align-self-end text-center";
-                    whiteMove = !whiteMove;
-                    return (<div key={move + index + whiteMove} className={moveclass}>{move}</div>)
-                  })
-                )
-                : undefined
-              }
-            </div>
-          </Container>
-        </div>
-      </Container>
+      <CheckmateBoard
+        storedgame={storedgame}
+        game={game}
+        onDrop={onDrop}
+
+        whiteTimer={whiteTimer}
+        whiteTime={whiteTime}
+        setWhiteTime={setWhiteTime}
+
+        blackTimer={blackTimer}
+        blackTime={blackTime}
+        setBlackTime={setBlackTime}
+
+      />
     </Main>
   );
 }
