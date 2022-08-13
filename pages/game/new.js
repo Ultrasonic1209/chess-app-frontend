@@ -42,7 +42,7 @@ export default function Preferences() {
           });
           addToast({
             "title": "Checkmate",
-            "message": "Local Game created. ID " + key
+            "message": "Bot Game created. ID " + key
           });
           router.push("/game/bot/" + key);
           break;
