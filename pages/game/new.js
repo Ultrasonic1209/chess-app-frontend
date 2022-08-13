@@ -60,9 +60,9 @@ export default function Preferences() {
           .then(async (key) => {
             addToast({
               "title": "Checkmate",
-              "message": "Bot Game created. ID " + key
+              "message": "Local Game created. ID " + key
             });
-            await router.push("/game/bot/" + key);
+            await router.push("/game/local/" + key);
           })
 
           break;
