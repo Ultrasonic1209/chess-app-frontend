@@ -22,8 +22,7 @@ export default function CheckmateBoard({storedgame, game, onDrop, whiteTimer, wh
     }
 
     useEffect(() => {
-      const possibleMoves = game.moves();
-      if (game.game_over() || game.in_draw() || possibleMoves.length === 0) {
+      if (game.game_over()) {
         setWhiteTimerActive(false);
         setBlackTimerActive(false);
       } else if (!storedgame) {
