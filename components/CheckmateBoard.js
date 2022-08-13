@@ -11,6 +11,8 @@ export default function CheckmateBoard({storedgame, game, onDrop, whiteTimer, wh
     
     const [chessboardSize, setChessboardSize] = useState(320);
 
+    const [optionSquares, setOptionSquares] = useState({});
+
     const [whiteTimerActive, setWhiteTimerActive] = useState(false);
     const [blackTimerActive, setBlackTimerActive] = useState(false);
 
@@ -54,6 +56,42 @@ export default function CheckmateBoard({storedgame, game, onDrop, whiteTimer, wh
         handleResize();
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    // https://github.com/Clariity/react-chessboard/blob/main/example/src/boards/SquareStyles.js
+    function onMouseOverSquare(square) {
+      getMoveOptions(square);
+    }
+  
+    // Only set squares to {} if not already set to {}
+    function onMouseOutSquare() {
+      if (Object.keys(optionSquares).length !== 0) setOptionSquares({});
+    }
+  
+    function getMoveOptions(square) {
+      const moves = game.moves({
+        square,
+        verbose: true
+      });
+      if (moves.length === 0) {
+        return;
+      }
+  
+      const newSquares = {};
+      moves.map((move) => {
+        newSquares[move.to] = {
+          background:
+            game.get(move.to) && game.get(move.to).color !== game.get(square).color
+              ? 'radial-gradient(circle, rgba(0,0,0,.1) 85%, transparent 85%)'
+              : 'radial-gradient(circle, rgba(0,0,0,.1) 25%, transparent 25%)',
+          borderRadius: '50%'
+        };
+        return move;
+      });
+      newSquares[square] = {
+        background: 'rgba(255, 255, 0, 0.4)'
+      };
+      setOptionSquares(newSquares);
+    }
     
     var whiteMove = !(storedgame?.colourPlaying === "BLACK");
 
@@ -61,7 +99,15 @@ export default function CheckmateBoard({storedgame, game, onDrop, whiteTimer, wh
         <Container className={"d-flex flex-row mb-3"}>
         {
             storedgame
-            ? (<Chessboard position={game.fen()} onPieceDrop={onDrop} id="BasicBoard" boardWidth={chessboardSize}/>)
+            ? (<Chessboard
+                position={game.fen()}
+                onPieceDrop={onDrop}
+                id="BasicBoard"
+                boardWidth={chessboardSize}
+                onMouseOverSquare={onMouseOverSquare}
+                onMouseOutSquare={onMouseOutSquare}
+                customSquareStyles={optionSquares}
+              />)
             : (<Container id="BasicBoard" className={"bg-secondary"} style={placeholderStyle} >Loading</Container>)
         }
         <div id={"moveBoard"} className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>

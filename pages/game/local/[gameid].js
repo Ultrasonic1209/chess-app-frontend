@@ -26,7 +26,7 @@ export default function Play() {
     if (isNaN(gameid) && (typeof window != 'undefined') && (router.isReady === true)) {
       router.push("/").then(() => {
         addToast({
-          "title": "Checkmate Bot Game ID " + router.query.gameid,
+          "title": "Checkmate Local Game ID " + router.query.gameid,
           "message": "Invalid ID"
         });
       });
@@ -50,10 +50,10 @@ export default function Play() {
 
     const loadedgame = db.table("games").get(gameid)
     .then((retrievedgame) => {
-        if ((!retrievedgame) || (retrievedgame.gameType != "BOT")) {
+        if ((!retrievedgame) || (retrievedgame.gameType != "LOCAL")) {
           router.push("/").then(() => {
             addToast({
-              "title": "Checkmate Bot Game ID " + router.query.gameid,
+              "title": "Checkmate Local Game ID " + router.query.gameid,
               "message": "No game could be found"
             });
           })
@@ -99,7 +99,7 @@ export default function Play() {
     .catch((reason) => {
       console.error(reason);
       addToast({
-        "title": "Checkmate Bot Game ID " + router.query.gameid,
+        "title": "Checkmate Local Game ID " + router.query.gameid,
         "message": "Loading Failure"
       });
     });
@@ -123,7 +123,7 @@ export default function Play() {
         .then(function(updated) {
             if (!updated) {
                 addToast(
-                    "Checkmate Bot Game ID " + gameid,
+                    "Checkmate Local Game ID " + gameid,
                     "Failed to save move"
                 );
             }
@@ -132,9 +132,17 @@ export default function Play() {
     return result; // null if the move was illegal, the move object if the move was legal
   }
 
-  function makeRandomMove() {
-    const possibleMoves = game.moves();
-    if (game.game_over() || possibleMoves.length === 0) {
+  function onDrop(sourceSquare, targetSquare) {
+    const move = makeAMove({
+      from: sourceSquare,
+      to: targetSquare,
+      promotion: 'q' // always promote to a queen for example simplicity
+    });
+
+    // illegal move
+    if (move === null) return false;
+
+    if (game.game_over()) {
 
       var gameWinner = "UNKNOWN";
 
@@ -160,48 +168,26 @@ export default function Play() {
       .then(function(updated) {
         if (updated) {
           addToast({
-            "title": "Checkmate Bot Game ID " + gameid,
+            "title": "Checkmate Local Game ID " + gameid,
             "message": "Game Over. Winner: " + gameWinner
           });
         } else {
           addToast({
-            "title": "Checkmate Bot Game ID " + gameid,
+            "title": "Checkmate Local Game ID " + gameid,
             "message": "Game Over. Winner: " + gameWinner + "\nFailed to save win."
           });
         }
       });
-      return;
+      return true;
     }
-    const randomIndex = Math.floor(Math.random() * possibleMoves.length);
-    const resp = makeAMove(possibleMoves[randomIndex]);
-    return resp;
-  }
 
-  useEffect(() => {
-    if ((storedgame?.game === '') && (storedgame?.colourPlaying === "BLACK")) {
-      makeRandomMove()
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storedgame])
-
-  function onDrop(sourceSquare, targetSquare) {
-    const move = makeAMove({
-      from: sourceSquare,
-      to: targetSquare,
-      promotion: 'q' // always promote to a queen for example simplicity
-    });
-
-    // illegal move
-    if (move === null) return false;
-    
-    setTimeout(makeRandomMove, 200);
     return true;
   }
 
   return (
     <Main title="Play">
       <h2>Play</h2>
-      <h3>Vs: Bot ({storedgame?.difficulty})</h3>
+      <h3>Vs: Local ({storedgame?.difficulty})</h3>
       <CheckmateBoard
         storedgame={storedgame}
         game={game}
