@@ -9,8 +9,6 @@ import { useOnlineStatus } from "../../contexts/OnlineStatus";
 import { useToastContext } from "../../contexts/ToastContext";
 
 import { db } from "../../db";
-//import { useLiveQuery } from "dexie-react-hooks";
-import { Chess/*, BLACK, WHITE*/ } from "chess.js";
 
 export default function Preferences() {
     const router = useRouter();
@@ -29,8 +27,6 @@ export default function Preferences() {
     // eslint-disable-next-line no-unused-vars
     const createGame = async (ev) => {
 
-      const chess = new Chess()
-
       switch (gamemode) {
         case "BOT":
           var toStarter = starter;
@@ -39,7 +35,7 @@ export default function Preferences() {
           }
           var key = await db.games.put({
             gameType: "BOT",
-            game: chess.pgn(),
+            game: "",
             difficulty: difficulty,
             colourPlaying: starter,
             gameWon: null//starter === gameWinner
@@ -63,7 +59,7 @@ export default function Preferences() {
           });
           
       }
-      console.log(gamemode, difficulty, starter, chess);
+      console.log(gamemode, difficulty, starter);
     }
 
     const difficultyEnabled = gamemode === "BOT";
