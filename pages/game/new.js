@@ -29,24 +29,41 @@ export default function Preferences() {
 
       switch (gamemode) {
         case "BOT":
+
           var toStarter = starter;
           if (toStarter === "ANY") {
             toStarter = Math.random() < 0.5 ? "WHITE" : "BLACK";
           }
-          var key = await db.games.put({
+
+          db.games.put({
             gameType: "BOT",
             game: "",
             difficulty: difficulty,
             colourPlaying: toStarter,
-            gameWon: null//starter === gameWinner
-          });
-          addToast({
-            "title": "Checkmate",
-            "message": "Bot Game created. ID " + key
-          });
-          router.push("/game/bot/" + key);
+            gameWon: null
+          })
+          .then(async (key) => {
+            addToast({
+              "title": "Checkmate",
+              "message": "Bot Game created. ID " + key
+            });
+            await router.push("/game/bot/" + key);
+          })
           break;
         case "LOCAL":
+
+          db.games.put({
+            gameType: "LOCAL",
+            game: "",
+            gameWon: null
+          })
+          .then(async (key) => {
+            addToast({
+              "title": "Checkmate",
+              "message": "Bot Game created. ID " + key
+            });
+            await router.push("/game/bot/" + key);
+          })
 
           break;
         case "NET":
@@ -59,11 +76,10 @@ export default function Preferences() {
           });
           
       }
-      console.log(gamemode, difficulty, starter);
     }
 
     const difficultyEnabled = gamemode === "BOT";
-    const starterEnabled = (difficultyEnabled && difficulty) || (!difficultyEnabled && gamemode);
+    const starterEnabled = (difficultyEnabled && difficulty) || (!difficultyEnabled && (gamemode === "NET"));
 
     return (
       <Main title="New Game">
@@ -93,7 +109,7 @@ export default function Preferences() {
           </ListGroup>
         </Container>
 
-        <Button className={starterEnabled ? "mt-4" : "d-none"} type="button" onClick={createGame} disabled={!starterEnabled}>Create Game</Button>
+        <Button className={(starterEnabled || (!starterEnabled && (gamemode === "LOCAL"))) ? "mt-4" : "d-none"} type="button" onClick={createGame} disabled={!(starterEnabled || (!starterEnabled && (gamemode === "LOCAL")))}>Create Game</Button>
       </Main>
     );
 }

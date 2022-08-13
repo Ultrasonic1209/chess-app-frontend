@@ -125,7 +125,6 @@ export default function SignIn() {
 
                     value="remember-me"
                     name="remember-me"
-                    placeholder="remember-me"
                 />
             </div>
 
