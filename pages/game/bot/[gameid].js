@@ -50,7 +50,7 @@ export default function Play() {
 
     const loadedgame = db.table("games").get(gameid)
     .then((retrievedgame) => {
-        if (!retrievedgame) {
+        if ((!retrievedgame) || (retrievedgame.gameType != "BOT")) {
           router.push("/").then(() => {
             addToast({
               "title": "Checkmate Bot Game ID " + router.query.gameid,
