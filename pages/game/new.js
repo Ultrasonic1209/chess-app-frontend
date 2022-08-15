@@ -1,7 +1,7 @@
 import Main from "../../components/Main";
 
 import { useState } from "react";
-import { Button, Container, ListGroup } from "react-bootstrap";
+import { Button, Container, ListGroup, Form } from "react-bootstrap";
 
 import { useRouter } from 'next/router'
 
@@ -19,10 +19,48 @@ export default function Preferences() {
     const [gamemode, setGamemode] = useState();
     const [difficulty, setDifficulty] = useState();
     const [starter, setStarter] = useState("ANY");
+    const [time, setTime] = useState("UP");
+    const [timeRange, setTimeRange] = useState(0);
 
     const gamemodeOnClick = (ev) => setGamemode(ev.target.dataset.gamemode);
     const difficultyOnClick = (ev) => setDifficulty(ev.target.dataset.difficulty);
     const starterOnClick = (ev) => setStarter(ev.target.dataset.starter);
+    const timeOnClick = (ev) => setTime(ev.target.dataset.time);
+
+    const timeRangeOnChange = (ev) => setTimeRange(ev.target.value);
+
+    const formatTimeRange = (range) => {
+      const seconds = range % 60;
+      const minutes = Math.floor(range / 60)
+
+      var tr = ""
+
+      if (minutes > 0) {
+        tr = minutes + " minute";
+
+        if (minutes != 1) {
+          tr += "s"
+        }
+        
+        if (seconds > 0) {
+          tr += ", " + seconds + " second";
+
+          if (seconds != 1) {
+            tr += "s"
+          }
+        }
+      } else if (seconds > 0) {
+        tr = seconds + " second";
+
+        if (seconds != 1) {
+          tr += "s"
+        }
+      } else {
+        tr = "Zero."
+      }
+
+      return tr;
+    }
 
     // eslint-disable-next-line no-unused-vars
     const createGame = async (ev) => {
@@ -40,6 +78,8 @@ export default function Preferences() {
             game: "",
             difficulty: difficulty,
             colourPlaying: toStarter,
+            clockType: time,
+            timeLimit: timeRange,
             gameWon: null
           })
           .then(async (key) => {
@@ -55,6 +95,8 @@ export default function Preferences() {
           db.games.put({
             gameType: "LOCAL",
             game: "",
+            clockType: time,
+            timeLimit: timeRange,
             gameWon: null
           })
           .then(async (key) => {
@@ -80,6 +122,10 @@ export default function Preferences() {
 
     const difficultyEnabled = gamemode === "BOT";
     const starterEnabled = (difficultyEnabled && difficulty) || (!difficultyEnabled && (gamemode === "NET"));
+    const timeEnabled = starterEnabled || (!starterEnabled && (gamemode === "LOCAL"))
+    const timeLimitEnabled = timeEnabled && (time === "DOWN")
+
+    const createEnabled = (timeEnabled && (((time != "DOWN") || (timeRange > 0))))
 
     return (
       <Main title="New Game">
@@ -108,8 +154,20 @@ export default function Preferences() {
             <ListGroup.Item active={starter === "ANY"} onClick={starterOnClick} data-starter="ANY" type="button" action>Any</ListGroup.Item>
           </ListGroup>
         </Container>
+        <Container id="selectTime" className={timeEnabled ? "p-0 pt-3" : "d-none"}>
+          <h5>Choose your clock</h5>
+          <ListGroup horizontal="sm">
+            <ListGroup.Item active={time === "UP"} onClick={timeOnClick} data-time="UP" type="button" action>Stopwatch</ListGroup.Item>
+            <ListGroup.Item active={time === "DOWN"} onClick={timeOnClick} data-time="DOWN" type="button" action>Countdown</ListGroup.Item>
+          </ListGroup>
+        </Container>
+        <Container id="selectTimeLimit" className={timeLimitEnabled ? "p-0 pt-3" : "d-none"}>
+          <h5>Select your time limit</h5>
+          <Form.Label>{formatTimeRange(timeRange)}</Form.Label>
+          <Form.Range onChange={timeRangeOnChange} defaultValue={0} max={3600}/>
+        </Container>
 
-        <Button className={(starterEnabled || (!starterEnabled && (gamemode === "LOCAL"))) ? "mt-4" : "d-none"} type="button" onClick={createGame} disabled={!(starterEnabled || (!starterEnabled && (gamemode === "LOCAL")))}>Create Game</Button>
+        <Button className={"mt-4"} type="button" onClick={createGame} disabled={!createEnabled}>Create Game</Button>
       </Main>
     );
 }

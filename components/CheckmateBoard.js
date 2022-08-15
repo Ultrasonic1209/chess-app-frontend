@@ -6,8 +6,9 @@ import { Chessboard } from "react-chessboard";
 import { WHITE, BLACK } from 'chess.js';
 
 import CountUp from "./CountUp";
+import CountDown from "./CountDown";
 
-export default function CheckmateBoard({storedgame, game, onDrop, whiteTimer, whiteTime, setWhiteTime, blackTimer, blackTime, setBlackTime}) {
+export default function CheckmateBoard({storedgame, game, onDrop, whiteTimer, whiteTime, setWhiteTime, blackTimer, blackTime, setBlackTime, boardEnabled}) {
     
     const [chessboardSize, setChessboardSize] = useState(320);
 
@@ -24,18 +25,31 @@ export default function CheckmateBoard({storedgame, game, onDrop, whiteTimer, wh
     }
 
     useEffect(() => {
-      if (game.game_over()) {
+      if (!storedgame) {
         setWhiteTimerActive(false);
         setBlackTimerActive(false);
-      } else if (!storedgame) {
+      } else if (game.game_over()) {
         setWhiteTimerActive(false);
         setBlackTimerActive(false);
       } else {
-        setWhiteTimerActive(game.turn() === WHITE);
-        setBlackTimerActive(game.turn() === BLACK);
+        if (storedgame?.clockType === "DOWN") {
+          //console.log("checking time")
+          if ((whiteTime <= 0) || (blackTime <= 0)) {
+            //console.log("stopping time: times up")
+            setWhiteTimerActive(false);
+            setBlackTimerActive(false);
+          } else {
+            //console.log("time checked: keeping time going")
+            setWhiteTimerActive(game.turn() === WHITE);
+            setBlackTimerActive(game.turn() === BLACK);
+          }
+        } else {
+          setWhiteTimerActive(game.turn() === WHITE);
+          setBlackTimerActive(game.turn() === BLACK);
+        }
       }
   
-    }, [storedgame, game])
+    }, [storedgame, game, whiteTime, blackTime])
 
     // https://github.com/Clariity/react-chessboard/blob/main/example/src/index.js
     useEffect(() => {
@@ -106,15 +120,32 @@ export default function CheckmateBoard({storedgame, game, onDrop, whiteTimer, wh
                 boardWidth={chessboardSize}
                 onMouseOverSquare={onMouseOverSquare}
                 onMouseOutSquare={onMouseOutSquare}
-                customSquareStyles={optionSquares}
+                customSquareStyles={boardEnabled && optionSquares}
+                arePiecesDraggable={boardEnabled}
               />)
             : (<Container id="BasicBoard" className={"bg-secondary"} style={placeholderStyle} >Loading</Container>)
         }
         <div id={"moveBoard"} className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
           <Container>
             <div className="row row-cols-2">
-              <div id="whiteTimer" className={"col chessMove align-self-start bg-white text-dark text-center"}>Time: <b><CountUp getTime={whiteTime} setTime={setWhiteTime} running={whiteTimerActive} ref={whiteTimer}/></b></div>
-              <div id="blackTimer" className={"col chessMove align-self-end bg-secondary text-center"}>Time: <b><CountUp getTime={blackTime} setTime={setBlackTime} running={blackTimerActive} ref={blackTimer}/></b></div>
+              <div id="whiteTimer" className={"col chessMove align-self-start bg-white text-dark text-center"}>
+                Time:&nbsp;
+                <b>
+                  {storedgame?.clockType === "DOWN"
+                  ? <CountDown getTime={whiteTime} setTime={setWhiteTime} running={whiteTimerActive} ref={whiteTimer}/>
+                  : <CountUp getTime={whiteTime} setTime={setWhiteTime} running={whiteTimerActive} ref={whiteTimer}/>
+                  }
+                </b>
+              </div>
+              <div id="blackTimer" className={"col chessMove align-self-end bg-secondary text-center"}>
+                Time:&nbsp;
+                <b>
+                  {storedgame?.clockType === "DOWN"
+                  ? <CountDown getTime={blackTime} setTime={setBlackTime} running={blackTimerActive} ref={blackTimer}/>
+                  : <CountUp getTime={blackTime} setTime={setBlackTime} running={blackTimerActive} ref={blackTimer}/>
+                  }
+                </b>
+              </div>
               {
                 (moves.length > 0)
                 ? (

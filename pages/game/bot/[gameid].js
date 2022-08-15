@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router'
 
 import { Chess, WHITE, BLACK } from 'chess.js';
@@ -18,6 +18,8 @@ const clkRegex = new RegExp(
 );
 
 export default function Play() {
+
+  // todo: figure out why (on countdown mode) opposing team time gets set to player's time
   const router = useRouter();
   const gameid = parseInt(router.query.gameid);
   const isReady = router.isReady;
@@ -37,6 +39,8 @@ export default function Play() {
   const addToast = useToastContext();
 
   const [game, setGame] = useState(new Chess());
+
+  const [boardEnabled, setBoardEnabled] = useState(false);
 
   const whiteTimer = useRef(null);
   const blackTimer = useRef(null);
@@ -74,21 +78,32 @@ export default function Play() {
           return (parseInt(hours) * 3600) + (parseInt(minutes) * 60) + parseFloat(seconds)
         })
 
-        var isWhite = true;
-        var lastValue = 0;
+        const relevantTimes = times.slice(-3);
 
-        var white = 0;
-        var black = 0;
+        var white = relevantTimes[0] || 0;
+        var black = relevantTimes[1] || 0;
+        
+        if (times.length % 2 > 0) {
+          white = relevantTimes[2] || 0;
+          black = relevantTimes[1] || 0;
+        }
 
-        times.forEach((time) => {
-          if (isWhite) {
-            white += time - lastValue;
-          } else {
-            black += time - lastValue;
+        if (retrievedgame.clockType === "DOWN") {
+          if (white === 0) {
+            console.log(retrievedgame.timeLimit, "for white")
+            white = retrievedgame.timeLimit;
           }
-          isWhite = !isWhite;
-          lastValue = time;
-        })
+          if (black === 0) {
+            console.log(retrievedgame.timeLimit, "for black")
+            black = retrievedgame.timeLimit;
+          }
+        }
+
+        if (retrievedgame.outOfTime === BLACK) {
+          black = 0;
+        } else if (retrievedgame.outOfTime === WHITE) {
+          white = 0;
+        }
 
         setWhiteTime(white)
         setBlackTime(black);
@@ -107,9 +122,54 @@ export default function Play() {
     return loadedgame;
   }, [isReady]);
 
+  useEffect(() => {
+    if (!storedgame || !whiteTimer.current || !blackTimer.current) { return; }
+    const whiteTime = parseFloat(whiteTimer.current.dataset.time);
+    const blackTime = parseFloat(blackTimer.current.dataset.time);
+
+    console.log(blackTime, whiteTime);
+
+    if (game.game_over()) {
+      setBoardEnabled(false);
+    }
+    if (storedgame.clockType === "DOWN") {
+      if ((whiteTime <= 0) || (blackTime <= 0) || storedgame.outOfTime) {
+        console.log("time up!")
+        setBoardEnabled(false);
+      } else {
+        setBoardEnabled(true);
+      }
+    } else {
+      setBoardEnabled(true);
+    }
+  }, [storedgame, game])
+
+  const timeForMove = useCallback(() => {
+    if (storedgame.outOfTime) { return false; }
+    const whiteTime = parseFloat(whiteTimer.current.dataset.time);
+    const blackTime = parseFloat(blackTimer.current.dataset.time);
+
+    if ((storedgame.clockType === "DOWN") && ((whiteTime <= 0) || (blackTime <= 0))) {
+      return false;
+    } else {
+      return true;
+    }
+  }, [storedgame, whiteTimer, blackTimer])
+
 
   function makeAMove(move) {
-    const gametime = round(parseFloat(whiteTimer.current.dataset.time) + parseFloat(blackTimer.current.dataset.time), 1);
+    if (!timeForMove()) { return null; }
+
+    var gametime = round(whiteTime + blackTime, 1);
+    if (storedgame.clockType === "DOWN") {
+      console.log("time limit:", storedgame.timeLimit)
+      console.log("white spent:", round(storedgame.timeLimit - whiteTime, 1))
+      console.log("black spent:", round(storedgame.timeLimit - blackTime, 1))
+      const totalSpent = round(Math.max(storedgame.timeLimit - whiteTime, storedgame.timeLimit - blackTime), 1);
+      console.log("most spent:", totalSpent)
+      gametime = storedgame.timeLimit - totalSpent
+      console.log("total:", gametime)
+    }
     const formattedtime = secondsToTime(gametime);
 
     const gameCopy = { ...game };
@@ -132,11 +192,13 @@ export default function Play() {
     return result; // null if the move was illegal, the move object if the move was legal
   }
 
-  function makeRandomMove() {
+  const moveGameAlong = useCallback(() => {
+    if (storedgame.outOfTime) { return false; }
+    const canMove = timeForMove();
     const possibleMoves = game.moves();
-    if (game.game_over() || possibleMoves.length === 0) {
-
+    if (game.game_over() || possibleMoves.length === 0 || !canMove) {
       var gameWinner = "UNKNOWN";
+      var outOfTime = null;
 
       if (game.in_checkmate()) {
         if (game.turn() === BLACK) {
@@ -150,12 +212,21 @@ export default function Play() {
         gameWinner = "DRAW - THREEFOLD REPETITION";
       } else if (game.in_stalemate()) {
         gameWinner = "DRAW - " + ((game.turn() === WHITE) ? "WHITE" : "BLACK") + " STALEMATED"
+      } else if (!canMove) {
+        if (game.turn() === BLACK) {
+          gameWinner = "WHITE - BLACK OUT OF TIME";
+          outOfTime = BLACK;
+        } else if (game.turn() === WHITE) {
+          gameWinner = "BLACK - WHITE OUT OF TIME";
+          outOfTime = WHITE;
+        }
       } else {
         gameWinner = "DRAW - 100+ HALF MOVES"
       }
 
       db.table("games").update(gameid, {
-        gameWon: gameWinner
+        gameWon: gameWinner,
+        outOfTime: outOfTime
       })
       .then(function(updated) {
         if (updated) {
@@ -170,11 +241,29 @@ export default function Play() {
           });
         }
       });
-      return;
+      return false;
+    } else {
+      return true;
     }
-    const randomIndex = Math.floor(Math.random() * possibleMoves.length);
-    const resp = makeAMove(possibleMoves[randomIndex]);
-    return resp;
+  }, [addToast, game, gameid, storedgame, timeForMove]);
+
+  useEffect(() => {
+    let interval;
+    if (storedgame) {
+      interval = setInterval(moveGameAlong, 1000);
+    } else if (!storedgame) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [moveGameAlong, storedgame]);
+
+  function makeRandomMove() {
+    if (moveGameAlong()) {
+      const possibleMoves = game.moves();
+      const randomIndex = Math.floor(Math.random() * possibleMoves.length);
+      const resp = makeAMove(possibleMoves[randomIndex]);
+      return resp;
+    }
   }
 
   useEffect(() => {
@@ -185,6 +274,7 @@ export default function Play() {
   }, [storedgame])
 
   function onDrop(sourceSquare, targetSquare) {
+
     const move = makeAMove({
       from: sourceSquare,
       to: targetSquare,
@@ -215,6 +305,7 @@ export default function Play() {
         blackTime={blackTime}
         setBlackTime={setBlackTime}
 
+        boardEnabled={boardEnabled}
       />
     </Main>
   );
