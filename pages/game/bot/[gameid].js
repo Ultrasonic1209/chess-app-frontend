@@ -88,11 +88,11 @@ export default function Play() {
 
           times.forEach((time) => { // i am so incredibly done with this
             if (isWhite) {
-              console.log(time - lastTime, " for white");
-              white -= time - lastTime;
+              console.log(lastTime - time, " for white");
+              white += lastTime - time;
             } else if (!isWhite) {
-              console.log(time - lastTime, " for black");
-              black -= time - lastTime;
+              console.log(lastTime - time, " for black");
+              black += lastTime - time;
             }
             lastTime = time;
             isWhite = !isWhite;
