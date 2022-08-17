@@ -28,7 +28,7 @@ export default function Play() {
     if (isNaN(gameid) && (typeof window != 'undefined') && (router.isReady === true)) {
       router.push("/").then(() => {
         addToast({
-          "title": "Checkmate Bot Game ID " + router.query.gameid,
+          "title": "Checkmate Local Game ID " + router.query.gameid,
           "message": "Invalid ID"
         });
       });
@@ -54,10 +54,10 @@ export default function Play() {
 
     const loadedgame = db.table("games").get(gameid)
     .then((retrievedgame) => {
-        if ((!retrievedgame) || (retrievedgame.gameType != "BOT")) {
+        if ((!retrievedgame) || (retrievedgame.gameType != "LOCAL")) {
           router.push("/").then(() => {
             addToast({
-              "title": "Checkmate Bot Game ID " + router.query.gameid,
+              "title": "Checkmate Local Game ID " + router.query.gameid,
               "message": "No game could be found"
             });
           })
@@ -138,7 +138,7 @@ export default function Play() {
     .catch((reason) => {
       console.error(reason);
       addToast({
-        "title": "Checkmate Bot Game ID " + router.query.gameid,
+        "title": "Checkmate Local Game ID " + router.query.gameid,
         "message": "Loading Failure"
       });
     });
@@ -207,7 +207,7 @@ export default function Play() {
         .then(function(updated) {
             if (!updated) {
                 addToast(
-                    "Checkmate Bot Game ID " + gameid,
+                    "Checkmate Local Game ID " + gameid,
                     "Failed to save move"
                 );
             }
@@ -254,12 +254,12 @@ export default function Play() {
       .then(function(updated) {
         if (updated) {
           addToast({
-            "title": "Checkmate Bot Game ID " + gameid,
+            "title": "Checkmate Local Game ID " + gameid,
             "message": "Game Over. Winner: " + gameWinner
           });
         } else {
           addToast({
-            "title": "Checkmate Bot Game ID " + gameid,
+            "title": "Checkmate Local Game ID " + gameid,
             "message": "Game Over. Winner: " + gameWinner + "\nFailed to save win."
           });
         }
@@ -296,7 +296,6 @@ export default function Play() {
   return (
     <Main title="Play">
       <h2>Play</h2>
-      <h3>Vs: Bot ({storedgame?.difficulty})</h3>
       <CheckmateBoard
         storedgame={storedgame}
         game={game}
