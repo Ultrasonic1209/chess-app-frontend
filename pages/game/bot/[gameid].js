@@ -217,7 +217,7 @@ export default function Play() {
   }
 
   const moveGameAlong = useCallback(() => {
-    if (storedgame.outOfTime) { return false; }
+    if (storedgame.gameWon) { return false; }
     const canMove = timeForMove();
     const possibleMoves = game.moves();
     if (game.game_over() || possibleMoves.length === 0 || !canMove) {
