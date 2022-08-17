@@ -80,7 +80,6 @@ module.exports = withPWA({
         reloadOnOnline: false,
 
         fallbacks: {
-            document: '/_offline', // root: /pages | all else in /public
             image: '/offline.png'
         }
     },
