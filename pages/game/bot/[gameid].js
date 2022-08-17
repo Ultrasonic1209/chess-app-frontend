@@ -273,7 +273,7 @@ export default function Play() {
   useEffect(() => {
     let interval;
     if (storedgame) {
-      interval = setInterval(moveGameAlong, 1000);
+      interval = setInterval(() => { setBoardEnabled(moveGameAlong()); }, 1000);
     } else if (!storedgame) {
       clearInterval(interval);
     }
