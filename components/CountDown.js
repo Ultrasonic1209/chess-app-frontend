@@ -17,7 +17,7 @@ export const secondsToTime = (e) => {
   //return `${h}:${m}:${s}`;
 }
 
-const CountUp = forwardRef(({getTime, setTime, running}, ref) => {
+const CountDown = forwardRef(({getTime, setTime, running}, ref) => {
   // running is to be a useState defined from elsewhere
 
   useEffect(() => {
@@ -25,7 +25,8 @@ const CountUp = forwardRef(({getTime, setTime, running}, ref) => {
     if (running) {
       interval = setInterval(() => {
         setTime((prevTime) => {
-          return round(prevTime + 0.1, 1);
+          if (prevTime <= 0.0) { return 0.0 }
+          else { return round(prevTime - 0.1, 1); }
         });
       }, 100);
     } else if (!running) {
@@ -37,6 +38,6 @@ const CountUp = forwardRef(({getTime, setTime, running}, ref) => {
   return <span ref={ref} data-time={getTime}>{secondsToTime(getTime)}</span>;
 });
 
-CountUp.displayName = "CountUp";
+CountDown.displayName = "CountDown";
 
-export default CountUp;
+export default CountDown;

@@ -15,6 +15,14 @@
 # next
 /.next
 
+# next-pwa
+**/public/workbox-*.js
+**/public/workbox-*.js.map
+**/public/sw.js
+**/public/sw.js.map
+**/public/fallback-*.js
+**/public/worker-development.js
+
 # misc
 .DS_Store
 .env.local

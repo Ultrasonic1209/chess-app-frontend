@@ -1,60 +1,173 @@
-import { useEffect, useState } from 'react';
+import Main from "../../components/Main";
 
-import { Chessboard } from "react-chessboard";
+import { useState } from "react";
+import { Button, Container, ListGroup, Form } from "react-bootstrap";
 
-import { Container } from "react-bootstrap";
+import { useRouter } from 'next/router'
 
-import Main from '../../components/Main';
+import { useOnlineStatus } from "../../contexts/OnlineStatus";
+import { useToastContext } from "../../contexts/ToastContext";
 
-import CountUp from '../../components/CountUp';
+import { db } from "../../db";
 
-export default function Play() {
-  const [chessboardSize, setChessboardSize] = useState(320);
+export default function Preferences() {
+    const router = useRouter();
 
-  // https://github.com/Clariity/react-chessboard/blob/main/example/src/index.js
-  useEffect(() => {
-      function handleResize() {
-        setTimeout(() => {
-          const display = document.getElementsByClassName('container')[0];
-          var size = display.offsetWidth
-          if (size >= 720) { // desktop/tablet
-            size /= 2.15; // chess board on one side, list of moves on the other
-          } else if (size <= 575) { // phone
-            size -= 50;
+    const isOnline = useOnlineStatus();
+    const addToast = useToastContext();
+
+    const [gamemode, setGamemode] = useState();
+    const [difficulty, setDifficulty] = useState();
+    const [starter, setStarter] = useState("ANY");
+    const [time, setTime] = useState("UP");
+    const [timeRange, setTimeRange] = useState(0);
+
+    const gamemodeOnClick = (ev) => setGamemode(ev.target.dataset.gamemode);
+    const difficultyOnClick = (ev) => setDifficulty(ev.target.dataset.difficulty);
+    const starterOnClick = (ev) => setStarter(ev.target.dataset.starter);
+    const timeOnClick = (ev) => setTime(ev.target.dataset.time);
+
+    const timeRangeOnChange = (ev) => setTimeRange(ev.target.value);
+
+    const formatTimeRange = (range) => {
+      const seconds = range % 60;
+      const minutes = Math.floor(range / 60)
+
+      var tr = ""
+
+      if (minutes > 0) {
+        tr = minutes + " minute";
+
+        if (minutes != 1) {
+          tr += "s"
+        }
+        
+        if (seconds > 0) {
+          tr += ", " + seconds + " second";
+
+          if (seconds != 1) {
+            tr += "s"
           }
-          setChessboardSize(size);
-       }, 0) // setTimeout to prevent force reflows (bad for resizing window on low-end systems!)
+        }
+      } else if (seconds > 0) {
+        tr = seconds + " second";
+
+        if (seconds != 1) {
+          tr += "s"
+        }
+      } else {
+        tr = "Zero."
       }
 
-      window.addEventListener('resize', handleResize);
-      handleResize();
-      return () => window.removeEventListener('resize', handleResize);
-    }, []);
+      return tr;
+    }
 
     // eslint-disable-next-line no-unused-vars
-    var [whiteTimerActive, setWhiteTimerActive] = useState(true);
-    var whiteTime = 0;
+    const createGame = async (ev) => {
 
-    // eslint-disable-next-line no-unused-vars
-    var [blackTimerActive, setBlackTimerActive] = useState(false);
-    var blackTime = 48;
+      switch (gamemode) {
+        case "BOT":
+
+          var toStarter = starter;
+          if (toStarter === "ANY") {
+            toStarter = Math.random() < 0.5 ? "WHITE" : "BLACK";
+          }
+
+          db.games.put({
+            gameType: "BOT",
+            game: "",
+            difficulty: difficulty,
+            colourPlaying: toStarter,
+            clockType: time,
+            timeLimit: timeRange,
+            gameWon: null
+          })
+          .then(async (key) => {
+            addToast({
+              "title": "Checkmate",
+              "message": "Bot Game created. ID " + key
+            });
+            await router.push("/game/bot/" + key);
+          })
+          break;
+        case "LOCAL":
+
+          db.games.put({
+            gameType: "LOCAL",
+            game: "",
+            clockType: time,
+            timeLimit: timeRange,
+            gameWon: null
+          })
+          .then(async (key) => {
+            addToast({
+              "title": "Checkmate",
+              "message": "Local Game created. ID " + key
+            });
+            await router.push("/game/local/" + key);
+          })
+
+          break;
+        case "NET":
+          
+          break;
+        default:
+          addToast({
+            "title": "Checkmate",
+            "message": "Error: Unknown gamemode " + gamemode
+          });
+          
+      }
+    }
+
+    const difficultyEnabled = gamemode === "BOT";
+    const starterEnabled = (difficultyEnabled && difficulty) || (!difficultyEnabled && (gamemode === "NET"));
+    const timeEnabled = starterEnabled || (!starterEnabled && (gamemode === "LOCAL"))
+    const timeLimitEnabled = timeEnabled && (time === "DOWN")
+
+    const createEnabled = (timeEnabled && (((time != "DOWN") || (timeRange > 0))))
 
     return (
-      <Main title="Play">
-        <h2>Play</h2>
-        <Container className={"d-flex flex-row mb-3"}>
-          <Chessboard id="BasicBoard" boardWidth={chessboardSize}/>
-          <div className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
-            <Container>
-              <div className="row row-cols-2">
-                <div id="whiteTimer" className={"col chessMove align-self-start bg-white text-dark text-center"}>Time: <b><CountUp initial={whiteTime} running={whiteTimerActive}/></b></div>
-                <div id="blackTimer" className={"col chessMove align-self-end bg-secondary text-center"}>Time: <b><CountUp initial={blackTime} running={blackTimerActive}/></b></div>
-                <div className={"col chessMove align-self-start text-center"}>b2b3</div>
-                <div className={"col chessMove align-self-end text-center"}>ejdfoqfhqhu</div>
-              </div>
-            </Container>
-          </div>
+      <Main title="New Game">
+        <h2>New Game</h2>
+        <Container id="selectGamemode" className="p-0 pt-3">
+          <h5>Choose your gamemode</h5>
+          <ListGroup horizontal="sm">
+            <ListGroup.Item active={gamemode === "BOT"} onClick={gamemodeOnClick} data-gamemode="BOT" type="button" action>Vs. Bot</ListGroup.Item>
+            <ListGroup.Item active={gamemode === "LOCAL"} onClick={gamemodeOnClick} data-gamemode="LOCAL" type="button" action>Vs. Player</ListGroup.Item>
+            <ListGroup.Item active={gamemode === "NET"} onClick={gamemodeOnClick} data-gamemode="NET" type="button" action disabled={!isOnline}>Vs. Online Player</ListGroup.Item>
+          </ListGroup>
         </Container>
+        <Container id="selectDifficulty" className={difficultyEnabled ? "p-0 pt-3" : "d-none"}>
+          <h5>Choose your difficulty</h5>
+          <ListGroup horizontal="sm">
+            <ListGroup.Item active={difficulty === "EASY"} onClick={difficultyOnClick} data-difficulty="EASY" type="button" action>Easy</ListGroup.Item>
+            <ListGroup.Item active={difficulty === "MEDIUM"} onClick={difficultyOnClick} data-difficulty="MEDIUM" type="button" disabled action>Medium</ListGroup.Item>
+            <ListGroup.Item active={difficulty === "HARD"} onClick={difficultyOnClick} data-difficulty="HARD" type="button" disabled action>Hard</ListGroup.Item>
+          </ListGroup>
+        </Container>
+        <Container id="selectStarter" className={starterEnabled ? "p-0 pt-3" : "d-none"}>
+          <h5>Choose your starting colour</h5>
+          <ListGroup horizontal="sm">
+            <ListGroup.Item active={starter === "WHITE"} onClick={starterOnClick} data-starter="WHITE" type="button" action>White</ListGroup.Item>
+            <ListGroup.Item active={starter === "BLACK"} onClick={starterOnClick} data-starter="BLACK" type="button" action>Black</ListGroup.Item>
+            <ListGroup.Item active={starter === "ANY"} onClick={starterOnClick} data-starter="ANY" type="button" action>Any</ListGroup.Item>
+          </ListGroup>
+        </Container>
+        <Container id="selectTime" className={timeEnabled ? "p-0 pt-3" : "d-none"}>
+          <h5>Choose your clock</h5>
+          <ListGroup horizontal="sm">
+            <ListGroup.Item active={time === "UP"} onClick={timeOnClick} data-time="UP" type="button" action>Stopwatch</ListGroup.Item>
+            <ListGroup.Item active={time === "DOWN"} onClick={timeOnClick} data-time="DOWN" type="button" action>Countdown</ListGroup.Item>
+          </ListGroup>
+        </Container>
+        <Container id="selectTimeLimit" className={timeLimitEnabled ? "p-0 pt-3" : "d-none"}>
+          <h5>Select your time limit</h5>
+          <Form.Label>{formatTimeRange(timeRange)}</Form.Label>
+          <Form.Range onChange={timeRangeOnChange} defaultValue={0} max={3600}/>
+        </Container>
+
+        <Button className={"mt-4"} type="button" onClick={createGame} disabled={!createEnabled}>Create Game</Button>
       </Main>
     );
-  }
+}

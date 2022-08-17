@@ -78,6 +78,10 @@ module.exports = withPWA({
         dynamicStartUrl: true,
         cacheOnFrontEndNav: true,
         reloadOnOnline: false,
+
+        fallbacks: {
+            image: '/offline.png'
+        }
     },
     async headers() { // for vercel
         return [
