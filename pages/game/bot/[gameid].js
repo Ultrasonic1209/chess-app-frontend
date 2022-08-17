@@ -78,34 +78,58 @@ export default function Play() {
           return (parseInt(hours) * 3600) + (parseInt(minutes) * 60) + parseFloat(seconds)
         })
 
-        const relevantTimes = times.slice(-3);
+        var white = 0;
+        var black = 0;
 
-        var white = relevantTimes[0] || 0;
-        var black = relevantTimes[1] || 0;
-        
-        if (times.length % 2 > 0) {
-          white = relevantTimes[2] || 0;
-          black = relevantTimes[1] || 0;
-        }
-
+        var isWhite, lastTime
         if (retrievedgame.clockType === "DOWN") {
+          isWhite = true;
+          lastTime = parseInt(retrievedgame.timeLimit);
+
+          times.forEach((time) => { // i am so incredibly done with this
+            if (isWhite) {
+              console.log(time - lastTime, " for white");
+              white -= time - lastTime;
+            } else if (!isWhite) {
+              console.log(time - lastTime, " for black");
+              black -= time - lastTime;
+            }
+            lastTime = time;
+            isWhite = !isWhite;
+          })
+
+          white = parseInt(retrievedgame.timeLimit) - white;
+          black = parseInt(retrievedgame.timeLimit) - black;
+
           if (white === 0) {
-            console.log(retrievedgame.timeLimit, "for white")
             white = retrievedgame.timeLimit;
           }
           if (black === 0) {
-            console.log(retrievedgame.timeLimit, "for black")
             black = retrievedgame.timeLimit;
           }
+
+          if (retrievedgame.outOfTime === BLACK) {
+            black = 0;
+          } else if (retrievedgame.outOfTime === WHITE) {
+            white = 0;
+          }
+        } else {
+          isWhite = true;
+          lastTime = 0;
+          times.forEach((time) => {
+            if (isWhite) {
+              console.log(time - lastTime, " for white");
+              white += time - lastTime;
+            } else if (!isWhite) {
+              console.log(time - lastTime, " for black");
+              black += time - lastTime;
+            }
+            lastTime = time;
+            isWhite = !isWhite;
+          })
         }
 
-        if (retrievedgame.outOfTime === BLACK) {
-          black = 0;
-        } else if (retrievedgame.outOfTime === WHITE) {
-          white = 0;
-        }
-
-        setWhiteTime(white)
+        setWhiteTime(white);
         setBlackTime(black);
 
         setGame(gameCopy);
@@ -215,11 +239,10 @@ export default function Play() {
       } else if (!canMove) {
         if (game.turn() === BLACK) {
           gameWinner = "WHITE - BLACK OUT OF TIME";
-          outOfTime = BLACK;
         } else if (game.turn() === WHITE) {
           gameWinner = "BLACK - WHITE OUT OF TIME";
-          outOfTime = WHITE;
         }
+        outOfTime = game.turn();
       } else {
         gameWinner = "DRAW - 100+ HALF MOVES"
       }
