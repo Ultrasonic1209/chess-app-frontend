@@ -187,9 +187,11 @@ export default function Play() {
     var gametime = round(whiteTime + blackTime, 1);
     if (storedgame.clockType === "DOWN") {
       console.log("time limit:", storedgame.timeLimit)
-      console.log("white spent:", round(storedgame.timeLimit - whiteTime, 1))
-      console.log("black spent:", round(storedgame.timeLimit - blackTime, 1))
-      const totalSpent = round(Math.max(storedgame.timeLimit - whiteTime, storedgame.timeLimit - blackTime), 1);
+
+      var whiteSpent = round(storedgame.timeLimit - whiteTime, 1)
+      var blackSpent = round(storedgame.timeLimit - blackTime, 1)
+
+      const totalSpent = round(whiteSpent + blackSpent, 1);
       console.log("most spent:", totalSpent)
       gametime = storedgame.timeLimit - totalSpent
       console.log("total:", gametime)
@@ -199,17 +201,19 @@ export default function Play() {
     const gameCopy = { ...game };
     const result = gameCopy.move(move);
     gameCopy.set_comment(`[%clk ${formattedtime}}]`);
+    //console.log(gameCopy.get_comment());
 
-    setGame(gameCopy);
-    
     if (result) {
         db.table("games").update(gameid, {"game": gameCopy.pgn()})
         .then(function(updated) {
             if (!updated) {
-                addToast(
-                    "Checkmate Bot Game ID " + gameid,
-                    "Failed to save move"
-                );
+              addToast(
+                  "Checkmate Bot Game ID " + gameid,
+                  "Failed to save move"
+              );
+              setGame(game);
+            } else {
+              setGame(gameCopy);
             }
         });
     }
