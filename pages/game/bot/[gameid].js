@@ -67,7 +67,7 @@ export default function Play() {
 
         const comments = gameCopy.get_comments()
 
-        const times = comments.map((comment) => {
+        let times = comments.map((comment) => {
           const text = comment.comment
 
           const [ hours, minutes, seconds ] = (clkRegex.exec(text)?.at(1) || "00:00:00.0").split(":");
@@ -84,6 +84,8 @@ export default function Play() {
           isWhite = true;
 
           let timeLimit = parseInt(retrievedgame.timeLimit);
+
+          times = times.map((time) => time - timeLimit);
 
           lastTime = timeLimit;
 
@@ -196,7 +198,7 @@ export default function Play() {
 
       const totalSpent = round(whiteSpent + blackSpent, 1);
       console.log("most spent:", totalSpent)
-      gametime = timeLimit - totalSpent
+      gametime = (timeLimit * 2) - totalSpent
       console.log("total:", gametime)
     }
     const formattedtime = secondsToTime(gametime);

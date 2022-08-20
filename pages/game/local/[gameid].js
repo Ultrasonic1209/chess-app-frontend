@@ -23,7 +23,7 @@ export default function Play() {
   const isReady = router.isReady;
 
   useEffect(() => {
-    if (isNaN(gameid) && (typeof window != 'undefined') && (router.isReady === true)) {
+    if (isNaN(gameid) && (typeof window != 'undefined') && (isReady === true)) {
       router.push("/").then(() => {
         addToast({
           "title": "Checkmate Local Game ID " + router.query.gameid,
@@ -52,7 +52,7 @@ export default function Play() {
 
     const loadedgame = db.table("games").get(gameid)
     .then((retrievedgame) => {
-        if ((!retrievedgame) || (retrievedgame.gameType != "BOT")) {
+        if ((!retrievedgame) || (retrievedgame.gameType != "LOCAL")) {
           router.push("/").then(() => {
             addToast({
               "title": "Checkmate Local Game ID " + router.query.gameid,
@@ -67,7 +67,7 @@ export default function Play() {
 
         const comments = gameCopy.get_comments()
 
-        const times = comments.map((comment) => {
+        let times = comments.map((comment) => {
           const text = comment.comment
 
           const [ hours, minutes, seconds ] = (clkRegex.exec(text)?.at(1) || "00:00:00.0").split(":");
@@ -82,7 +82,12 @@ export default function Play() {
         let isWhite, lastTime
         if (retrievedgame.clockType === "DOWN") {
           isWhite = true;
-          lastTime = parseInt(retrievedgame.timeLimit);
+
+          let timeLimit = parseInt(retrievedgame.timeLimit);
+
+          times = times.map((time) => time - timeLimit);
+
+          lastTime = timeLimit;
 
           times.forEach((time) => { // i am so incredibly done with this
             if (isWhite) {
@@ -96,14 +101,14 @@ export default function Play() {
             isWhite = !isWhite;
           })
 
-          white = parseInt(retrievedgame.timeLimit) - white;
-          black = parseInt(retrievedgame.timeLimit) - black;
+          white = timeLimit - white;
+          black = timeLimit - black;
 
           if (white === 0) {
-            white = retrievedgame.timeLimit;
+            white = timeLimit;
           }
           if (black === 0) {
-            black = retrievedgame.timeLimit;
+            black = timeLimit;
           }
 
           if (retrievedgame.outOfTime === BLACK) {
@@ -184,14 +189,16 @@ export default function Play() {
 
     let gametime = round(whiteTime + blackTime, 1);
     if (storedgame.clockType === "DOWN") {
-      console.log("time limit:", storedgame.timeLimit)
+      let timeLimit = parseInt(storedgame.timeLimit);
 
-      let whiteSpent = round(storedgame.timeLimit - whiteTime, 1)
-      let blackSpent = round(storedgame.timeLimit - blackTime, 1)
+      console.log("time limit:", timeLimit)
+
+      let whiteSpent = round(timeLimit - whiteTime, 1)
+      let blackSpent = round(timeLimit - blackTime, 1)
 
       const totalSpent = round(whiteSpent + blackSpent, 1);
       console.log("most spent:", totalSpent)
-      gametime = storedgame.timeLimit - totalSpent
+      gametime = (timeLimit * 2) - totalSpent
       console.log("total:", gametime)
     }
     const formattedtime = secondsToTime(gametime);
