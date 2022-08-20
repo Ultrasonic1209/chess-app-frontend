@@ -13,9 +13,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { round, secondsToTime } from '../../../components/CountUp';
 import CheckmateBoard from '../../../components/CheckmateBoard';
 
-const clkRegex = new RegExp(
-  /\[%clk (?<hours>([0-9][0-9])+):(?<minutes>[0-5][0-9]):(?<seconds>[0-5][0-9]\.[0-9])]/g
-);
+const clkRegex = new RegExp('\\[%clk (.*)]', 'g');
 
 export default function Play() {
 
@@ -54,7 +52,7 @@ export default function Play() {
 
     const loadedgame = db.table("games").get(gameid)
     .then((retrievedgame) => {
-        if ((!retrievedgame) || (retrievedgame.gameType != "LOCAL")) {
+        if ((!retrievedgame) || (retrievedgame.gameType != "BOT")) {
           router.push("/").then(() => {
             addToast({
               "title": "Checkmate Local Game ID " + router.query.gameid,
@@ -72,16 +70,16 @@ export default function Play() {
         const times = comments.map((comment) => {
           const text = comment.comment
 
-          const { hours, minutes, seconds } = clkRegex.exec(text).groups;
+          const [ hours, minutes, seconds ] = (clkRegex.exec(text)?.at(1) || "00:00:00.0").split(":");
           clkRegex.lastIndex = 0;
 
           return (parseInt(hours) * 3600) + (parseInt(minutes) * 60) + parseFloat(seconds)
         })
 
-        var white = 0;
-        var black = 0;
+        let white = 0;
+        let black = 0;
 
-        var isWhite, lastTime
+        let isWhite, lastTime
         if (retrievedgame.clockType === "DOWN") {
           isWhite = true;
           lastTime = parseInt(retrievedgame.timeLimit);
@@ -184,12 +182,12 @@ export default function Play() {
   function makeAMove(move) {
     if (!timeForMove()) { return null; }
 
-    var gametime = round(whiteTime + blackTime, 1);
+    let gametime = round(whiteTime + blackTime, 1);
     if (storedgame.clockType === "DOWN") {
       console.log("time limit:", storedgame.timeLimit)
 
-      var whiteSpent = round(storedgame.timeLimit - whiteTime, 1)
-      var blackSpent = round(storedgame.timeLimit - blackTime, 1)
+      let whiteSpent = round(storedgame.timeLimit - whiteTime, 1)
+      let blackSpent = round(storedgame.timeLimit - blackTime, 1)
 
       const totalSpent = round(whiteSpent + blackSpent, 1);
       console.log("most spent:", totalSpent)
@@ -225,8 +223,8 @@ export default function Play() {
     const canMove = timeForMove();
     const possibleMoves = game.moves();
     if (game.game_over() || possibleMoves.length === 0 || !canMove) {
-      var gameWinner = "UNKNOWN";
-      var outOfTime = null;
+      let gameWinner = "UNKNOWN";
+      let outOfTime = null;
 
       if (game.in_checkmate()) {
         if (game.turn() === BLACK) {
