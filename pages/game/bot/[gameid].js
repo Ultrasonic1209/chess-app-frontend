@@ -23,7 +23,7 @@ export default function Play() {
   const isReady = router.isReady;
 
   useEffect(() => {
-    if (isNaN(gameid) && (typeof window != 'undefined') && (router.isReady === true)) {
+    if (isNaN(gameid) && (typeof window != 'undefined') && (isReady === true)) {
       router.push("/").then(() => {
         addToast({
           "title": "Checkmate Bot Game ID " + router.query.gameid,
