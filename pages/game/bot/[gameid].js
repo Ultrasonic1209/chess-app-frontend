@@ -191,8 +191,6 @@ export default function Play() {
     if (storedgame.clockType === "DOWN") {
       let timeLimit = parseInt(storedgame.timeLimit);
 
-      console.log("time limit:", timeLimit)
-
       let whiteSpent = round(timeLimit - whiteTime, 1)
       let blackSpent = round(timeLimit - blackTime, 1)
 
