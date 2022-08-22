@@ -71,7 +71,7 @@ module.exports = withPWA({
     experimental: {
         newNextLinkBehavior: true, /* this is not documented properly AT ALL. */
         optimizeCss: true,
-        legacyBrowsers: true, // why not
+        browsersListForSwc: true
     },
     pwa: {
         //disable: process.env.NODE_ENV === 'development',
