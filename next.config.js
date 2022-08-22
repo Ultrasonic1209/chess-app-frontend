@@ -65,13 +65,13 @@ const globalHeaders = [
 ]
 
 module.exports = withPWA({
-    legacyBrowsers: true,
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
     swcMinify: true,
     experimental: {
         newNextLinkBehavior: true, /* this is not documented properly AT ALL. */
-        optimizeCss: true
+        optimizeCss: true,
+        legacyBrowsers: true, // why not
     },
     pwa: {
         //disable: process.env.NODE_ENV === 'development',
