@@ -65,6 +65,7 @@ const globalHeaders = [
 ]
 
 module.exports = withPWA({
+    legacyBrowsers: true,
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
     swcMinify: true,
