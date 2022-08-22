@@ -71,12 +71,7 @@ module.exports = withPWA({
     experimental: {
         newNextLinkBehavior: true, /* this is not documented properly AT ALL. */
         optimizeCss: true,
-        browsersListForSwc: true,
-        modularizeImports: {
-            'react-bootstrap': {
-                transform: 'react-bootstrap/{{member}}',
-            }
-        },
+        browsersListForSwc: true
     },
     pwa: {
         //disable: process.env.NODE_ENV === 'development',
