@@ -66,7 +66,7 @@ const globalHeaders = [
 
 module.exports = withPWA({
     reactStrictMode: true,
-    productionBrowserSourceMaps: APP_NAME === "Checkmate Dev",
+    productionBrowserSourceMaps: true,
     swcMinify: true,
     experimental: {
         newNextLinkBehavior: true, /* this is not documented properly AT ALL. */
