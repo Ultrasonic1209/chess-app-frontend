@@ -29,6 +29,7 @@
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^7.7.1"
   },
+  "resolutions": { "terser": "npm:@swc/core" },
   "scripts": {
     "build": "next build",
     "dev": "next dev",
