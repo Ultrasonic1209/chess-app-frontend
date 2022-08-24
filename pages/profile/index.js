@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import Main from "../../components/Main";
 import useSWR from 'swr'
 
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap-button-loader';
 
 import { useToastContext } from "../../contexts/ToastContext";
 import { useState } from 'react';
@@ -14,6 +14,8 @@ export default function Profile() {
     const addToast = useToastContext();
 
     const [shouldUpdate, setShouldUpdate] = useState(true);
+
+    const [loggingOut, setLoggingOut] = useState(false);
 
     const { data, error, isValidating, mutate } = useSWR(shouldUpdate ? 'https://apichessapp.server.ultras-playroom.xyz/login/identify' : null, fetcher)
 
@@ -43,6 +45,7 @@ export default function Profile() {
     else {
 
       const handleSignOut = async () => {
+        setLoggingOut(true)
         await fetch("https://apichessapp.server.ultras-playroom.xyz/login/logout", {
           method: "DELETE",
           withCredentials: true,
@@ -66,12 +69,13 @@ export default function Profile() {
           console.error("Failed to sign-out!", error)
           alert("An error occured.")
         })
+        .finally(() => setLoggingOut(false))
       }
       return (
         <Main title="Profile">
           <h2>Profile</h2>
           <p>Username: {data.name}</p>
-          <Button variant="danger" onClick={handleSignOut}>Sign Out</Button>
+          <Button variant="danger" onClick={handleSignOut} loading={loggingOut}>Sign Out</Button>
         </Main>
       );
     }
