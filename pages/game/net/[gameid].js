@@ -16,7 +16,7 @@ const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'
 
 const clkRegex = new RegExp('\\[%clk (.*)]', 'g');
 
-export default function Play({initialdata}) {
+export default function Play() {
 
   const router = useRouter();
 
@@ -41,10 +41,10 @@ export default function Play({initialdata}) {
 
   const { data, error, mutate } = useSWR(
     `https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}`,
-    fetcher,
+    fetcher/*,
     {
         fallbackData: null //initialdata
-    }
+    }*/
   );
 
   useEffect(() => {
@@ -319,7 +319,7 @@ export default function Play({initialdata}) {
   );
 }
 
-export async function getServerSideProps(context) {
+/*export async function getServerSideProps(context) {
     const res = await fetch(`https://apichessapp.server.ultras-playroom.xyz/chess/game/${context.params.gameid}`)
     const data = await res.json()
 
@@ -337,4 +337,4 @@ export async function getServerSideProps(context) {
 
 export const config = {
     runtime: 'nodejs', // getServerSideProps would stall if the game wasnt found without this (default is experimental-edge)
-}
+}*/
