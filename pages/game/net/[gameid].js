@@ -50,16 +50,17 @@ export default function Play({initialdata}) {
   useEffect(() => {
     if (!data && !error) {
         // WE LOADIN
-    } else if (!data) {
-        addToast({
-            "title": "Checkmate Remote Game ID " + gameid,
-            "message": "Data could not be loaded."
-        });
     } else if (error) {
         console.warn(error);
         addToast({
             "title": "Checkmate Remote Game ID " + gameid,
             "message": "Error while loading data."
+        });
+    } else if (!data || !data.game) {
+        console.warn(data, error);
+        addToast({
+            "title": "Checkmate Remote Game ID " + gameid,
+            "message": "Data could not be loaded."
         });
     } else {
         const gameCopy = { ...game };
@@ -137,6 +138,8 @@ export default function Play({initialdata}) {
         setBlackTime(black);
 
         setGame(gameCopy);
+
+        console.log("updated!")
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, error])
@@ -318,7 +321,8 @@ export async function getServerSideProps(context) {
     const res = await fetch(`https://apichessapp.server.ultras-playroom.xyz/chess/game/${context.params.gameid}`)
     const data = await res.json()
 
-    if (!data) {
+    if (!data.game) {
+        console.error("no game?")
         return {
           notFound: true,
         }
