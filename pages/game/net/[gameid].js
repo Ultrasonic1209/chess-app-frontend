@@ -40,7 +40,7 @@ export default function Play(/*{initialdata, gameid}*/) {
   const [blackTime, setBlackTime] = useState(0.0);
 
   const { data, error, mutate } = useSWR(
-    !isNaN(gameid) ? `https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}` : null,
+    router.isReady ? `https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}` : null,
     fetcher,
     {
         fallbackData: null //initialdata
