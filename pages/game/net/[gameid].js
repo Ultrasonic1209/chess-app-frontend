@@ -330,7 +330,7 @@ export async function getServerSideProps(context) {
     }
 
     return {
-      props: { data: data }, // will be passed to the page component as props
+      props: { initialdata: data }, // will be passed to the page component as props
     }
 }
 
