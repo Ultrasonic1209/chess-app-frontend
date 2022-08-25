@@ -82,21 +82,19 @@ export default function Play(/*{initialdata, gameid}*/) {
         let black = 0;
 
         let isWhite, lastTime
-        if (data.clockType === "DOWN") {
+        if (data.timer === "Countdown") {
           isWhite = true;
 
-          let timeLimit = parseInt(data.timeLimit);
+          let timeLimit = parseInt(data.time_limit);
 
           times = times.map((time) => time - timeLimit);
 
           lastTime = timeLimit;
 
-          times.forEach((time) => { // i am so incredibly done with this
+          times.forEach((time) => {
             if (isWhite) {
-              console.log(lastTime - time, " for white");
               white += lastTime - time;
             } else if (!isWhite) {
-              console.log(lastTime - time, " for black");
               black += lastTime - time;
             }
             lastTime = time;
