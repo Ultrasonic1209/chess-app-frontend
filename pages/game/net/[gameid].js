@@ -75,7 +75,6 @@ export default function Play(/*{initialdata, gameid}*/) {
                 "message": data.message || "Improper data recieved from server."
             });
         }
-    }
     } else {
         const gameCopy = { ...game };
         gameCopy.reset();
