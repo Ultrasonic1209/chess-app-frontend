@@ -333,4 +333,9 @@ export async function getServerSideProps(context) {
     return {
       props: { data: data }, // will be passed to the page component as props
     }
-  }
+}
+
+
+export const config = {
+    runtime: 'nodejs', // getServerSideProps would stall if the game wasnt found without this (default is experimental-edge)
+}
