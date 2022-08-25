@@ -12,6 +12,8 @@ import { useToastContext } from "../../../contexts/ToastContext";
 import { round, secondsToTime } from '../../../components/CountUp';
 import CheckmateBoard from '../../../components/CheckmateBoard';
 
+import { Modal, Button } from 'react-bootstrap';
+
 const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'}).then(r => r.json())
 
 const clkRegex = new RegExp('\\[%clk (.*)]', 'g');
@@ -47,6 +49,46 @@ export default function Play(/*{initialdata, gameid}*/) {
     }
   );
 
+  const [showJoinGame, setJoinGame] = useState(true);
+  const [canJoinGame, allowJoiningGame] = useState(false);
+
+  const closeJoinGame = () => setJoinGame(false);
+  const joinGame = () => {
+    setJoinGame(false);
+    fetch(`https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}/enter`, {
+        body: JSON.stringify({
+          wantsWhite: null
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "PATCH",
+        withCredentials: true,
+        credentials: 'include',
+      })
+      .then((response) => {
+        if (response.ok) {
+            addToast({
+                "title": "Checkmate Remote Game ID " + gameid,
+                "message": "Joined game sucessfully!"
+            });
+        } else {
+            addToast({
+                "title": "Checkmate Remote Game ID " + gameid,
+                "message": "Failed to join game."
+            });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        addToast({
+            "title": "Checkmate Remote Game ID " + gameid,
+            "message": "Error whilst joining game."
+        });
+      })
+      .finally(mutate)
+  }
+
   useEffect(() => {
     if (!data && !error) {
         // WE LOADIN
@@ -64,18 +106,21 @@ export default function Play(/*{initialdata, gameid}*/) {
         });
     } else if (!data.game) {
         if (data.players?.length < 2) {
-            addToast({
+            allowJoiningGame(true);
+            /*addToast({
                 "title": "Checkmate Remote Game ID " + gameid,
                 "message": "Game is missing a player!"
-            });
+            });*/
         } else {
             console.warn(data, error);
+            allowJoiningGame(false);
             addToast({
                 "title": "Checkmate Remote Game ID " + gameid,
                 "message": data.message || "Improper data recieved from server."
             });
         }
     } else {
+        allowJoiningGame(false);
         const gameCopy = { ...game };
         gameCopy.reset();
         gameCopy.load_pgn(data.game);
@@ -310,6 +355,20 @@ export default function Play(/*{initialdata, gameid}*/) {
 
   return (
     <Main title="Play">
+      <Modal show={canJoinGame && showJoinGame} onHide={closeJoinGame}>
+        <Modal.Header closeButton>
+          <Modal.Title>Join game?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>This game is currently looking for a second player. Would you like to join or spectate?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeJoinGame}>
+            Spectate
+          </Button>
+          <Button variant="primary" onClick={joinGame}>
+            Join
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <h2>Play</h2>
       <CheckmateBoard
         storedgame={storedgame}
