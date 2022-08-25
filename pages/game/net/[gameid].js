@@ -147,6 +147,7 @@ export default function Play(/*{initialdata, gameid}*/) {
         let isWhite, lastTime
         if (data.timer === "Countdown") {
           data.clockType = "DOWN";
+
           isWhite = true;
 
           let timeLimit = parseInt(data.time_limit);
@@ -201,7 +202,7 @@ export default function Play(/*{initialdata, gameid}*/) {
 
         setGame(gameCopy);
 
-        setStoredGame(data.game);
+        setStoredGame(data);
 
         console.log("updated!")
     }
