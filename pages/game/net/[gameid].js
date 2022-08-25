@@ -16,7 +16,7 @@ const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'
 
 const clkRegex = new RegExp('\\[%clk (.*)]', 'g');
 
-export default function Play() {
+export default function Play(/*{initialdata, gameid}*/) {
 
   const router = useRouter();
 
@@ -40,11 +40,11 @@ export default function Play() {
   const [blackTime, setBlackTime] = useState(0.0);
 
   const { data, error, mutate } = useSWR(
-    `https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}`,
-    fetcher/*,
+    router.isReady ? `https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}` : null,
+    fetcher,
     {
         fallbackData: null //initialdata
-    }*/
+    }
   );
 
   useEffect(() => {
@@ -330,7 +330,10 @@ export default function Play() {
     }
 
     return {
-      props: { initialdata: data }, // will be passed to the page component as props
+      props: {
+        initialdata: data,
+        gameid: parseInt(context.params.gameid)
+    }, // will be passed to the page component as props
     }
 }
 
