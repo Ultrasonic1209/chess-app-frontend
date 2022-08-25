@@ -106,7 +106,7 @@ export default function Play(/*{initialdata, gameid}*/) {
         });
     } else if (!data.game) {
         if (data.players?.length < 2) {
-            if (data.in_game === false) {
+            if (data.is_white === null) {
                 allowJoiningGame(true);
             } else {
                 addToast({
