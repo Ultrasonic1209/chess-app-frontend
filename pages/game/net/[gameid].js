@@ -60,7 +60,7 @@ export default function Play(/*{initialdata, gameid}*/) {
         console.warn(data, error);
         addToast({
             "title": "Checkmate Remote Game ID " + gameid,
-            "message": "Data could not be loaded."
+            "message": data.message || "Data could not be loaded."
         });
     } else {
         const gameCopy = { ...game };
