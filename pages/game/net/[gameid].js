@@ -40,10 +40,10 @@ export default function Play({initialdata}) {
   const [blackTime, setBlackTime] = useState(0.0);
 
   const { data, error, mutate } = useSWR(
-    `https://apichessapp.server.ultras-playroom.xyz/chess/game/${router.query.gameid}`,
+    `https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}`,
     fetcher,
     {
-        fallbackData: initialdata
+        fallbackData: null //initialdata
     }
   );
 
