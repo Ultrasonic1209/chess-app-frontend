@@ -2,7 +2,17 @@
 
 const child_process = require('child_process')
 
-const withPWA = require('next-pwa')
+const withPWA = require('next-pwa')({
+    //disable: process.env.NODE_ENV === 'development',
+    dest: 'public',
+    dynamicStartUrl: true,
+    cacheOnFrontEndNav: true,
+    reloadOnOnline: false,
+
+    fallbacks: {
+        image: '/offline.png'
+    }
+})
 
 const GIT_BRANCH = process.env.VERCEL_GIT_COMMIT_REF ||= child_process.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 
@@ -70,18 +80,9 @@ module.exports = withPWA({
     swcMinify: true,
     experimental: {
         newNextLinkBehavior: true, /* this is not documented properly AT ALL. */
-        optimizeCss: true
-    },
-    pwa: {
-        //disable: process.env.NODE_ENV === 'development',
-        dest: 'public',
-        dynamicStartUrl: true,
-        cacheOnFrontEndNav: true,
-        reloadOnOnline: false,
-
-        fallbacks: {
-            image: '/offline.png'
-        }
+        optimizeCss: true,
+        browsersListForSwc: true,
+        runtime: 'experimental-edge'
     },
     async headers() { // for vercel
         return [

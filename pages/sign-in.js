@@ -55,30 +55,29 @@ export default function SignIn() {
           resetWidget();
         
           if (result.accept) {
-            mutate('https://apichessapp.server.ultras-playroom.xyz/login/identify', result.profile)
-            addToast({
-              "title": "Checkmate",
-              "message": "You have sucessfully logged in."
-            });
-            router.push("/")
-          } else {
-            setLoggingIn(false);
+            router.push("/").then(async () => {
+              addToast({
+                "title": "Checkmate",
+                "message": "You have sucessfully logged in."
+              });
+
+              await mutate('https://apichessapp.server.ultras-playroom.xyz/login/identify', result.profile);
+            })
           }
         } else {
           setSuccess(false)
           setMessage("An unknown error occured while logging you in. HTTP " + response.status);
-          setLoggingIn(false);
     
           // We should always reset the widget as a solution can not be used twice.
           resetWidget();
         }
       })
-      .catch( (error) => {
+      .catch((error) => {
         console.error('Log-in failed', error);
         setSuccess(false);
         setMessage("An unknown error occured while connecting to the server.")
-        setLoggingIn(false);
       })
+      .finally(() => setLoggingIn(false));
     
 
     };

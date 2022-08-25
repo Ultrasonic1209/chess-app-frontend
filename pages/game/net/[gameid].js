@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+import useSWR from 'swr'
 
 import { Chess, WHITE, BLACK } from 'chess.js';
 
@@ -7,38 +9,31 @@ import Main from '../../../components/Main';
 
 import { useToastContext } from "../../../contexts/ToastContext";
 
-import { db } from "../../../db";
-import { useLiveQuery } from "dexie-react-hooks";
-
 import { round, secondsToTime } from '../../../components/CountUp';
 import CheckmateBoard from '../../../components/CheckmateBoard';
 
+import { Modal, Button } from 'react-bootstrap';
+
+const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include', headers: { "Accept": "application/json", }})
+                            .then(r => r.json())
+
 const clkRegex = new RegExp('\\[%clk (.*)]', 'g');
 
-export default function Play() {
+export default function Play(/*{initialdata, gameid}*/) {
 
-  // todo: figure out why (on countdown mode) opposing team time gets set to player's time
   const router = useRouter();
-  const gameid = parseInt(router.query.gameid);
-  const isReady = router.isReady;
 
-  useEffect(() => {
-    if (isNaN(gameid) && (typeof window != 'undefined') && (isReady === true)) {
-      router.push("/").then(() => {
-        addToast({
-          "title": "Checkmate Local Game ID " + router.query.gameid,
-          "message": "Invalid ID"
-        });
-      });
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isReady]);
+  const gameid = parseInt(router.query.gameid)
 
   const addToast = useToastContext();
 
   const [game, setGame] = useState(new Chess());
 
+  const [storedgame, setStoredGame] = useState(null);
+
   const [boardEnabled, setBoardEnabled] = useState(false);
+
+  const [userAuthorised, setUserAuthorised] = useState(false);
 
   const whiteTimer = useRef(null);
   const blackTimer = useRef(null);
@@ -47,23 +42,91 @@ export default function Play() {
 
   const [blackTime, setBlackTime] = useState(0.0);
 
-  const storedgame = useLiveQuery(async () => {
-    if ((typeof window === 'undefined') || isNaN(gameid) || (router.isReady === false)) { return }
+  const { data, error, mutate } = useSWR(
+    router.isReady ? `https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}` : null,
+    fetcher,
+    {
+        fallbackData: null //initialdata
+    }
+  );
 
-    const loadedgame = db.table("games").get(gameid)
-    .then((retrievedgame) => {
-        if ((!retrievedgame) || (retrievedgame.gameType != "LOCAL")) {
-          router.push("/").then(() => {
+  const [showJoinGame, setJoinGame] = useState(true);
+  const [canJoinGame, allowJoiningGame] = useState(false);
+
+  const closeJoinGame = () => setJoinGame(false);
+  const joinGame = () => {
+    setJoinGame(false);
+    fetch(`https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}/enter`, {
+        body: JSON.stringify({
+          wantsWhite: null
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "PUT",
+        withCredentials: true,
+        credentials: 'include',
+      })
+      .then((response) => {
+        if (response.ok) {
             addToast({
-              "title": "Checkmate Local Game ID " + router.query.gameid,
-              "message": "No game could be found"
+                "title": "Checkmate Remote Game ID " + gameid,
+                "message": "Joined game sucessfully!"
             });
-          })
-          return;
+        } else {
+            addToast({
+                "title": "Checkmate Remote Game ID " + gameid,
+                "message": "Failed to join game."
+            });
         }
+      })
+      .catch((error) => {
+        console.error(error);
+        addToast({
+            "title": "Checkmate Remote Game ID " + gameid,
+            "message": "Error whilst joining game."
+        });
+      })
+      .finally(mutate)
+  }
+
+  useEffect(() => {
+    if (!data && !error) {
+        // WE LOADIN
+    } else if (error) {
+        console.warn(error);
+        addToast({
+            "title": "Checkmate Remote Game ID " + gameid,
+            "message": "Error while loading data."
+        });
+    } else if (!data) {
+        console.warn(data, error);
+        addToast({
+            "title": "Checkmate Remote Game ID " + gameid,
+            "message": "Data could not be loaded."
+        });
+    } else if (!data.game) {
+        if (data.players?.length < 2) {
+            if (data.is_white === null) {
+                allowJoiningGame(true);
+            } else {
+                addToast({
+                    "title": "Checkmate Remote Game ID " + gameid,
+                    "message": "You are missing an opponent!"
+                });
+            }
+        } else {
+            console.warn(data, error);
+            allowJoiningGame(false);
+            addToast({
+                "title": "Checkmate Remote Game ID " + gameid,
+                "message": data.message || "Improper data recieved from server."
+            });
+        }
+    } else {
         const gameCopy = { ...game };
         gameCopy.reset();
-        gameCopy.load_pgn(retrievedgame.game);
+        gameCopy.load_pgn(data.game);
 
         const comments = gameCopy.get_comments()
 
@@ -76,25 +139,27 @@ export default function Play() {
           return (parseInt(hours) * 3600) + (parseInt(minutes) * 60) + parseFloat(seconds)
         })
 
+        data.clockType = "UP";
+
         let white = 0;
         let black = 0;
 
         let isWhite, lastTime
-        if (retrievedgame.clockType === "DOWN") {
+        if (data.timer === "Countdown") {
+          data.clockType = "DOWN";
+
           isWhite = true;
 
-          let timeLimit = parseInt(retrievedgame.timeLimit);
+          let timeLimit = parseInt(data.time_limit);
 
           times = times.map((time) => time - timeLimit);
 
           lastTime = timeLimit;
 
-          times.forEach((time) => { // i am so incredibly done with this
+          times.forEach((time) => {
             if (isWhite) {
-              console.log(lastTime - time, " for white");
               white += lastTime - time;
             } else if (!isWhite) {
-              console.log(lastTime - time, " for black");
               black += lastTime - time;
             }
             lastTime = time;
@@ -111,9 +176,9 @@ export default function Play() {
             black = timeLimit;
           }
 
-          if (retrievedgame.outOfTime === BLACK) {
+          if (data.outOfTime === BLACK) {
             black = 0;
-          } else if (retrievedgame.outOfTime === WHITE) {
+          } else if (data.outOfTime === WHITE) {
             white = 0;
           }
         } else {
@@ -136,18 +201,25 @@ export default function Play() {
         setBlackTime(black);
 
         setGame(gameCopy);
-        return retrievedgame;
-    })
-    .catch((reason) => {
-      console.error(reason);
-      addToast({
-        "title": "Checkmate Local Game ID " + router.query.gameid,
-        "message": "Loading Failure"
-      });
-    });
 
-    return loadedgame;
-  }, [isReady]);
+        setStoredGame(data);
+
+        setUserAuthorised(data.is_white != null)
+
+        /*isTurn(
+            (
+                (game.turn() === WHITE) && (data.is_white === true)
+            )
+        ||
+            (
+                (game.turn() === BLACK) && (data.is_white === false)
+            )
+        )*/
+
+        console.log("updated!")
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data, error])
 
   useEffect(() => {
     if (!storedgame || !whiteTimer.current || !blackTimer.current) { return; }
@@ -207,7 +279,7 @@ export default function Play() {
     //console.log(gameCopy.get_comment());
 
     if (result) {
-        db.table("games").update(gameid, {"game": gameCopy.pgn()})
+        /*db.table("games").update(gameid, {"game": gameCopy.pgn()})
         .then(function(updated) {
             if (!updated) {
               addToast(
@@ -218,7 +290,7 @@ export default function Play() {
             } else {
               setGame(gameCopy);
             }
-        });
+        });*/
     }
     return result; // null if the move was illegal, the move object if the move was legal
   }
@@ -254,7 +326,7 @@ export default function Play() {
         gameWinner = "DRAW - 100+ HALF MOVES"
       }
 
-      db.table("games").update(gameid, {
+      /*db.table("games").update(gameid, {
         gameWon: gameWinner,
         outOfTime: outOfTime
       })
@@ -270,7 +342,7 @@ export default function Play() {
             "message": "Game Over. Winner: " + gameWinner + "\nFailed to save win."
           });
         }
-      });
+      });*/
       return false;
     } else {
       return true;
@@ -302,6 +374,20 @@ export default function Play() {
 
   return (
     <Main title="Play">
+      <Modal show={canJoinGame && showJoinGame} onHide={closeJoinGame}>
+        <Modal.Header closeButton>
+          <Modal.Title>Join game?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>This game is currently looking for a second player. Would you like to join or spectate?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeJoinGame}>
+            Spectate
+          </Button>
+          <Button variant="primary" onClick={joinGame}>
+            Join
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <h2>Play</h2>
       <CheckmateBoard
         storedgame={storedgame}
@@ -316,8 +402,31 @@ export default function Play() {
         blackTime={blackTime}
         setBlackTime={setBlackTime}
 
-        boardEnabled={boardEnabled}
+        boardEnabled={boardEnabled && userAuthorised}
       />
     </Main>
   );
 }
+
+/*export async function getServerSideProps(context) {
+    const res = await fetch(`https://apichessapp.server.ultras-playroom.xyz/chess/game/${context.params.gameid}`)
+    const data = await res.json()
+
+    if (!data.game) {
+        return {
+          notFound: true,
+        }
+    }
+
+    return {
+      props: {
+        initialdata: data,
+        gameid: parseInt(context.params.gameid)
+    }, // will be passed to the page component as props
+    }
+}
+
+
+export const config = {
+    runtime: 'nodejs', // getServerSideProps would stall if the game wasnt found without this (default is experimental-edge)
+}*/
