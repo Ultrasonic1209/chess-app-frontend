@@ -123,7 +123,6 @@ export default function Play(/*{initialdata, gameid}*/) {
             });
         }
     } else {
-        allowJoiningGame(false);
         const gameCopy = { ...game };
         gameCopy.reset();
         gameCopy.load_pgn(data.game);
@@ -203,6 +202,16 @@ export default function Play(/*{initialdata, gameid}*/) {
         setGame(gameCopy);
 
         setStoredGame(data);
+
+        setUserAuthorised(
+            (
+                (game.turn() === WHITE) && (isWhite === true)
+            )
+        ||
+            (
+                (game.turn() === BLACK) && (isWhite === false)
+            )
+        )
 
         console.log("updated!")
     }
