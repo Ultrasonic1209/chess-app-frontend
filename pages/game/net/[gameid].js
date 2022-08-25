@@ -9,8 +9,6 @@ import Main from '../../../components/Main';
 
 import { useToastContext } from "../../../contexts/ToastContext";
 
-import { db } from "../../../db";
-
 import { round, secondsToTime } from '../../../components/CountUp';
 import CheckmateBoard from '../../../components/CheckmateBoard';
 
@@ -301,7 +299,7 @@ export default function Play({initialdata}) {
     //console.log(gameCopy.get_comment());
 
     if (result) {
-        db.table("games").update(gameid, {"game": gameCopy.pgn()})
+        /*db.table("games").update(gameid, {"game": gameCopy.pgn()})
         .then(function(updated) {
             if (!updated) {
               addToast(
@@ -312,7 +310,7 @@ export default function Play({initialdata}) {
             } else {
               setGame(gameCopy);
             }
-        });
+        });*/
     }
     return result; // null if the move was illegal, the move object if the move was legal
   }
@@ -348,7 +346,7 @@ export default function Play({initialdata}) {
         gameWinner = "DRAW - 100+ HALF MOVES"
       }
 
-      db.table("games").update(gameid, {
+      /*db.table("games").update(gameid, {
         gameWon: gameWinner,
         outOfTime: outOfTime
       })
@@ -364,7 +362,7 @@ export default function Play({initialdata}) {
             "message": "Game Over. Winner: " + gameWinner + "\nFailed to save win."
           });
         }
-      });
+      });*/
       return false;
     } else {
       return true;
