@@ -56,12 +56,26 @@ export default function Play(/*{initialdata, gameid}*/) {
             "title": "Checkmate Remote Game ID " + gameid,
             "message": "Error while loading data."
         });
-    } else if (!data || !data.game) {
+    } else if (!data) {
         console.warn(data, error);
         addToast({
             "title": "Checkmate Remote Game ID " + gameid,
-            "message": data.message || "Data could not be loaded."
+            "message": "Data could not be loaded."
         });
+    } else if (!data.game) {
+        if (data.players?.length < 2) {
+            addToast({
+                "title": "Checkmate Remote Game ID " + gameid,
+                "message": "Game is missing a player!"
+            });
+        } else {
+            console.warn(data, error);
+            addToast({
+                "title": "Checkmate Remote Game ID " + gameid,
+                "message": data.message || "Improper data recieved from server."
+            });
+        }
+    }
     } else {
         const gameCopy = { ...game };
         gameCopy.reset();
