@@ -26,7 +26,7 @@ export default function Play({initialdata}) {
 
   const [game, setGame] = useState(new Chess());
 
-  const [storedgame, setStoredgame] = useState(null);
+  const [storedgame, setStoredGame] = useState(null);
 
   const [boardEnabled, setBoardEnabled] = useState(false);
 
@@ -138,6 +138,8 @@ export default function Play({initialdata}) {
         setBlackTime(black);
 
         setGame(gameCopy);
+
+        setStoredGame(data.game);
 
         console.log("updated!")
     }
