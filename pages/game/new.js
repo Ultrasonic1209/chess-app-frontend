@@ -109,7 +109,42 @@ export default function Preferences() {
 
           break;
         case "NET":
-          
+          fetch(`https://apichessapp.server.ultras-playroom.xyz/chess/game/`, {
+            body: JSON.stringify({
+              creatorStartsWhite: toStarter === "WHITE",
+              countingDown: time === "DOWN",
+              timeLimit: timeRange
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+            method: "POST",
+            withCredentials: true,
+            credentials: 'include',
+          })
+          .then(async (response) => {
+            if (response.ok) {
+                const resp = await response.json()
+                addToast({
+                    "title": "Checkmate Remote Game ID " + resp.gameid,
+                    "message": "Joined game sucessfully!"
+                });
+                await router.push("/game/net/" + resp.gameid);
+            } else {
+                console.error(response);
+                addToast({
+                    "title": "Checkmate",
+                    "message": "Internal server error."
+                });
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            addToast({
+                "title": "Checkmate",
+                "message": "Error whilst creating game."
+            });
+          })
           break;
         default:
           addToast({
