@@ -324,7 +324,6 @@ export async function getServerSideProps(context) {
     const data = await res.json()
 
     if (!data.game) {
-        console.error("no game?")
         return {
           notFound: true,
         }
