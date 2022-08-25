@@ -139,11 +139,14 @@ export default function Play(/*{initialdata, gameid}*/) {
           return (parseInt(hours) * 3600) + (parseInt(minutes) * 60) + parseFloat(seconds)
         })
 
+        data.clockType = "UP";
+
         let white = 0;
         let black = 0;
 
         let isWhite, lastTime
         if (data.timer === "Countdown") {
+          data.clockType = "DOWN";
           isWhite = true;
 
           let timeLimit = parseInt(data.time_limit);
