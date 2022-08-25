@@ -26,6 +26,8 @@ export default function Play({initialdata}) {
 
   const [game, setGame] = useState(new Chess());
 
+  const [storedgame, setStoredgame] = useState(null);
+
   const [boardEnabled, setBoardEnabled] = useState(false);
 
   const [userAuthorised, setUserAuthorised] = useState(false);
@@ -45,7 +47,7 @@ export default function Play({initialdata}) {
     }
   );
 
-  const storedgame = useEffect(() => {
+  useEffect(() => {
     if (!data && !error) {
         // WE LOADIN
     } else if (!data) {
@@ -138,108 +140,6 @@ export default function Play({initialdata}) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, error])
-
-  /*const storedgame = useLiveQuery(async () => {
-    if ((typeof window === 'undefined') || isNaN(gameid) || (router.isReady === false)) { return }
-
-    const loadedgame = db.table("games").get(gameid)
-    .then((retrievedgame) => {
-        if ((!retrievedgame) || (retrievedgame.gameType != "LOCAL")) {
-          router.push("/").then(() => {
-            addToast({
-              "title": "Checkmate Local Game ID " + router.query.gameid,
-              "message": "No game could be found"
-            });
-          })
-          return;
-        }
-        const gameCopy = { ...game };
-        gameCopy.reset();
-        gameCopy.load_pgn(retrievedgame.game);
-
-        const comments = gameCopy.get_comments()
-
-        let times = comments.map((comment) => {
-          const text = comment.comment
-
-          const [ hours, minutes, seconds ] = (clkRegex.exec(text)?.at(1) || "00:00:00.0").split(":");
-          clkRegex.lastIndex = 0;
-
-          return (parseInt(hours) * 3600) + (parseInt(minutes) * 60) + parseFloat(seconds)
-        })
-
-        let white = 0;
-        let black = 0;
-
-        let isWhite, lastTime
-        if (retrievedgame.clockType === "DOWN") {
-          isWhite = true;
-
-          let timeLimit = parseInt(retrievedgame.timeLimit);
-
-          times = times.map((time) => time - timeLimit);
-
-          lastTime = timeLimit;
-
-          times.forEach((time) => { // i am so incredibly done with this
-            if (isWhite) {
-              console.log(lastTime - time, " for white");
-              white += lastTime - time;
-            } else if (!isWhite) {
-              console.log(lastTime - time, " for black");
-              black += lastTime - time;
-            }
-            lastTime = time;
-            isWhite = !isWhite;
-          })
-
-          white = timeLimit - white;
-          black = timeLimit - black;
-
-          if (white === 0) {
-            white = timeLimit;
-          }
-          if (black === 0) {
-            black = timeLimit;
-          }
-
-          if (retrievedgame.outOfTime === BLACK) {
-            black = 0;
-          } else if (retrievedgame.outOfTime === WHITE) {
-            white = 0;
-          }
-        } else {
-          isWhite = true;
-          lastTime = 0;
-          times.forEach((time) => {
-            if (isWhite) {
-              console.log(time - lastTime, " for white");
-              white += time - lastTime;
-            } else if (!isWhite) {
-              console.log(time - lastTime, " for black");
-              black += time - lastTime;
-            }
-            lastTime = time;
-            isWhite = !isWhite;
-          })
-        }
-
-        setWhiteTime(white);
-        setBlackTime(black);
-
-        setGame(gameCopy);
-        return retrievedgame;
-    })
-    .catch((reason) => {
-      console.error(reason);
-      addToast({
-        "title": "Checkmate Local Game ID " + router.query.gameid,
-        "message": "Loading Failure"
-      });
-    });
-
-    return loadedgame;
-  }, [isReady]);*/
 
   useEffect(() => {
     if (!storedgame || !whiteTimer.current || !blackTimer.current) { return; }
