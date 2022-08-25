@@ -27,7 +27,7 @@ export default function Preferences() {
     const starterOnClick = (ev) => setStarter(ev.target.dataset.starter);
     const timeOnClick = (ev) => setTime(ev.target.dataset.time);
 
-    const timeRangeOnChange = (ev) => setTimeRange(ev.target.value);
+    const timeRangeOnChange = (ev) => setTimeRange(parseInt(ev.target.value));
 
     const formatTimeRange = (range) => {
       const seconds = range % 60;

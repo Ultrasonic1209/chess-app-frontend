@@ -347,6 +347,7 @@ export default function Play(/*{initialdata, gameid}*/) {
     } else {
       return true;
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addToast, game, gameid, storedgame, timeForMove]);
 
   useEffect(() => {
