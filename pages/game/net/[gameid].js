@@ -62,7 +62,7 @@ export default function Play(/*{initialdata, gameid}*/) {
         headers: {
           "Content-Type": "application/json",
         },
-        method: "PATCH",
+        method: "PUT",
         withCredentials: true,
         credentials: 'include',
       })
