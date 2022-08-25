@@ -203,15 +203,17 @@ export default function Play(/*{initialdata, gameid}*/) {
 
         setStoredGame(data);
 
-        setUserAuthorised(
+        setUserAuthorised(data.is_white != null)
+
+        /*isTurn(
             (
-                (game.turn() === WHITE) && (isWhite === true)
+                (game.turn() === WHITE) && (data.is_white === true)
             )
         ||
             (
-                (game.turn() === BLACK) && (isWhite === false)
+                (game.turn() === BLACK) && (data.is_white === false)
             )
-        )
+        )*/
 
         console.log("updated!")
     }
