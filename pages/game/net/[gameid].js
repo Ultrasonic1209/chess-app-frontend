@@ -106,11 +106,14 @@ export default function Play(/*{initialdata, gameid}*/) {
         });
     } else if (!data.game) {
         if (data.players?.length < 2) {
-            allowJoiningGame(true);
-            /*addToast({
-                "title": "Checkmate Remote Game ID " + gameid,
-                "message": "Game is missing a player!"
-            });*/
+            if (data.in_game === false) {
+                allowJoiningGame(true);
+            } else {
+                addToast({
+                    "title": "Checkmate Remote Game ID " + gameid,
+                    "message": "You are missing an opponent!"
+                });
+            }
         } else {
             console.warn(data, error);
             allowJoiningGame(false);
