@@ -14,7 +14,8 @@ import CheckmateBoard from '../../../components/CheckmateBoard';
 
 import { Modal, Button } from 'react-bootstrap';
 
-const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'}).then(r => r.json())
+const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include', headers: { "Accept": "application/json", }})
+                            .then(r => r.json())
 
 const clkRegex = new RegExp('\\[%clk (.*)]', 'g');
 

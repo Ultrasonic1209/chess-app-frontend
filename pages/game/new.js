@@ -126,10 +126,10 @@ export default function Preferences() {
             if (response.ok) {
                 const resp = await response.json()
                 addToast({
-                    "title": "Checkmate Remote Game ID " + resp.gameid,
-                    "message": "Joined game sucessfully!"
+                  "title": "Checkmate",
+                  "message": "Net Game created. ID " + resp.game_id
                 });
-                await router.push("/game/net/" + resp.gameid);
+                await router.push("/game/net/" + resp.game_id);
             } else {
                 console.error(response);
                 addToast({
