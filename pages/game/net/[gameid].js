@@ -299,7 +299,7 @@ export default function Play(/*{initialdata, gameid}*/) {
             "title": "Checkmate Remote Game ID " + gameid,
             "message": body.message || "Server did not process move"
           });
-          await mutate();
+          await mutate(storedgame);
         }
       })
       .catch(async (error) => {
@@ -308,7 +308,7 @@ export default function Play(/*{initialdata, gameid}*/) {
           "title": "Checkmate Remote Game ID " + gameid,
           "message": "Error sending move to the server"
         });
-        await mutate()
+        await mutate(storedgame)
       })
     }
     return result; // null if the move was illegal, the move object if the move was legal
