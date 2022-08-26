@@ -96,6 +96,118 @@ export default function Play(/*{initialdata, gameid}*/) {
       .finally(mutate)
   }
 
+  const syncTime = useCallback(
+    () => {
+      const startTime = parseISO(storedgame.time_started)
+      const currentTime = new Date()
+
+      const duration = intervalToDuration({
+        start: startTime,
+        end: currentTime,
+      })
+
+      const secondsSinceStart = durationToMillis(duration) / 1000
+
+      //console.warn("seconds since game start", secondsSinceStart)
+
+      const gameCopy = { ...game };
+      gameCopy.reset();
+      gameCopy.load_pgn(storedgame.game);
+
+      const comments = gameCopy.get_comments()
+
+      let times = comments.map((comment) => {
+        const text = comment.comment
+
+        const [ hours, minutes, seconds ] = (clkRegex.exec(text)?.at(1) || "00:00:00.0").split(":");
+        clkRegex.lastIndex = 0;
+
+        return (parseInt(hours) * 3600) + (parseInt(minutes) * 60) + parseFloat(seconds)
+      })
+
+      let white = 0;
+      let black = 0;
+
+      let isWhite, lastTime
+      if (storedgame.clockType === "DOWN") {
+
+        isWhite = true;
+
+        let timeLimit = parseInt(storedgame.time_limit);
+
+        times = times.map((time) => time - timeLimit);
+
+        lastTime = timeLimit;
+
+        times.forEach((time) => {
+          if (isWhite) {
+            white += lastTime - time;
+          } else if (!isWhite) {
+            black += lastTime - time;
+          }
+          lastTime = time;
+          isWhite = !isWhite;
+        })
+
+        white = timeLimit - white;
+        black = timeLimit - black;
+
+        if (white === 0) {
+          white = timeLimit;
+        }
+        if (black === 0) {
+          black = timeLimit;
+        }
+
+        if (storedgame.outOfTime === BLACK) {
+          black = 0;
+        } else if (storedgame.outOfTime === WHITE) {
+          white = 0;
+        }
+      } else {
+        isWhite = true;
+        lastTime = 0;
+        times.forEach((time) => {
+          if (isWhite) {
+            console.log(time - lastTime, " for white");
+            white += time - lastTime;
+          } else if (!isWhite) {
+            console.log(time - lastTime, " for black");
+            black += time - lastTime;
+          }
+          lastTime = time;
+          isWhite = !isWhite;
+        })
+
+        const total = white + black;
+
+        if (game.turn() === WHITE) {
+          white += secondsSinceStart - total;
+        } else {
+          black += secondsSinceStart - total;
+        }
+      }
+
+      setWhiteTime(white);
+      setBlackTime(black);
+
+      setGame(game);
+
+    },
+    [storedgame, game]
+  )
+
+  useEffect(() => {
+    let interval;
+    if (storedgame) {
+      interval = setInterval(syncTime, 2000);
+      syncTime()
+    } else if (!storedgame) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [storedgame, syncTime]);
+
   useEffect(() => {
     if (!data && !error) {
         // WE LOADIN
@@ -130,119 +242,17 @@ export default function Play(/*{initialdata, gameid}*/) {
             });
         }
     } else {
-        const startTime = parseISO(data.time_started)
-        const currentTime = new Date()
 
-        const duration = intervalToDuration({
-          start: startTime,
-          end: currentTime,
-        })
+      data.clockType = "UP";
+      if (data.timer === "Countdown") {
+        data.clockType = "DOWN";
+      }
 
-        const secondsSinceStart = durationToMillis(duration) / 1000
+      setStoredGame(data);
 
-        console.warn("seconds since game start", secondsSinceStart)
+      setUserAuthorised(data.is_white != null)
 
-        const gameCopy = { ...game };
-        gameCopy.reset();
-        gameCopy.load_pgn(data.game);
-
-        const comments = gameCopy.get_comments()
-
-        let times = comments.map((comment) => {
-          const text = comment.comment
-
-          const [ hours, minutes, seconds ] = (clkRegex.exec(text)?.at(1) || "00:00:00.0").split(":");
-          clkRegex.lastIndex = 0;
-
-          return (parseInt(hours) * 3600) + (parseInt(minutes) * 60) + parseFloat(seconds)
-        })
-
-        data.clockType = "UP";
-
-        let white = 0;
-        let black = 0;
-
-        let isWhite, lastTime
-        if (data.timer === "Countdown") {
-          data.clockType = "DOWN";
-
-          isWhite = true;
-
-          let timeLimit = parseInt(data.time_limit);
-
-          times = times.map((time) => time - timeLimit);
-
-          lastTime = timeLimit;
-
-          times.forEach((time) => {
-            if (isWhite) {
-              white += lastTime - time;
-            } else if (!isWhite) {
-              black += lastTime - time;
-            }
-            lastTime = time;
-            isWhite = !isWhite;
-          })
-
-          white = timeLimit - white;
-          black = timeLimit - black;
-
-          if (white === 0) {
-            white = timeLimit;
-          }
-          if (black === 0) {
-            black = timeLimit;
-          }
-
-          if (data.outOfTime === BLACK) {
-            black = 0;
-          } else if (data.outOfTime === WHITE) {
-            white = 0;
-          }
-        } else {
-          isWhite = true;
-          lastTime = 0;
-          times.forEach((time) => {
-            if (isWhite) {
-              console.log(time - lastTime, " for white");
-              white += time - lastTime;
-            } else if (!isWhite) {
-              console.log(time - lastTime, " for black");
-              black += time - lastTime;
-            }
-            lastTime = time;
-            isWhite = !isWhite;
-          })
-
-          const total = white + black;
- 
-          if (game.turn() === WHITE) {
-            white += secondsSinceStart - total;
-          } else {
-            black += secondsSinceStart - total;
-          }
-        }
-
-        setWhiteTime(white);
-        setBlackTime(black);
-
-        setGame(gameCopy);
-
-        setStoredGame(data);
-
-        setUserAuthorised(data.is_white != null)
-
-        /*isTurn(
-            (
-                (game.turn() === WHITE) && (data.is_white === true)
-            )
-        ||
-            (
-                (game.turn() === BLACK) && (data.is_white === false)
-            )
-        )*/
-
-        console.log("updated!")
+      console.log("updated!")
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, error])
