@@ -46,7 +46,8 @@ export default function Play(/*{initialdata, gameid}*/) {
     router.isReady ? `https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}` : null,
     fetcher,
     {
-        fallbackData: null //initialdata
+      refreshInterval: 1000,
+      fallbackData: null //initialdata
     }
   );
 
