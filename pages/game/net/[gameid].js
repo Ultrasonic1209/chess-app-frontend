@@ -213,6 +213,14 @@ export default function Play(/*{initialdata, gameid}*/) {
             lastTime = time;
             isWhite = !isWhite;
           })
+
+          const total = white + black;
+ 
+          if (game.turn() === WHITE) {
+            white += secondsSinceStart - total;
+          } else {
+            black += secondsSinceStart - total;
+          }
         }
 
         setWhiteTime(white);
