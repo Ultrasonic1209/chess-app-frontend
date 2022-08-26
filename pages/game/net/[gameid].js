@@ -63,7 +63,7 @@ export default function Play(/*{initialdata, gameid}*/) {
         headers: {
           "Content-Type": "application/json",
         },
-        method: "PUT",
+        method: "PATCH",
         withCredentials: true,
         credentials: 'include',
       })
@@ -76,7 +76,7 @@ export default function Play(/*{initialdata, gameid}*/) {
         } else {
             addToast({
                 "title": "Checkmate Remote Game ID " + gameid,
-                "message": "Failed to join game."
+                "message": response.message || "Failed to join game."
             });
         }
       })
