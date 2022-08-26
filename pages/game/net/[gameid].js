@@ -299,18 +299,24 @@ export default function Play(/*{initialdata, gameid}*/) {
             "title": "Checkmate Remote Game ID " + gameid,
             "message": body.message || "Server did not process move"
           });
+          setGame(game);
           return storedgame
         }
       })
-      .catch(async (error) => {
+
+      mutate(
+        resp,
+        {
+          revalidate: true
+        }
+      ).catch(async (error) => {
         console.error(error);
         addToast({
           "title": "Checkmate Remote Game ID " + gameid,
           "message": "Error sending move to the server"
         });
+        setGame(game);
       })
-      
-      mutate(resp);
     }
     return result; // null if the move was illegal, the move object if the move was legal
   }
