@@ -241,6 +241,9 @@ export default function Play(/*{initialdata, gameid}*/) {
     } else {
       setBoardEnabled(storedgame.is_white === (game.turn() === WHITE));
     }
+    console.log("user is white: ", storedgame.is_white);
+    console.log("turn is white: ", game.turn() === WHITE);
+    console.log("board enabled:", storedgame.is_white === (game.turn() === WHITE))
   }, [storedgame, game])
 
   const timeForMove = useCallback(() => {
