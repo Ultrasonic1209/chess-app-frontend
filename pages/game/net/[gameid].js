@@ -382,12 +382,12 @@ export default function Play(/*{initialdata, gameid}*/) {
   useEffect(() => {
     let interval;
     if (storedgame) {
-      interval = setInterval(() => { setBoardEnabled(moveGameAlong()); }, 1000);
+      interval = setInterval(() => { setBoardEnabled((storedgame.is_white === (game.turn() === WHITE)) && moveGameAlong()); }, 1000);
     } else if (!storedgame) {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [moveGameAlong, storedgame]);
+  }, [moveGameAlong, storedgame, game]);
 
   function onDrop(sourceSquare, targetSquare) {
 
