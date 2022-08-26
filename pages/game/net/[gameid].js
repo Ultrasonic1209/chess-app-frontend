@@ -279,7 +279,7 @@ export default function Play(/*{initialdata, gameid}*/) {
     //console.log(gameCopy.get_comment());
 
     if (result) {
-      fetch(`https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}/move`, {
+      const resp = fetch(`https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}/move`, {
         body: JSON.stringify({
           san: result.san
         }),
@@ -293,13 +293,13 @@ export default function Play(/*{initialdata, gameid}*/) {
       .then(async (response) => {
         const body = await response.json()
         if (response.ok) {
-          await mutate(body);
+          return body
         } else {
           addToast({
             "title": "Checkmate Remote Game ID " + gameid,
             "message": body.message || "Server did not process move"
           });
-          await mutate(storedgame);
+          return storedgame
         }
       })
       .catch(async (error) => {
@@ -308,8 +308,9 @@ export default function Play(/*{initialdata, gameid}*/) {
           "title": "Checkmate Remote Game ID " + gameid,
           "message": "Error sending move to the server"
         });
-        await mutate(storedgame)
       })
+      
+      mutate(resp);
     }
     return result; // null if the move was illegal, the move object if the move was legal
   }
