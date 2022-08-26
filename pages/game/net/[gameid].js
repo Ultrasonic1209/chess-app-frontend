@@ -236,10 +236,10 @@ export default function Play(/*{initialdata, gameid}*/) {
         console.log("time up!")
         setBoardEnabled(false);
       } else {
-        setBoardEnabled(true);
+        setBoardEnabled(storedgame.is_white === (game.turn() === WHITE));
       }
     } else {
-      setBoardEnabled(true);
+      setBoardEnabled(storedgame.is_white === (game.turn() === WHITE));
     }
   }, [storedgame, game])
 
@@ -295,19 +295,19 @@ export default function Play(/*{initialdata, gameid}*/) {
         if (response.ok) {
           await mutate(body);
         } else {
-          addToast(
-            "Checkmate Remote Game ID " + gameid,
-            body.message || "Server did not process move"
-          );
+          addToast({
+            "title": "Checkmate Remote Game ID " + gameid,
+            "message": body.message || "Server did not process move"
+          });
           await mutate();
         }
       })
       .catch(async (error) => {
         console.error(error);
-        addToast(
-          "Checkmate Remote Game ID " + gameid,
-          "Error sending move to the server"
-        );
+        addToast({
+          "title": "Checkmate Remote Game ID " + gameid,
+          "message": "Error sending move to the server"
+        });
         await mutate()
       })
     }
