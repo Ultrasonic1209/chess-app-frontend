@@ -95,7 +95,6 @@ export default function Play(/*{initialdata, gameid}*/) {
   }
 
   useEffect(() => {
-    console.log("remote data was updated")
     if (!data && !error) {
         // WE LOADIN
     } else if (error) {
