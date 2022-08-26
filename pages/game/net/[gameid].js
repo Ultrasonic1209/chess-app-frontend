@@ -128,7 +128,7 @@ export default function Play(/*{initialdata, gameid}*/) {
             });
         }
     } else {
-        const startTime = parseISO(storedgame.time_started)
+        const startTime = parseISO(data.time_started)
         const currentTime = new Date()
 
         const duration = intervalToDuration({
