@@ -96,7 +96,7 @@ export default function Play(/*{initialdata, gameid}*/) {
       .finally(mutate)
   }
 
-  const syncTime = useCallback(
+  const syncGame = useCallback(
     () => {
       const startTime = parseISO(storedgame.time_started)
       const currentTime = new Date()
@@ -193,6 +193,8 @@ export default function Play(/*{initialdata, gameid}*/) {
 
       setGame(game);
 
+      console.log("Game has been syncronised.")
+
     },
     [storedgame, game]
   )
@@ -200,13 +202,13 @@ export default function Play(/*{initialdata, gameid}*/) {
   useEffect(() => {
     let interval;
     if (storedgame) {
-      interval = setInterval(syncTime, 2000);
-      syncTime()
+      interval = setInterval(syncGame, 2000);
+      syncGame()
     } else if (!storedgame) {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [storedgame, syncTime]);
+  }, [storedgame, syncGame]);
 
   useEffect(() => {
     if (!data && !error) {
