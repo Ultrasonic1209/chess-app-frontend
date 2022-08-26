@@ -5,8 +5,7 @@ import useSWR from 'swr'
 
 import { Chess, WHITE, BLACK } from 'chess.js';
 
-import parseISO from 'date-fns/parseISO';
-import intervalToDuration from 'date-fns/intervalToDuration';
+import { parseISO, intervalToDuration, add } from 'date-fns';
 
 import Main from '../../../components/Main';
 
@@ -21,6 +20,9 @@ const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'
                             .then(r => r.json())
 
 const clkRegex = new RegExp('\\[%clk (.*)]', 'g');
+
+// https://spectrum.chat/date-fns/general/duration-object-milliseconds~1dfb088c-01fc-48df-a78c-babbd9b5e522?m=MTYwMzEzNTczMzEyMQ==
+const durationToMillis = duration => +add(0, duration)
 
 export default function Play(/*{initialdata, gameid}*/) {
 
@@ -136,7 +138,9 @@ export default function Play(/*{initialdata, gameid}*/) {
           end: currentTime,
         })
 
-        console.warn("seconds since game start", duration)
+        const secondsSinceStart = durationToMillis(duration) / 1000
+
+        console.warn("seconds since game start", secondsSinceStart)
 
         const gameCopy = { ...game };
         gameCopy.reset();
