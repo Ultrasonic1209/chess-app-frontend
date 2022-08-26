@@ -193,7 +193,7 @@ export default function Play(/*{initialdata, gameid}*/) {
 
       setGame(game);
 
-      console.log("Game has been syncronised.")
+      //console.log("Game has been syncronised.")
 
     },
     [storedgame, game]
