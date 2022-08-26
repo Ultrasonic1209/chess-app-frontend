@@ -33,7 +33,7 @@ export default function Preferences() {
       const seconds = range % 60;
       const minutes = Math.floor(range / 60)
 
-      var tr = ""
+      let tr = ""
 
       if (minutes > 0) {
         tr = minutes + " minute";
@@ -65,14 +65,13 @@ export default function Preferences() {
     // eslint-disable-next-line no-unused-vars
     const createGame = async (ev) => {
 
+      let toStarter = starter;
+      if (toStarter === "ANY") {
+        toStarter = Math.random() < 0.5 ? "WHITE" : "BLACK";
+      }
+
       switch (gamemode) {
         case "BOT":
-
-          var toStarter = starter;
-          if (toStarter === "ANY") {
-            toStarter = Math.random() < 0.5 ? "WHITE" : "BLACK";
-          }
-
           db.games.put({
             gameType: "BOT",
             game: "",
