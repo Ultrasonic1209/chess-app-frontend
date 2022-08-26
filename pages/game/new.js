@@ -134,7 +134,7 @@ export default function Preferences() {
                 console.error(response);
                 addToast({
                     "title": "Checkmate",
-                    "message": "Internal server error."
+                    "message": response.message || "Internal server error."
                 });
             }
           })
