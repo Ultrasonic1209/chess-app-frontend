@@ -109,6 +109,7 @@ export default function Preferences() {
 
           break;
         case "NET":
+          console.log(time);
           fetch(`https://apichessapp.server.ultras-playroom.xyz/chess/game/`, {
             body: JSON.stringify({
               creatorStartsWhite: toStarter === "WHITE",
