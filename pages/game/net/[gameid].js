@@ -279,18 +279,37 @@ export default function Play(/*{initialdata, gameid}*/) {
     //console.log(gameCopy.get_comment());
 
     if (result) {
-        /*db.table("games").update(gameid, {"game": gameCopy.pgn()})
-        .then(function(updated) {
-            if (!updated) {
-              addToast(
-                  "Checkmate Local Game ID " + gameid,
-                  "Failed to save move"
-              );
-              setGame(game);
-            } else {
-              setGame(gameCopy);
-            }
-        });*/
+      fetch(`https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}/move`, {
+        body: JSON.stringify({
+          san: result.san
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "PATCH",
+        withCredentials: true,
+        credentials: 'include',
+      })
+      .then(async (response) => {
+        const body = await response.json()
+        if (response.ok) {
+          await mutate(body);
+        } else {
+          addToast(
+            "Checkmate Remote Game ID " + gameid,
+            body.message || "Server did not process move"
+          );
+          await mutate();
+        }
+      })
+      .catch(async (error) => {
+        console.error(error);
+        addToast(
+          "Checkmate Remote Game ID " + gameid,
+          "Error sending move to the server"
+        );
+        await mutate()
+      })
     }
     return result; // null if the move was illegal, the move object if the move was legal
   }
