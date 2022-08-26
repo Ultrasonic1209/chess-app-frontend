@@ -5,6 +5,9 @@ import useSWR from 'swr'
 
 import { Chess, WHITE, BLACK } from 'chess.js';
 
+import parseISO from 'date-fns/parseISO';
+import intervalToDuration from 'date-fns/intervalToDuration';
+
 import Main from '../../../components/Main';
 
 import { useToastContext } from "../../../contexts/ToastContext";
@@ -126,6 +129,16 @@ export default function Play(/*{initialdata, gameid}*/) {
             });
         }
     } else {
+        const startTime = parseISO(storedgame.time_started)
+        const currentTime = new Date()
+
+        const duration = intervalToDuration({
+          start: startTime,
+          end: currentTime,
+        })
+
+        console.warn("seconds since game start", duration)
+
         const gameCopy = { ...game };
         gameCopy.reset();
         gameCopy.load_pgn(data.game);
