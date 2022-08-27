@@ -172,6 +172,17 @@ export default function Play(/*{initialdata, gameid}*/) {
           black -= secondsSinceStart - timeMoving;
         }
 
+        const total = white + black;
+
+        console.log("seconds since start", secondsSinceStart);
+        console.log("total game time", total);
+
+        if (game.turn() === WHITE) {
+          white += secondsSinceStart - total;
+        } else {
+          black += secondsSinceStart - total;
+        }
+
         white = Math.max(white, 0)
         black = Math.max(white, 0)
 
@@ -189,17 +200,6 @@ export default function Play(/*{initialdata, gameid}*/) {
           lastTime = time;
           isWhite = !isWhite;
         })
-
-        const total = white + black;
-
-        console.log("seconds since start", secondsSinceStart);
-        console.log("total game time", total);
-
-        if (game.turn() === WHITE) {
-          white += secondsSinceStart - total;
-        } else {
-          black += secondsSinceStart - total;
-        }
       }
 
       setWhiteTime(white);
