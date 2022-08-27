@@ -191,7 +191,7 @@ export default function Play(/*{initialdata, gameid}*/) {
       setWhiteTime(white);
       setBlackTime(black);
 
-      setGame(game);
+      setGame(gameCopy);
 
       //console.log("Game has been syncronised.")
 
