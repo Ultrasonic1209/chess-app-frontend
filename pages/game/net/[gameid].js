@@ -171,7 +171,10 @@ export default function Play(/*{initialdata, gameid}*/) {
         } else {
           black -= secondsSinceStart - timeMoving;
         }
-        
+
+        white = Math.max(white, 0)
+        black = Math.max(white, 0)
+
       } else {
         isWhite = true;
         lastTime = 0;
