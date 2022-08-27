@@ -110,11 +110,10 @@ export default function Play(/*{initialdata, gameid}*/) {
 
       //console.warn("seconds since game start", secondsSinceStart)
 
-      const gameCopy = { ...game };
-      gameCopy.reset();
-      gameCopy.load_pgn(storedgame.game);
+      const game = new Chess();
+      game.load_pgn(storedgame.game);
 
-      const comments = gameCopy.get_comments()
+      const comments = game.get_comments()
 
       let times = comments.map((comment) => {
         const text = comment.comment
@@ -191,12 +190,12 @@ export default function Play(/*{initialdata, gameid}*/) {
       setWhiteTime(white);
       setBlackTime(black);
 
-      setGame(gameCopy);
+      setGame(game);
 
       //console.log("Game has been syncronised.")
 
     },
-    [storedgame, game]
+    [storedgame]
   )
 
   useEffect(() => {
