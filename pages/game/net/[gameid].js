@@ -166,15 +166,21 @@ export default function Play(/*{initialdata, gameid}*/) {
           white = 0;
         }
 
+        console.log("white [A]", white);
+        console.log("black [A]", black)
+
         if (game.turn() === WHITE) {
           white -= secondsSinceStart - timeMoving;
         } else {
           black -= secondsSinceStart - timeMoving;
         }
 
+        console.log("white [B]", white);
+        console.log("black [B]", black)
+
         console.log("seconds since start", secondsSinceStart);
         console.log("total game time", timeMoving);
-        console.log("diff", secondsSinceStart - timeMoving)
+        console.log("diff:", secondsSinceStart - timeMoving)
 
         white = Math.max(white, 0)
         black = Math.max(white, 0)
