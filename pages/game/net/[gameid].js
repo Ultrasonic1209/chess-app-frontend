@@ -213,7 +213,7 @@ export default function Play(/*{initialdata, gameid}*/) {
   useEffect(() => {
     let interval;
     if (storedgame) {
-      interval = setInterval(syncGame, 2000);
+      interval = setInterval(syncGame, 999);
       syncGame()
     } else if (!storedgame) {
       clearInterval(interval);
