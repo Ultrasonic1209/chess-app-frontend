@@ -192,6 +192,9 @@ export default function Play(/*{initialdata, gameid}*/) {
 
         const total = white + black;
 
+        console.log("seconds since start", secondsSinceStart);
+        console.log("total game time", total);
+
         if (game.turn() === WHITE) {
           white += secondsSinceStart - total;
         } else {
