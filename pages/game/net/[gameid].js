@@ -61,7 +61,7 @@ export default function Play(/*{initialdata, gameid}*/) {
 
   const closeJoinGame = () => setJoinGame(false);
   const joinGame = () => {
-    setJoinGame(false);
+    closeJoinGame();
     fetch(`https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}/enter`, {
         body: JSON.stringify({
           wantsWhite: null
@@ -148,6 +148,8 @@ export default function Play(/*{initialdata, gameid}*/) {
           isWhite = !isWhite;
         })
 
+        let timeMoving = white + black;
+
         white = timeLimit - white;
         black = timeLimit - black;
 
@@ -163,6 +165,13 @@ export default function Play(/*{initialdata, gameid}*/) {
         } else if (storedgame.outOfTime === WHITE) {
           white = 0;
         }
+
+        if (game.turn() === WHITE) {
+          white -= secondsSinceStart - timeMoving;
+        } else {
+          black -= secondsSinceStart - timeMoving;
+        }
+        
       } else {
         isWhite = true;
         lastTime = 0;
