@@ -104,12 +104,12 @@ export default function Play() {
           white = timeLimit - white;
           black = timeLimit - black;
 
-          if (white === 0) {
+          /*if (white === 0) {
             white = timeLimit;
           }
           if (black === 0) {
             black = timeLimit;
-          }
+          }*/
 
           if (retrievedgame.outOfTime === BLACK) {
             black = 0;
