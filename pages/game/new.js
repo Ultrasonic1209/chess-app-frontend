@@ -195,6 +195,11 @@ export default function Preferences() {
             <ListGroup.Item active={time === "UP"} onClick={timeOnClick} data-time="UP" type="button" action>Stopwatch</ListGroup.Item>
             <ListGroup.Item active={time === "DOWN"} onClick={timeOnClick} data-time="DOWN" type="button" action>Countdown</ListGroup.Item>
           </ListGroup>
+          {
+            (time === "DOWN") && (gamemode === "NET")
+            ? <small>There is an undiagnosed bug surrounding the Countdown clock on internet games. Use is not recommended.</small>
+            : undefined
+          } 
         </Container>
         <Container id="selectTimeLimit" className={timeLimitEnabled ? "p-0 pt-3" : "d-none"}>
           <h5>Select your time limit</h5>
