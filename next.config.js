@@ -84,7 +84,7 @@ module.exports = withPreact(withPWA({
         newNextLinkBehavior: true, /* this is not documented properly AT ALL. */
         optimizeCss: true,
         browsersListForSwc: true,
-        esmExternals: false
+        esmExternals: false // for preact compat
     },
     async headers() { // for vercel
         return [
