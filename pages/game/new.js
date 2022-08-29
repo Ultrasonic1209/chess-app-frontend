@@ -33,7 +33,7 @@ export default function Preferences() {
       const seconds = range % 60;
       const minutes = Math.floor(range / 60)
 
-      var tr = ""
+      let tr = ""
 
       if (minutes > 0) {
         tr = minutes + " minute";
@@ -65,14 +65,13 @@ export default function Preferences() {
     // eslint-disable-next-line no-unused-vars
     const createGame = async (ev) => {
 
+      let toStarter = starter;
+      if (toStarter === "ANY") {
+        toStarter = Math.random() < 0.5 ? "WHITE" : "BLACK";
+      }
+
       switch (gamemode) {
         case "BOT":
-
-          var toStarter = starter;
-          if (toStarter === "ANY") {
-            toStarter = Math.random() < 0.5 ? "WHITE" : "BLACK";
-          }
-
           db.games.put({
             gameType: "BOT",
             game: "",
@@ -109,6 +108,7 @@ export default function Preferences() {
 
           break;
         case "NET":
+          console.log(toStarter);
           fetch(`https://apichessapp.server.ultras-playroom.xyz/chess/game/`, {
             body: JSON.stringify({
               creatorStartsWhite: toStarter === "WHITE",
@@ -134,7 +134,7 @@ export default function Preferences() {
                 console.error(response);
                 addToast({
                     "title": "Checkmate",
-                    "message": "Internal server error."
+                    "message": response.message || "Internal server error."
                 });
             }
           })
@@ -195,6 +195,11 @@ export default function Preferences() {
             <ListGroup.Item active={time === "UP"} onClick={timeOnClick} data-time="UP" type="button" action>Stopwatch</ListGroup.Item>
             <ListGroup.Item active={time === "DOWN"} onClick={timeOnClick} data-time="DOWN" type="button" action>Countdown</ListGroup.Item>
           </ListGroup>
+          {
+            (time === "DOWN") && (gamemode === "NET")
+            ? <small>There is an undiagnosed bug surrounding the Countdown clock on internet games. Use is not recommended.</small>
+            : undefined
+          } 
         </Container>
         <Container id="selectTimeLimit" className={timeLimitEnabled ? "p-0 pt-3" : "d-none"}>
           <h5>Select your time limit</h5>

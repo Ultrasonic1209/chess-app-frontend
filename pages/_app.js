@@ -1,4 +1,4 @@
-// pages/_app.js
+import "preact/debug";
 import React from 'react';
 
 import Head from 'next/head';

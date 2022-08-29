@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 
+const withPreact = require('next-plugin-preact')
+
 const child_process = require('child_process')
 
 const withPWA = require('next-pwa')({
@@ -74,7 +76,7 @@ const globalHeaders = [
     },
 ]
 
-module.exports = withPWA({
+module.exports = withPreact(withPWA({
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
     swcMinify: true,
@@ -82,7 +84,7 @@ module.exports = withPWA({
         newNextLinkBehavior: true, /* this is not documented properly AT ALL. */
         optimizeCss: true,
         browsersListForSwc: true,
-        runtime: 'experimental-edge'
+        esmExternals: false // for preact compat
     },
     async headers() { // for vercel
         return [
@@ -97,4 +99,4 @@ module.exports = withPWA({
         lastModified: date.toLocaleString(),
         friendlyCaptchaSitekey: "FCMM6JV285I5GS1J"
     }
-})
+}));

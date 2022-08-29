@@ -61,11 +61,10 @@ export default function Play() {
           })
           return;
         }
-        const gameCopy = { ...game };
-        gameCopy.reset();
-        gameCopy.load_pgn(retrievedgame.game);
+        const game = new Chess();
+        game.load_pgn(retrievedgame.game);
 
-        const comments = gameCopy.get_comments()
+        const comments = game.get_comments()
 
         let times = comments.map((comment) => {
           const text = comment.comment
@@ -104,12 +103,12 @@ export default function Play() {
           white = timeLimit - white;
           black = timeLimit - black;
 
-          if (white === 0) {
+          /*if (white === 0) {
             white = timeLimit;
           }
           if (black === 0) {
             black = timeLimit;
-          }
+          }*/
 
           if (retrievedgame.outOfTime === BLACK) {
             black = 0;
@@ -135,7 +134,7 @@ export default function Play() {
         setWhiteTime(white);
         setBlackTime(black);
 
-        setGame(gameCopy);
+        setGame(game);
         return retrievedgame;
     })
     .catch((reason) => {

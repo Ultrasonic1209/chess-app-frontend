@@ -5,6 +5,8 @@ import useSWR from 'swr'
 
 import { Chess, WHITE, BLACK } from 'chess.js';
 
+import { parseISO, intervalToDuration, add } from 'date-fns';
+
 import Main from '../../../components/Main';
 
 import { useToastContext } from "../../../contexts/ToastContext";
@@ -18,6 +20,9 @@ const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'
                             .then(r => r.json())
 
 const clkRegex = new RegExp('\\[%clk (.*)]', 'g');
+
+// https://spectrum.chat/date-fns/general/duration-object-milliseconds~1dfb088c-01fc-48df-a78c-babbd9b5e522?m=MTYwMzEzNTczMzEyMQ==
+const durationToMillis = duration => +add(0, duration)
 
 export default function Play(/*{initialdata, gameid}*/) {
 
@@ -46,7 +51,8 @@ export default function Play(/*{initialdata, gameid}*/) {
     router.isReady ? `https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}` : null,
     fetcher,
     {
-        fallbackData: null //initialdata
+      refreshInterval: 1000,
+      fallbackData: null //initialdata
     }
   );
 
@@ -55,7 +61,7 @@ export default function Play(/*{initialdata, gameid}*/) {
 
   const closeJoinGame = () => setJoinGame(false);
   const joinGame = () => {
-    setJoinGame(false);
+    closeJoinGame();
     fetch(`https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}/enter`, {
         body: JSON.stringify({
           wantsWhite: null
@@ -63,7 +69,7 @@ export default function Play(/*{initialdata, gameid}*/) {
         headers: {
           "Content-Type": "application/json",
         },
-        method: "PUT",
+        method: "PATCH",
         withCredentials: true,
         credentials: 'include',
       })
@@ -76,7 +82,7 @@ export default function Play(/*{initialdata, gameid}*/) {
         } else {
             addToast({
                 "title": "Checkmate Remote Game ID " + gameid,
-                "message": "Failed to join game."
+                "message": response.message || "Failed to join game."
             });
         }
       })
@@ -89,6 +95,133 @@ export default function Play(/*{initialdata, gameid}*/) {
       })
       .finally(mutate)
   }
+
+  const syncGame = useCallback(
+    () => {
+      const startTime = parseISO(storedgame.time_started)
+      const currentTime = new Date()
+
+      const duration = intervalToDuration({
+        start: startTime,
+        end: currentTime,
+      })
+
+      const secondsSinceStart = durationToMillis(duration) / 1000
+
+      //console.warn("seconds since game start", secondsSinceStart)
+
+      const game = new Chess();
+      game.load_pgn(storedgame.game);
+
+      const comments = game.get_comments()
+
+      let times = comments.map((comment) => {
+        const text = comment.comment
+
+        const [ hours, minutes, seconds ] = (clkRegex.exec(text)?.at(1) || "00:00:00.0").split(":");
+        clkRegex.lastIndex = 0;
+
+        return (parseInt(hours) * 3600) + (parseInt(minutes) * 60) + parseFloat(seconds)
+      })
+
+      let white = 0;
+      let black = 0;
+
+      let isWhite, lastTime
+      if (storedgame.clockType === "DOWN") {
+
+        isWhite = true;
+
+        let timeLimit = parseInt(storedgame.time_limit);
+
+        times = times.map((time) => time - timeLimit);
+
+        lastTime = timeLimit;
+
+        times.forEach((time) => {
+          if (isWhite) {
+            white += lastTime - time;
+          } else if (!isWhite) {
+            black += lastTime - time;
+          }
+          lastTime = time;
+          isWhite = !isWhite;
+        })
+
+        let timeMoving = white + black;
+
+        white = timeLimit - white;
+        black = timeLimit - black;
+
+        /*if (white === 0) {
+          white = timeLimit;
+        }
+        if (black === 0) {
+          black = timeLimit;
+        }*/
+
+        if (storedgame.outOfTime === BLACK) {
+          black = 0;
+        } else if (storedgame.outOfTime === WHITE) {
+          white = 0;
+        }
+
+        //console.log("white [A]", white);
+        //console.log("black [A]", black)
+
+        if (game.turn() === WHITE) {
+          white -= secondsSinceStart - timeMoving;
+        } else {
+          black -= secondsSinceStart - timeMoving;
+        }
+
+        //console.log("white [B]", white);
+        //console.log("black [B]", black)
+
+        console.log("seconds since start", secondsSinceStart);
+        console.log("total game time", timeMoving);
+        console.log("diff:", secondsSinceStart - timeMoving)
+
+        white = Math.max(white, 0)
+        black = Math.max(black, 0)
+
+      } else {
+        isWhite = true;
+        lastTime = 0;
+        times.forEach((time) => {
+          if (isWhite) {
+            console.log(time - lastTime, " for white");
+            white += time - lastTime;
+          } else if (!isWhite) {
+            console.log(time - lastTime, " for black");
+            black += time - lastTime;
+          }
+          lastTime = time;
+          isWhite = !isWhite;
+        })
+      }
+
+      setWhiteTime(white);
+      setBlackTime(black);
+
+      setGame(game);
+
+      //console.log("Game has been syncronised.")
+
+    },
+    [storedgame]
+  )
+
+  useEffect(() => {
+    let interval;
+    if (storedgame) {
+      interval = setInterval(syncGame, 999);
+      syncGame()
+    } else if (!storedgame) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [storedgame, syncGame]);
 
   useEffect(() => {
     if (!data && !error) {
@@ -124,99 +257,17 @@ export default function Play(/*{initialdata, gameid}*/) {
             });
         }
     } else {
-        const gameCopy = { ...game };
-        gameCopy.reset();
-        gameCopy.load_pgn(data.game);
 
-        const comments = gameCopy.get_comments()
+      data.clockType = "UP";
+      if (data.timer === "Countdown") {
+        data.clockType = "DOWN";
+      }
 
-        let times = comments.map((comment) => {
-          const text = comment.comment
+      setStoredGame(data);
 
-          const [ hours, minutes, seconds ] = (clkRegex.exec(text)?.at(1) || "00:00:00.0").split(":");
-          clkRegex.lastIndex = 0;
+      setUserAuthorised(data.is_white != null)
 
-          return (parseInt(hours) * 3600) + (parseInt(minutes) * 60) + parseFloat(seconds)
-        })
-
-        data.clockType = "UP";
-
-        let white = 0;
-        let black = 0;
-
-        let isWhite, lastTime
-        if (data.timer === "Countdown") {
-          data.clockType = "DOWN";
-
-          isWhite = true;
-
-          let timeLimit = parseInt(data.time_limit);
-
-          times = times.map((time) => time - timeLimit);
-
-          lastTime = timeLimit;
-
-          times.forEach((time) => {
-            if (isWhite) {
-              white += lastTime - time;
-            } else if (!isWhite) {
-              black += lastTime - time;
-            }
-            lastTime = time;
-            isWhite = !isWhite;
-          })
-
-          white = timeLimit - white;
-          black = timeLimit - black;
-
-          if (white === 0) {
-            white = timeLimit;
-          }
-          if (black === 0) {
-            black = timeLimit;
-          }
-
-          if (data.outOfTime === BLACK) {
-            black = 0;
-          } else if (data.outOfTime === WHITE) {
-            white = 0;
-          }
-        } else {
-          isWhite = true;
-          lastTime = 0;
-          times.forEach((time) => {
-            if (isWhite) {
-              console.log(time - lastTime, " for white");
-              white += time - lastTime;
-            } else if (!isWhite) {
-              console.log(time - lastTime, " for black");
-              black += time - lastTime;
-            }
-            lastTime = time;
-            isWhite = !isWhite;
-          })
-        }
-
-        setWhiteTime(white);
-        setBlackTime(black);
-
-        setGame(gameCopy);
-
-        setStoredGame(data);
-
-        setUserAuthorised(data.is_white != null)
-
-        /*isTurn(
-            (
-                (game.turn() === WHITE) && (data.is_white === true)
-            )
-        ||
-            (
-                (game.turn() === BLACK) && (data.is_white === false)
-            )
-        )*/
-
-        console.log("updated!")
+      console.log("updated!")
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, error])
@@ -236,11 +287,14 @@ export default function Play(/*{initialdata, gameid}*/) {
         console.log("time up!")
         setBoardEnabled(false);
       } else {
-        setBoardEnabled(true);
+        setBoardEnabled(storedgame.is_white === (game.turn() === WHITE));
       }
     } else {
-      setBoardEnabled(true);
+      setBoardEnabled(storedgame.is_white === (game.turn() === WHITE));
     }
+    console.log("user is white: ", storedgame.is_white);
+    console.log("turn is white: ", game.turn() === WHITE);
+    console.log("board enabled:", storedgame.is_white === (game.turn() === WHITE))
   }, [storedgame, game])
 
   const timeForMove = useCallback(() => {
@@ -279,18 +333,44 @@ export default function Play(/*{initialdata, gameid}*/) {
     //console.log(gameCopy.get_comment());
 
     if (result) {
-        /*db.table("games").update(gameid, {"game": gameCopy.pgn()})
-        .then(function(updated) {
-            if (!updated) {
-              addToast(
-                  "Checkmate Local Game ID " + gameid,
-                  "Failed to save move"
-              );
-              setGame(game);
-            } else {
-              setGame(gameCopy);
-            }
-        });*/
+      const resp = fetch(`https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}/move`, {
+        body: JSON.stringify({
+          san: result.san
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "PATCH",
+        withCredentials: true,
+        credentials: 'include',
+      })
+      .then(async (response) => {
+        const body = await response.json()
+        if (response.ok) {
+          return body
+        } else {
+          addToast({
+            "title": "Checkmate Remote Game ID " + gameid,
+            "message": body.message || "Server did not process move"
+          });
+          setGame(game);
+          return storedgame
+        }
+      })
+
+      mutate(
+        resp,
+        {
+          revalidate: true
+        }
+      ).catch(async (error) => {
+        console.error(error);
+        addToast({
+          "title": "Checkmate Remote Game ID " + gameid,
+          "message": "Error sending move to the server"
+        });
+        setGame(game);
+      })
     }
     return result; // null if the move was illegal, the move object if the move was legal
   }
@@ -353,12 +433,12 @@ export default function Play(/*{initialdata, gameid}*/) {
   useEffect(() => {
     let interval;
     if (storedgame) {
-      interval = setInterval(() => { setBoardEnabled(moveGameAlong()); }, 1000);
+      interval = setInterval(() => { setBoardEnabled((storedgame.is_white === (game.turn() === WHITE)) && moveGameAlong()); }, 1000);
     } else if (!storedgame) {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [moveGameAlong, storedgame]);
+  }, [moveGameAlong, storedgame, game]);
 
   function onDrop(sourceSquare, targetSquare) {
 
