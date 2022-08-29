@@ -1,14 +1,15 @@
 import Head from "next/head";
+
 import { Button } from "react-bootstrap";
 import Main from "../components/Main";
-
-import { db } from "../db";
 
 const IS_DEV = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
 
 export default function Home() {
-    const resetLocalStorage = (ev) => {
+    const resetLocalStorage = async (ev) => {
       ev.target.disabled = true;
+      
+      const db = (await import('../db')).db
       db.delete().then(() => window.location.reload());
     }
     return (
