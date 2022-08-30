@@ -3,7 +3,7 @@ import React from 'react';
 
 import Head from 'next/head';
 
-import '../components/bootstrap-dark.min.css';
+import 'bootstrap-dark-5/dist/css/bootstrap-dark.css';
 import '../components/App.css';
 
 import Layout from '../components/layout'
