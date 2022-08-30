@@ -13,7 +13,7 @@ export default function Checkmate({ Component, pageProps }) {
     <>
         <Head>
           <title>{process.env.appName}</title>
-          <meta name='viewport' content='initial-scale=1.0, maximum-scale=1.0, width=device-width, shrink-to-fit=no, user-scalable=no' />
+          <meta name='viewport' content='initial-scale=1.0, maximum-scale=5.0, width=device-width, shrink-to-fit=no' />
         </Head>
         <Layout>
           <Component {...pageProps} />
