@@ -42,9 +42,9 @@ function ExportModal({ show, handleClose, string, allowDownload, allowShare, mod
     const url = window.URL.createObjectURL(blob);
 
     const link = document.createElement('a');
-    link.className="d-none";
-    link.download=(mode === "pgn") ? 'game.pgn' : 'game.fen';
-    link.href={url};
+    link.className = "d-none";
+    link.download = (mode === "pgn") ? 'game.pgn' : 'game.fen';
+    link.href = {url};
 
     document.body.appendChild(link); // for firefox!
     link.click();
