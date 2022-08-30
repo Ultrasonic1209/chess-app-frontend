@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Container } from "react-bootstrap";
+import { Container, Dropdown } from "react-bootstrap";
 
 import { Chessboard } from "react-chessboard";
 import { WHITE, BLACK } from 'chess.js';
@@ -160,6 +160,17 @@ export default function CheckmateBoard({storedgame, game, onDrop, whiteTimer, wh
             </div>
           </Container>
         </div>
+        <Dropdown>
+          <Dropdown.Toggle variant="secondary" id="export-dropdown">
+            Share game
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item href="#" disabled={!storedgame.players}>URL</Dropdown.Item>
+            <Dropdown.Item href="#">PGN</Dropdown.Item>
+            <Dropdown.Item href="#">FEN</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </Container>
     )
 }
