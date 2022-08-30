@@ -38,7 +38,7 @@ function ExportModal({ show, handleClose, string, allowDownload, allowShare, mod
   }
 
   function download() {
-    const blob = new Blob([string], { type: (mode === "pgn") ? 'application/x-chess-pgn' : 'application/x-chess-fen'})
+    const blob = new Blob([string], { type: 'text/plain'})
     const url = window.URL.createObjectURL(blob);
 
     const link = document.createElement('a');
