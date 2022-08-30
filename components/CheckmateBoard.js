@@ -37,9 +37,45 @@ function ExportModal({ show, handleClose, string, allowDownload, allowShare, mod
     });
   }
 
-  function download() {
-    const blob = new Blob([string], { type: 'text/plain'})
+  async function download() {
+    const blob = new Blob([string], { type: (mode === "pgn") ? 'application/x-chess-pgn' : 'application/x-chess-fen'})
     const url = window.URL.createObjectURL(blob);
+
+    if (window.showSaveFilePicker) {
+
+      let types = {
+        pgn: {
+          description: 'PGN File',
+          accept: {'application/x-chess-pgn': ['.pgn', '.txt']}
+        },
+        fen: {
+          description: 'FEN File',
+          accept: {'application/x-chess-fen': ['.fen', '.txt']}
+        }
+      }
+
+      const options = {
+        types: [(mode === "pgn") ? types.pgn : types.fen], // this is so scuffed
+        suggestedName: (mode === "pgn") ? 'game.pgn' : 'game.fen'
+      }
+
+      let handle;
+      try {
+        handle = await window.showSaveFilePicker(options);
+      } catch {
+        return alert("Unable to save file.");
+      }
+
+      const writable = await handle.createWritable();
+
+      await writable.write(string);
+
+      await writable.close();
+
+      handleClose();
+
+      return;
+    }
 
     const link = document.createElement('a');
     link.className = "d-none";
