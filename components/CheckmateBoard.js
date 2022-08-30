@@ -234,7 +234,7 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
     switch (type) {
       case "link": 
         return () => {
-          setExportText(document.location);
+          setExportText(document.location.toString());
           setAllowDownload(false);
           setAllowShare(true);
           setExportMode("link");
