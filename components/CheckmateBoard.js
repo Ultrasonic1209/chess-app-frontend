@@ -166,7 +166,7 @@ export default function CheckmateBoard({storedgame, game, onDrop, whiteTimer, wh
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item href="#" disabled={!storedgame.players}>URL</Dropdown.Item>
+            <Dropdown.Item href="#" disabled={!storedgame?.players}>URL</Dropdown.Item>
             <Dropdown.Item href="#">PGN</Dropdown.Item>
             <Dropdown.Item href="#">FEN</Dropdown.Item>
           </Dropdown.Menu>
