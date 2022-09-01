@@ -314,10 +314,14 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
           <div className="row row-cols-2">
             {
               storedgame?.players
-              ? (
-                  <div id="whitePlayer" className={"col chessMove align-self-start bg-white text-dark text-center"}>
-                    white player
-                  </div>
+              ? ( <>
+                    <div id="whitePlayer" className={"col chessMove align-self-start bg-white text-dark text-center"}>
+                      white player
+                    </div>
+                    <div id="blackPlayer" className={"col chessMove align-self-end bg-secondary text-center"}>
+                      white player
+                    </div>
+                  </>
               ) : undefined
             }
             <div id="whiteTimer" className={"col chessMove align-self-start bg-white text-dark text-center"}>
@@ -329,14 +333,6 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
                 }
               </b>
             </div>
-            {
-              storedgame?.players
-              ? (
-                  <div id="blackPlayer" className={"col chessMove align-self-end bg-secondary text-center"}>
-                    black player
-                  </div>
-              ) : undefined
-            }
             <div id="blackTimer" className={"col chessMove align-self-end bg-secondary text-center"}>
               Time:&nbsp;
               <b>
