@@ -272,7 +272,7 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
   }
 
   let blackplr, whiteplr
-  if (storedgame.players) {
+  if (storedgame?.players) {
     storedgame.players.forEach((player) => {
       if (player.isWhite) {
         whiteplr = player.username || "Anonymous"
