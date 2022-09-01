@@ -271,6 +271,23 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
     }
   }
 
+  let blackplr, whiteplr
+  if (storedgame.players) {
+    storedgame.players.forEach((player) => {
+      if (player.isWhite) {
+        whiteplr = player.username || "Anonymous"
+        if (player.isWhite === storedgame.is_white) {
+          whiteplr += " (You)"
+        }
+      } else if (!player.isWhite) {
+        blackplr = player.username || "Anonymous"
+        if (player.isWhite === storedgame.is_white) {
+          blackplr += " (You)"
+        }
+      }
+    })
+  }
+
   return (
     <Container className={"d-flex flex-row mb-3"}>
       <ExportModal
@@ -316,10 +333,10 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
               storedgame?.players
               ? ( <>
                     <div id="whitePlayer" className={"col chessMove align-self-start bg-white text-dark text-center"}>
-                      white player
+                      {blackplr}
                     </div>
                     <div id="blackPlayer" className={"col chessMove align-self-end bg-secondary text-center"}>
-                      black player
+                      {whiteplr}
                     </div>
                   </>
               ) : undefined
