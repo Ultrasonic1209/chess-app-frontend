@@ -319,7 +319,7 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
                       white player
                     </div>
                     <div id="blackPlayer" className={"col chessMove align-self-end bg-secondary text-center"}>
-                      white player
+                      black player
                     </div>
                   </>
               ) : undefined
