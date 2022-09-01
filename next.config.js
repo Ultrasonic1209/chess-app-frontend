@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
 
-const withPreact = require('next-plugin-preact')
-
 const child_process = require('child_process')
 
 const withPWA = require('next-pwa')({
@@ -57,7 +55,7 @@ const globalHeaders = [
 
     {
         key: 'Permissions-Policy', // https://www.permissionspolicy.com/
-        value: 'accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), cross-origin-isolated=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), fullscreen=(), geolocation=(), gyroscope=(), keyboard-map=(), magnetometer=(), microphone=(), midi=(), navigation-override=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=(), clipboard-read=(), clipboard-write=(), gamepad=(), speaker-selection=(), conversion-measurement=(), focus-without-user-activation=(), hid=(), idle-detection=(), interest-cohort=(), serial=(), sync-script=(), trust-token-redemption=(), window-placement=(), vertical-scroll=()'
+        value: 'accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), cross-origin-isolated=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), fullscreen=(), geolocation=(), gyroscope=(), keyboard-map=(), magnetometer=(), microphone=(), midi=(), navigation-override=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=(), clipboard-read=(), clipboard-write=(self), gamepad=(), speaker-selection=()'
     },
 
     {
@@ -76,15 +74,15 @@ const globalHeaders = [
     },
 ]
 
-module.exports = withPreact(withPWA({
+module.exports = withPWA({
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
     swcMinify: true,
     experimental: {
         newNextLinkBehavior: true, /* this is not documented properly AT ALL. */
         optimizeCss: true,
-        browsersListForSwc: true,
-        esmExternals: false // for preact compat
+        browsersListForSwc: true
+        //esmExternals: false // for preact compat
     },
     async headers() { // for vercel
         return [
@@ -99,4 +97,4 @@ module.exports = withPreact(withPWA({
         lastModified: date.toLocaleString(),
         friendlyCaptchaSitekey: "FCMM6JV285I5GS1J"
     }
-}));
+});

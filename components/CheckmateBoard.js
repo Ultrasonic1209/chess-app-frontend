@@ -1,119 +1,319 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
+import dynamic from "next/dynamic";
 
-import { Container } from "react-bootstrap";
+import { Container, Dropdown, Modal, Button, ButtonToolbar, FormControl } from "react-bootstrap";
 
-import { Chessboard } from "react-chessboard";
+//import { Chessboard } from "react-chessboard";
+const Chessboard = dynamic(() =>
+  import('./Chessboard'),
+  {
+    suspense: true
+  }
+)
+
 import { WHITE, BLACK } from 'chess.js';
 
 import CountUp from "./CountUp";
 import CountDown from "./CountDown";
 
-export default function CheckmateBoard({storedgame, game, onDrop, whiteTimer, whiteTime, setWhiteTime, blackTimer, blackTime, setBlackTime, boardEnabled}) {
-    
-    const [chessboardSize, setChessboardSize] = useState(320);
+function ExportModal({ show, handleClose, string, allowDownload, allowShare, mode }) {
 
-    const [optionSquares, setOptionSquares] = useState({});
-
-    const [whiteTimerActive, setWhiteTimerActive] = useState(false);
-    const [blackTimerActive, setBlackTimerActive] = useState(false);
-
-    const moves = game.history();
-
-    const placeholderStyle = {
-        width: chessboardSize + "px",
-        height: chessboardSize + "px"
+  function share() {
+    if (!navigator.canShare) {
+      return alert("Your browser does not support this function.");
     }
 
-    useEffect(() => {
-      if (!storedgame) {
-        setWhiteTimerActive(false);
-        setBlackTimerActive(false);
-      } else if (game.game_over()) {
-        setWhiteTimerActive(false);
-        setBlackTimerActive(false);
-      } else {
-        if (storedgame?.clockType === "DOWN") {
-          //console.log("checking time")
-          if ((whiteTime <= 0) || (blackTime <= 0)) {
-            //console.log("stopping time: times up")
-            setWhiteTimerActive(false);
-            setBlackTimerActive(false);
-          } else {
-            //console.log("time checked: keeping time going")
-            setWhiteTimerActive(game.turn() === WHITE);
-            setBlackTimerActive(game.turn() === BLACK);
+    let shareData = {
+      title: "Checkmate Game",
+      text: string,
+      url: (mode != "link") ? (window.location.protocol + "//" + window.location.host + "/") : (window.location)
+    }
+
+    if (!navigator.canShare(shareData)) {
+      return alert("Your browser cannot share this type of data.");
+    }
+
+    navigator.share(shareData).then(handleClose)
+  }
+
+  function toClipboard() {
+    return navigator.clipboard.writeText(string)
+    .then(handleClose)
+    .catch((err) => {
+      console.error(err);
+      alert("Your browser is unable to access the clipboard.")
+    });
+  }
+
+  async function download() {
+    const blob = new Blob([string], { type: (mode === "pgn") ? 'application/x-chess-pgn' : 'application/x-chess-fen'})
+    const url = window.URL.createObjectURL(blob);
+
+    if (window.showSaveFilePicker) {
+
+      let types = {
+        pgn: {
+          description: 'PGN File',
+          accept: {'application/x-chess-pgn': ['.pgn', '.txt']}
+        },
+        fen: {
+          description: 'FEN File',
+          accept: {'application/x-chess-fen': ['.fen', '.txt']}
+        }
+      }
+
+      const options = {
+        types: [(mode === "pgn") ? types.pgn : types.fen], // this is so scuffed
+        suggestedName: (mode === "pgn") ? 'game.pgn' : 'game.fen'
+      }
+
+      let handle;
+      try {
+        handle = await window.showSaveFilePicker(options);
+      } catch {
+        return alert("Unable to save file.");
+      }
+
+      const writable = await handle.createWritable();
+
+      await writable.write(string);
+
+      await writable.close();
+
+      handleClose();
+
+      return;
+    }
+
+    const link = document.createElement('a');
+    link.className = "d-none";
+    link.download = (mode === "pgn") ? 'game.pgn' : 'game.fen';
+    link.href = {url};
+
+    document.body.appendChild(link); // for firefox!
+    link.click();
+    link.remove();
+
+    window.URL.revokeObjectURL(url);
+
+    handleClose();
+  }
+
+  return (
+    <Modal show={show} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Share game</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <ButtonToolbar className={"mb-2"} aria-label={"Share options"}>
+          {allowShare
+          ? <Button onClick={share} className={"me-2"} variant={"primary"}>Share</Button>
+          : undefined
           }
+          <Button onClick={toClipboard} className={"me-2"} variant={"secondary"}>Copy to Clipboard</Button>
+          {allowDownload
+          ? <Button onClick={download} className={"me-2"} variant={"secondary"}>Download</Button>
+          : undefined
+          }
+        </ButtonToolbar>
+        <FormControl
+          as="textarea"
+          readOnly={true}
+          draggable={false}
+          cols={50}
+          rows={2}
+          style={{resize: "none"}}
+        >
+          {string}
+        </FormControl>
+      </Modal.Body>
+    </Modal>
+  )
+}
+
+function BoardPlaceholder({ text, chessboardSize }) {
+  const style = {
+    width: chessboardSize + "px",
+    height: chessboardSize + "px"
+  }
+
+  return <Container id="BasicBoard" className={"bg-secondary"} style={style}>{text}</Container>
+}
+
+export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, whiteTime, setWhiteTime, blackTimer, blackTime, setBlackTime, boardEnabled }) {
+
+  const [chessboardSize, setChessboardSize] = useState(320);
+
+  const [optionSquares, setOptionSquares] = useState({});
+
+  const [whiteTimerActive, setWhiteTimerActive] = useState(false);
+  const [blackTimerActive, setBlackTimerActive] = useState(false);
+
+  const moves = game.history();
+
+  useEffect(() => {
+    if (!storedgame) {
+      setWhiteTimerActive(false);
+      setBlackTimerActive(false);
+    } else if (game.game_over()) {
+      setWhiteTimerActive(false);
+      setBlackTimerActive(false);
+    } else {
+      if (storedgame?.clockType === "DOWN") {
+        //console.log("checking time")
+        if ((whiteTime <= 0) || (blackTime <= 0)) {
+          //console.log("stopping time: times up")
+          setWhiteTimerActive(false);
+          setBlackTimerActive(false);
         } else {
+          //console.log("time checked: keeping time going")
           setWhiteTimerActive(game.turn() === WHITE);
           setBlackTimerActive(game.turn() === BLACK);
         }
+      } else {
+        setWhiteTimerActive(game.turn() === WHITE);
+        setBlackTimerActive(game.turn() === BLACK);
       }
-  
-    }, [storedgame, game, whiteTime, blackTime])
+    }
 
-    // https://github.com/Clariity/react-chessboard/blob/main/example/src/index.js
-    useEffect(() => {
-        function handleResize() {
-        setTimeout(() => {
-            const display = document.getElementsByClassName('container')[0];
-            var size = display.offsetWidth
-            if (size >= 720) { // desktop/tablet
-            size /= 2.15; // chess board on one side, list of moves on the other
-            } else if (size <= 575) { // phone
-            size -= 50;
-            }
-            setChessboardSize(size);
-        }, 0) // setTimeout to prevent force reflows (bad for resizing window on low-end systems!)
+  }, [storedgame, game, whiteTime, blackTime])
+
+  // https://github.com/Clariity/react-chessboard/blob/main/example/src/index.js
+  useEffect(() => {
+    function handleResize() {
+      setTimeout(() => {
+        const display = document.getElementsByClassName('container')[0];
+        let size = display.offsetWidth
+        if (size >= 720) { // desktop/tablet
+          size /= 2.15; // chess board on one side, list of moves on the other
+        } else if (size <= 575) { // phone
+          size -= 50;
         }
-
-        window.addEventListener('resize', handleResize);
-        handleResize();
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    // https://github.com/Clariity/react-chessboard/blob/main/example/src/boards/SquareStyles.js
-    function onMouseOverSquare(square) {
-      getMoveOptions(square);
+        setChessboardSize(size);
+      }, 0) // setTimeout to prevent force reflows (bad for resizing window on low-end systems!)
     }
-  
-    // Only set squares to {} if not already set to {}
-    function onMouseOutSquare() {
-      if (Object.keys(optionSquares).length !== 0) setOptionSquares({});
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // https://github.com/Clariity/react-chessboard/blob/main/example/src/boards/SquareStyles.js
+  function onMouseOverSquare(square) {
+    getMoveOptions(square);
+  }
+
+  // Only set squares to {} if not already set to {}
+  function onMouseOutSquare() {
+    if (Object.keys(optionSquares).length !== 0) setOptionSquares({});
+  }
+
+  function getMoveOptions(square) {
+    const moves = game.moves({
+      square,
+      verbose: true
+    });
+    if (moves.length === 0) {
+      return;
     }
-  
-    function getMoveOptions(square) {
-      const moves = game.moves({
-        square,
-        verbose: true
-      });
-      if (moves.length === 0) {
-        return;
-      }
-  
-      const newSquares = {};
-      moves.map((move) => {
-        newSquares[move.to] = {
-          background:
-            game.get(move.to) && game.get(move.to).color !== game.get(square).color
-              ? 'radial-gradient(circle, rgba(0,0,0,.1) 85%, transparent 85%)'
-              : 'radial-gradient(circle, rgba(0,0,0,.1) 25%, transparent 25%)',
-          borderRadius: '50%'
-        };
-        return move;
-      });
-      newSquares[square] = {
-        background: 'rgba(255, 255, 0, 0.4)'
+
+    const newSquares = {};
+    moves.map((move) => {
+      newSquares[move.to] = {
+        background:
+          game.get(move.to) && game.get(move.to).color !== game.get(square).color
+            ? 'radial-gradient(circle, rgba(0,0,0,.1) 85%, transparent 85%)'
+            : 'radial-gradient(circle, rgba(0,0,0,.1) 25%, transparent 25%)',
+        borderRadius: '50%'
       };
-      setOptionSquares(newSquares);
-    }
-    
-    var whiteMove = !(storedgame?.colourPlaying === "BLACK");
+      return move;
+    });
+    newSquares[square] = {
+      background: 'rgba(255, 255, 0, 0.4)'
+    };
+    setOptionSquares(newSquares);
+  }
 
-    return (
-        <Container className={"d-flex flex-row mb-3"}>
-        {
-            storedgame
-            ? (<Chessboard
+  let whiteMove = !(storedgame?.colourPlaying === "BLACK");
+
+  const [showExport, setShowExport] = useState(false);
+  const [exportText, setExportText] = useState("");
+  const [allowDownload, setAllowDownload] = useState(false);
+  const [allowShare, setAllowShare] = useState(false);
+  const [exportMode, setExportMode] = useState("");
+
+  function onExportClicked(type) {
+    switch (type) {
+      case "link": 
+        return () => {
+          setExportText(document.location.toString());
+          setAllowDownload(false);
+          setAllowShare(true);
+          setExportMode("link");
+          setShowExport(true);
+        }
+      case "pgn":
+        return () => {
+          setExportText(game.pgn());
+          setAllowDownload(true);
+          setAllowShare(true);
+          setExportMode("pgn");
+          setShowExport(true);
+        }
+      case "fen":
+        return () => {
+          setExportText(game.fen());
+          setAllowDownload(true);
+          setAllowShare(true);
+          setExportMode("fen");
+          setShowExport(true);
+        }
+    }
+  }
+
+  let blackplr, whiteplr
+  if (storedgame?.players) {
+    storedgame.players.forEach((player) => {
+      if (player.isWhite) {
+        whiteplr = player.username || "Anonymous"
+        if (player.isWhite === storedgame.is_white) {
+          whiteplr += " (You)"
+        }
+      } else if (!player.isWhite) {
+        blackplr = player.username || "Anonymous"
+        if (player.isWhite === storedgame.is_white) {
+          blackplr += " (You)"
+        }
+      }
+    })
+  }
+
+  return (
+    <Container className={"d-flex flex-row mb-3"}>
+      <ExportModal
+        show={showExport}
+        handleClose={() => setShowExport(false)}
+        string={exportText}
+        allowDownload={allowDownload}
+        allowShare={allowShare}
+        mode={exportMode}
+      />
+      
+      <Dropdown className={"mb-2"} style={{ width: "100%" }}>
+        <Dropdown.Toggle letiant="secondary" id="export-dropdown">
+          Share game
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={onExportClicked("link")} href="#" disabled={!storedgame?.players}>As Link</Dropdown.Item>
+          <Dropdown.Item onClick={onExportClicked("pgn")} href="#">As .PGN</Dropdown.Item>
+          <Dropdown.Item onClick={onExportClicked("fen")} href="#">As .FEN</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+      {
+        storedgame
+          ? (
+            <Suspense fallback={<BoardPlaceholder chessboardSize={chessboardSize} text={"Loading board..."}/>}>
+              <Chessboard
                 position={game.fen()}
                 onPieceDrop={onDrop}
                 id="BasicBoard"
@@ -122,44 +322,57 @@ export default function CheckmateBoard({storedgame, game, onDrop, whiteTimer, wh
                 onMouseOutSquare={onMouseOutSquare}
                 customSquareStyles={boardEnabled && optionSquares}
                 arePiecesDraggable={boardEnabled}
-              />)
-            : (<Container id="BasicBoard" className={"bg-secondary"} style={placeholderStyle} >Loading</Container>)
-        }
-        <div id={"moveBoard"} className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
-          <Container>
-            <div className="row row-cols-2">
-              <div id="whiteTimer" className={"col chessMove align-self-start bg-white text-dark text-center"}>
-                Time:&nbsp;
-                <b>
-                  {storedgame?.clockType === "DOWN"
-                  ? <CountDown getTime={whiteTime} setTime={setWhiteTime} running={whiteTimerActive} ref={whiteTimer}/>
-                  : <CountUp getTime={whiteTime} setTime={setWhiteTime} running={whiteTimerActive} ref={whiteTimer}/>
-                  }
-                </b>
-              </div>
-              <div id="blackTimer" className={"col chessMove align-self-end bg-secondary text-center"}>
-                Time:&nbsp;
-                <b>
-                  {storedgame?.clockType === "DOWN"
-                  ? <CountDown getTime={blackTime} setTime={setBlackTime} running={blackTimerActive} ref={blackTimer}/>
-                  : <CountUp getTime={blackTime} setTime={setBlackTime} running={blackTimerActive} ref={blackTimer}/>
-                  }
-                </b>
-              </div>
-              {
-                (moves.length > 0)
+              />
+            </Suspense>)
+          : (<BoardPlaceholder chessboardSize={chessboardSize} text={"Loading data..."}/>)
+      }
+      <div id={"moveBoard"} className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
+        <Container>
+          <div className="row row-cols-2">
+            {
+              storedgame?.players
+              ? ( <>
+                    <div id="whitePlayer" className={"col chessMove align-self-start bg-white text-dark text-center"}>
+                      {whiteplr}
+                    </div>
+                    <div id="blackPlayer" className={"col chessMove align-self-end bg-secondary text-center"}>
+                      {blackplr}
+                    </div>
+                  </>
+              ) : undefined
+            }
+            <div id="whiteTimer" className={"col chessMove align-self-start bg-white text-dark text-center"}>
+              Time:&nbsp;
+              <b>
+                {storedgame?.clockType === "DOWN"
+                  ? <CountDown getTime={whiteTime} setTime={setWhiteTime} running={whiteTimerActive} ref={whiteTimer} />
+                  : <CountUp getTime={whiteTime} setTime={setWhiteTime} running={whiteTimerActive} ref={whiteTimer} />
+                }
+              </b>
+            </div>
+            <div id="blackTimer" className={"col chessMove align-self-end bg-secondary text-center"}>
+              Time:&nbsp;
+              <b>
+                {storedgame?.clockType === "DOWN"
+                  ? <CountDown getTime={blackTime} setTime={setBlackTime} running={blackTimerActive} ref={blackTimer} />
+                  : <CountUp getTime={blackTime} setTime={setBlackTime} running={blackTimerActive} ref={blackTimer} />
+                }
+              </b>
+            </div>
+            {
+              (moves.length > 0)
                 ? (
                   moves.map((move, index) => {
-                    var moveclass = whiteMove ? "col chessMove align-self-start text-center" : "col chessMove align-self-end text-center";
+                    let moveclass = whiteMove ? "col chessMove align-self-start text-center" : "col chessMove align-self-end text-center";
                     whiteMove = !whiteMove;
                     return (<div key={move + index + whiteMove} className={moveclass}>{move}</div>)
                   })
                 )
                 : undefined
-              }
-            </div>
-          </Container>
-        </div>
-      </Container>
-    )
+            }
+          </div>
+        </Container>
+      </div>
+    </Container>
+  )
 }
