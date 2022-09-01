@@ -74,7 +74,7 @@ const globalHeaders = [
     },
 ]
 
-module.exports = withPreact(withPWA({
+module.exports = withPWA({
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
     swcMinify: true,
