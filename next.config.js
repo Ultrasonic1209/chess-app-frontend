@@ -74,7 +74,7 @@ const globalHeaders = [
     },
 ]
 
-module.exports = withPWA({
+module.exports = withPreact(withPWA({
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
     swcMinify: true,
@@ -82,7 +82,7 @@ module.exports = withPWA({
         newNextLinkBehavior: true, /* this is not documented properly AT ALL. */
         optimizeCss: true,
         browsersListForSwc: true,
-        esmExternals: false, // for preact compat
+        //esmExternals: false, // for preact compat
     },
     async headers() { // for vercel
         return [

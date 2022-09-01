@@ -62,9 +62,8 @@ export default function Preferences() {
 
     // eslint-disable-next-line no-unused-vars
     const createGame = async (ev) => {
-
+      
       const db = (await import('../../db')).db
-
       let toStarter = starter;
       if (toStarter === "ANY") {
         toStarter = Math.random() < 0.5 ? "WHITE" : "BLACK";
