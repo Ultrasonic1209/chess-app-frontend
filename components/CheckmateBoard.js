@@ -1,8 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
+import dynamic from "next/dynamic";
 
 import { Container, Dropdown, Modal, Button, ButtonToolbar, FormControl } from "react-bootstrap";
 
-import { Chessboard } from "react-chessboard";
+//import { Chessboard } from "react-chessboard";
+const Chessboard = dynamic(() =>
+  import('./Chessboard'),
+  {
+    suspense: true
+  }
+)
+
 import { WHITE, BLACK } from 'chess.js';
 
 import CountUp from "./CountUp";
@@ -123,6 +131,15 @@ function ExportModal({ show, handleClose, string, allowDownload, allowShare, mod
   )
 }
 
+function BoardPlaceholder({ text, chessboardSize }) {
+  const style = {
+    width: chessboardSize + "px",
+    height: chessboardSize + "px"
+  }
+
+  return <Container id="BasicBoard" className={"bg-secondary"} style={style}>{text}</Container>
+}
+
 export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, whiteTime, setWhiteTime, blackTimer, blackTime, setBlackTime, boardEnabled }) {
 
   const [chessboardSize, setChessboardSize] = useState(320);
@@ -133,11 +150,6 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
   const [blackTimerActive, setBlackTimerActive] = useState(false);
 
   const moves = game.history();
-
-  const placeholderStyle = {
-    width: chessboardSize + "px",
-    height: chessboardSize + "px"
-  }
 
   useEffect(() => {
     if (!storedgame) {
@@ -282,17 +294,20 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
       </Dropdown>
       {
         storedgame
-          ? (<Chessboard
-            position={game.fen()}
-            onPieceDrop={onDrop}
-            id="BasicBoard"
-            boardWidth={chessboardSize}
-            onMouseOverSquare={onMouseOverSquare}
-            onMouseOutSquare={onMouseOutSquare}
-            customSquareStyles={boardEnabled && optionSquares}
-            arePiecesDraggable={boardEnabled}
-          />)
-          : (<Container id="BasicBoard" className={"bg-secondary"} style={placeholderStyle} >Loading</Container>)
+          ? (
+            <Suspense fallback={<BoardPlaceholder chessboardSize={chessboardSize} text={"Loading board..."}/>}>
+              <Chessboard
+                position={game.fen()}
+                onPieceDrop={onDrop}
+                id="BasicBoard"
+                boardWidth={chessboardSize}
+                onMouseOverSquare={onMouseOverSquare}
+                onMouseOutSquare={onMouseOutSquare}
+                customSquareStyles={boardEnabled && optionSquares}
+                arePiecesDraggable={boardEnabled}
+              />
+            </Suspense>)
+          : (<BoardPlaceholder chessboardSize={chessboardSize} text={"Loading data..."}/>)
       }
       <div id={"moveBoard"} className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
         <Container>

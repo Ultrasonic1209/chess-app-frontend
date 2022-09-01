@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
 
-const withPreact = require('next-plugin-preact')
-
 const child_process = require('child_process')
 
 const withPWA = require('next-pwa')({
@@ -76,7 +74,7 @@ const globalHeaders = [
     },
 ]
 
-module.exports = withPreact(withPWA({
+module.exports = withPWA({
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
     swcMinify: true,
@@ -99,4 +97,4 @@ module.exports = withPreact(withPWA({
         lastModified: date.toLocaleString(),
         friendlyCaptchaSitekey: "FCMM6JV285I5GS1J"
     }
-}));
+});
