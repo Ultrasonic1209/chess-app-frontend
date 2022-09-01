@@ -333,10 +333,10 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
               storedgame?.players
               ? ( <>
                     <div id="whitePlayer" className={"col chessMove align-self-start bg-white text-dark text-center"}>
-                      {blackplr}
+                      {whiteplr}
                     </div>
                     <div id="blackPlayer" className={"col chessMove align-self-end bg-secondary text-center"}>
-                      {whiteplr}
+                      {blackplr}
                     </div>
                   </>
               ) : undefined
