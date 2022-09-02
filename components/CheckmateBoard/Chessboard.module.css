@@ -1,0 +1,14 @@
+
+#shareTextArea {
+    resize: none;
+}
+
+#shareDropdown {
+    width: 100%;
+}
+
+@media (min-width: 992px) {
+    #moveBoard {
+        max-width: 48%;
+    }
+}

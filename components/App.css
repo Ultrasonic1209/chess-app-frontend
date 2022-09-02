@@ -10,9 +10,6 @@
 #toastContainer {
     z-index: 10;
 }
-/*.chessMove {
-    max-width: 45%;
-}*/
 #mainContainer > main > form > div.frc-captcha {
     position: relative;
 }
@@ -24,10 +21,4 @@
 }
 body {
     overscroll-behavior-y: contain;
-}
-
-@media (min-width: 992px) {
-    #moveBoard {
-        max-width: 48%;
-    }
 }

@@ -3,7 +3,8 @@ import dynamic from "next/dynamic";
 
 import { Container, Dropdown, Modal, Button, ButtonToolbar, FormControl } from "react-bootstrap";
 
-//import { Chessboard } from "react-chessboard";
+import styles from './Chessboard.module.css';
+
 const Chessboard = dynamic(() =>
   import('./Chessboard'),
   {
@@ -13,8 +14,8 @@ const Chessboard = dynamic(() =>
 
 import { WHITE, BLACK } from 'chess.js';
 
-import CountUp from "./CountUp";
-import CountDown from "./CountDown";
+import CountUp from "../CountUp";
+import CountDown from "../CountDown";
 
 function ExportModal({ show, handleClose, string, allowDownload, allowShare, mode }) {
 
@@ -122,7 +123,7 @@ function ExportModal({ show, handleClose, string, allowDownload, allowShare, mod
           draggable={false}
           cols={50}
           rows={2}
-          style={{resize: "none"}}
+          id={styles.shareTextArea}
         >
           {string}
         </FormControl>
@@ -299,7 +300,7 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
         mode={exportMode}
       />
       
-      <Dropdown className={"mb-2"} style={{ width: "100%" }}>
+      <Dropdown className={"mb-2"} id={styles.shareDropdown}>
         <Dropdown.Toggle letiant="secondary" id="export-dropdown">
           Share game
         </Dropdown.Toggle>
@@ -326,7 +327,7 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
             </Suspense>)
           : (<BoardPlaceholder chessboardSize={chessboardSize} text={"Loading data..."}/>)
       }
-      <div id={"moveBoard"} className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
+      <div id={styles.moveBoard} className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
         <Container>
           <div className="row row-cols-2">
             {
