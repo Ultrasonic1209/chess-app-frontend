@@ -19,8 +19,8 @@ export default function Preferences() {
       >
         <option>Choose board orientation</option>
         <option value={null}>My colour (default)</option>
-        <option value={false}>White</option>
-        <option value={true}>Black</option>
+        <option value={'white'}>White</option>
+        <option value={'black'}>Black</option>
       </Form.Select>
     </FloatingLabel>
       <Image src={"/lol.png"} objectFit={"scale-down"} width={500} height={850} alt={"image that doesnt exist, for offline placeholder testing"}></Image>
