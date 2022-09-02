@@ -138,10 +138,10 @@ function BoardPlaceholder({ text, chessboardSize }) {
     height: chessboardSize + "px"
   }
 
-  return <Container id="BasicBoard" className={"bg-secondary"} style={style}>{text}</Container>
+  return <Container id={"CheckmateBoard"} className={"bg-secondary"} style={style}>{text}</Container>
 }
 
-export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, whiteTime, setWhiteTime, blackTimer, blackTime, setBlackTime, boardEnabled }) {
+export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, whiteTime, setWhiteTime, blackTimer, blackTime, setBlackTime, boardEnabled, rotateBoard }) {
 
   const [chessboardSize, setChessboardSize] = useState(320);
 
@@ -317,12 +317,13 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
               <Chessboard
                 position={game.fen()}
                 onPieceDrop={onDrop}
-                id="BasicBoard"
+                id={"CheckmateBoard"}
                 boardWidth={chessboardSize}
                 onMouseOverSquare={onMouseOverSquare}
                 onMouseOutSquare={onMouseOutSquare}
                 customSquareStyles={boardEnabled && optionSquares}
                 arePiecesDraggable={boardEnabled}
+                boardOrientation={rotateBoard ? 'black' : 'white'}
               />
             </Suspense>)
           : (<BoardPlaceholder chessboardSize={chessboardSize} text={"Loading data..."}/>)
