@@ -17,7 +17,7 @@ export default function Profile() {
 
     const [loggingOut, setLoggingOut] = useState(false);
 
-    const { data, error, isValidating, mutate } = useSWR(shouldUpdate ? 'https://apichessapp.server.ultras-playroom.xyz/login/identify' : null, fetcher)
+    const { data, error, isValidating, mutate } = useSWR(shouldUpdate ? 'https://apichessapp.server.ultras-playroom.xyz/login/identify.json' : null, fetcher)
 
     if (error) {
       return (
