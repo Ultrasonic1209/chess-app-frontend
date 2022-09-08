@@ -55,16 +55,22 @@ function ExportModal({ show, handleClose, string, allowDownload, allowShare, mod
       let types = {
         pgn: {
           description: 'PGN File',
-          accept: {'application/x-chess-pgn': ['.pgn', '.txt']}
+          accept: {'application/x-chess-pgn': ['.pgn']}
         },
         fen: {
           description: 'FEN File',
-          accept: {'application/x-chess-fen': ['.fen', '.txt']}
+          accept: {'application/x-chess-fen': ['.fen']}
         }
       }
 
       const options = {
-        types: [(mode === "pgn") ? types.pgn : types.fen], // this is so scuffed
+        types: [
+          ((mode === "pgn") ? types.pgn : types.fen), // this is so scuffed
+          {
+            description: "Text File",
+            accept: {'text/plain': ['.txt']}
+          }
+        ],
         suggestedName: (mode === "pgn") ? 'game.pgn' : 'game.fen'
       }
 
