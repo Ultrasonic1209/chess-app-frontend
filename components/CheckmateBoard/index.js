@@ -138,7 +138,7 @@ function BoardPlaceholder({ text, chessboardSize }) {
     height: chessboardSize + "px"
   }
 
-  return <Container id={"CheckmateBoard"} className={"bg-secondary"} style={style}>{text}</Container>
+  return <Container id={"CheckmateBoard"} className={"bg-secondary text-white"} style={style}>{text}</Container>
 }
 
 export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, whiteTime, setWhiteTime, blackTimer, blackTime, setBlackTime, boardEnabled, rotateBoard }) {
