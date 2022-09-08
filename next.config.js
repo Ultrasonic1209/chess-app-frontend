@@ -81,8 +81,14 @@ module.exports = withPWA({
     experimental: {
         newNextLinkBehavior: true, /* this is not documented properly AT ALL. */
         optimizeCss: true,
-        browsersListForSwc: true
+        browsersListForSwc: true,
+        images: {
+            allowFutureImage: true
+        }
         //esmExternals: false // for preact compat
+    },
+    images: {
+        domains: ['http.cat']
     },
     async headers() { // for vercel
         return [
