@@ -45,7 +45,10 @@ export default function useLocalStorage(key, initialValue) {
 
   // So the value updates after the webpage has been hydrated!
   // this was a pain to debug.
-  useEffect(() => setValue(getCurrentValue()), [])
+  useEffect(() => setValue(() => {
+    const value = getCurrentValue()
+    console.log("setting to", value);
+  }), [])
 
   return [storedValue, setValue];
 }
