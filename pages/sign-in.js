@@ -1,17 +1,24 @@
 // from https://getbootstrap.com/docs/5.1/examples/sign-in/
 // and https://github.com/FriendlyCaptcha/friendly-captcha-examples/blob/main/nextjs/pages/forms/basic.js
 
-import { useState, useRef } from "react";
+import { useState, useRef, Suspense } from "react";
+
 import { useRouter } from 'next/router'
+import dynamic from "next/dynamic";
 import { useSWRConfig } from 'swr'
+
 import { Form, FormFloating, FloatingLabel, Alert } from "react-bootstrap";
-import FriendlyCaptcha from "../components/FriendlyCaptcha";
 import Button from 'react-bootstrap-button-loader';
 
 import { useToastContext } from "../contexts/ToastContext";
-
 import Main from "../components/Main";
 
+const FriendlyCaptcha = dynamic(() =>
+  import('../components/FriendlyCaptcha'),
+  {
+    suspense: true
+  }
+)
 
 export default function SignIn() {
     const router = useRouter();
@@ -127,15 +134,17 @@ export default function SignIn() {
                 />
             </div>
 
-            <FriendlyCaptcha
-                ref={widgetRef}
-                sitekey={process.env.friendlyCaptchaSitekey}
-                doneCallback={() => setSubmitButtonEnabled(true)}
-                errorCallback={(err) => {
-                    setMessage("Anti-robot widget issue" + JSON.stringify(err)); // Should really never happen.
-                    setSubmitButtonEnabled(true);
-                }}
-            ></FriendlyCaptcha>
+            <Suspense fallback={`Loading captcha`}>
+              <FriendlyCaptcha
+                  ref={widgetRef}
+                  sitekey={process.env.friendlyCaptchaSitekey}
+                  doneCallback={() => setSubmitButtonEnabled(true)}
+                  errorCallback={(err) => {
+                      setMessage("Anti-robot widget issue" + JSON.stringify(err)); // Should really never happen.
+                      setSubmitButtonEnabled(true);
+                  }}
+              />
+            </Suspense>
             <Button loading={loggingIn} disabled={!submitButtonEnabled} className="w-100 btn btn-lg btn-primary mt-2" type="submit">Sign in</Button>
             <Form.Text className="text-muted">
               By signing in, you agree to cookies being stored on your computer.
