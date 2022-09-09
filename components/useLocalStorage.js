@@ -26,7 +26,7 @@ export default function useLocalStorage(key, initialValue) {
   const [storedValue, setStoredValue] = useState(getCurrentValue);
   // Return a wrapped version of useState's setter function that ...
   // ... persists the new value to localStorage.
-  const setValue = useCallback((value) => {
+  const setValue = (value) => {
     try {
       // Allow value to be a function so we have same API as useState
       const valueToStore =
@@ -41,11 +41,11 @@ export default function useLocalStorage(key, initialValue) {
       // A more advanced implementation would handle the error case
       console.log(error);
     }
-  }, [key, storedValue]);
+  };
 
   // So the value updates after the webpage has been hydrated!
   // this was a pain to debug.
-  useEffect(() => setValue(getCurrentValue), [setValue, getCurrentValue])
+  useEffect(() => setValue(getCurrentValue), [])
 
   return [storedValue, setValue];
 }
