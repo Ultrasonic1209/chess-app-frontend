@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Main from "../../components/Main";
 import useLocalStorage from "../../components/useLocalStorage";
 
@@ -22,7 +21,6 @@ export default function Preferences() {
           <option value={"3"}>Black</option>
         </Form.Select>
       </FloatingLabel>
-      <Image src={"/lol.png"} objectFit={"scale-down"} width={500} height={850} alt={"image that doesnt exist, for offline placeholder testing"}></Image>
     </Main>
   );
 }
