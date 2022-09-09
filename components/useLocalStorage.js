@@ -1,11 +1,11 @@
 // https://usehooks.com/useLocalStorage/
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function useLocalStorage(key, initialValue) {
-  // State to store our value
-  // Pass initial state function to useState so logic is only executed once
-  const [storedValue, setStoredValue] = useState(() => {
+
+  // Defining this seperately from the example...
+  const getCurrentValue = useCallback(() => {
     if (typeof window === "undefined") {
       return initialValue;
     }
@@ -19,10 +19,14 @@ export default function useLocalStorage(key, initialValue) {
       console.log(error);
       return initialValue;
     }
-  });
+  }, [key, initialValue])
+
+  // State to store our value
+  // Pass initial state function to useState so logic is only executed once
+  const [storedValue, setStoredValue] = useState(getCurrentValue);
   // Return a wrapped version of useState's setter function that ...
   // ... persists the new value to localStorage.
-  const setValue = (value) => {
+  const setValue = useCallback((value) => {
     try {
       // Allow value to be a function so we have same API as useState
       const valueToStore =
@@ -37,6 +41,11 @@ export default function useLocalStorage(key, initialValue) {
       // A more advanced implementation would handle the error case
       console.log(error);
     }
-  };
+  }, [key, storedValue]);
+
+  // So the value updates after the webpage has been hydrated!
+  // this was a pain to debug.
+  useEffect(() => setValue(getCurrentValue), [setValue, getCurrentValue])
+
   return [storedValue, setValue];
 }
