@@ -127,7 +127,8 @@ export default function SignIn() {
                     type="checkbox"
                     
                     title="Remember me"
-                    label={'Remember Me'}
+                    label="Remember Me"
+                    aria-label="Remember me"
 
                     value="remember-me"
                     name="remember-me"
