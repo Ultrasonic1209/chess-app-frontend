@@ -21,7 +21,7 @@
 **/public/sw.js
 **/public/sw.js.map
 **/public/fallback-*.js
-**/public/worker-development.js
+**/public/worker-*.js
 
 # misc
 .DS_Store
