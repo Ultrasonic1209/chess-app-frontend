@@ -9,7 +9,7 @@ const withPWA = require('next-pwa')({
     cacheOnFrontEndNav: true,
     reloadOnOnline: false,
 
-    fallbacks: {
+    fallbacks: (process.env.NOSW === "1") ? null : {
         image: '/offline.png'
     }
 })
@@ -86,7 +86,7 @@ module.exports = withPWA({
     },
     images: {
         domains: ['http.cat'],
-        unoptimized: process.env.NOIMG && true
+        unoptimized: process.env.STATIC && true
     },
     async headers() { // for vercel
         return [

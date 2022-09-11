@@ -39,7 +39,7 @@
     "dev": "next dev",
     "start": "next start",
     "export": "next export",
-    "staticbuild": "next build && cross-env NOIMG=1 next export",
+    "staticbuild": "cross-env STATIC=1 NOSW=1 next build && cross-env STATIC=1 NOSW=1 next export",
     "lint": "next lint"
   },
   "eslintConfig": {
