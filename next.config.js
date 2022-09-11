@@ -81,7 +81,10 @@ module.exports = withPWA({
     experimental: {
         newNextLinkBehavior: true, /* this is not documented properly AT ALL. */
         optimizeCss: true,
-        browsersListForSwc: true
+        browsersListForSwc: true,
+        images: {
+            unoptimized: process.env.NOIMG && true
+        }
         //esmExternals: false // for preact compat
     },
     images: {
