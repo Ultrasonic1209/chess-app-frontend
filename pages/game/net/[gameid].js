@@ -48,7 +48,7 @@ export default function Play(/*{initialdata, gameid}*/) {
   const [blackTime, setBlackTime] = useState(0.0);
 
   const { data, error, mutate } = useSWR(
-    router.isReady ? `https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}.json` : null,
+    router.isReady ? `https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}` : null,
     fetcher,
     {
       refreshInterval: 1000,
