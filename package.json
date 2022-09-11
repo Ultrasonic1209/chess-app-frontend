@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^4.1.3",
+    "cross-env": "^7.0.3",
     "eslint": "^8.17.0",
     "eslint-config-next": "^12.1.6",
     "fake-indexeddb": "^4.0.0",
@@ -38,7 +39,7 @@
     "dev": "next dev",
     "start": "next start",
     "export": "next export",
-    "staticbuild": "next build && next export",
+    "staticbuild": "next build && cross-env NOIMG=1 next export",
     "lint": "next lint"
   },
   "eslintConfig": {
