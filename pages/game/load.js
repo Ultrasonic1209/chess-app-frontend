@@ -37,7 +37,8 @@ export default function Preferences() {
       },
     [gamemode]);
 
-    const remotePage = useState(0)
+    // eslint-disable-next-line no-unused-vars
+    const [ remotePage, setRemotePageNumber ] = useState(0)
 
     const params = new URLSearchParams({
       page: remotePage,
