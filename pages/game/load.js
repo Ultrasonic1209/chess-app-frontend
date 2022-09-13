@@ -12,6 +12,8 @@ import { useLiveQuery } from "dexie-react-hooks";
 import useSWR from "swr";
 import { useToastContext } from "../../contexts/ToastContext";
 
+const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'}).then(r => r.json())
+
 export default function Preferences() {
     const router = useRouter();
 
@@ -43,14 +45,17 @@ export default function Preferences() {
       my_games: false,
     });
 
-    const { remotegames, remoteerror } = useSWR(gamemode === "NET" ? "https://apichessapp.server.ultras-playroom.xyz/chess/get-games" + params.toString(): null)
+    const { remotegames, remoteerror } = useSWR(gamemode === "NET" ? "https://apichessapp.server.ultras-playroom.xyz/chess/get-games" + params.toString(): null, fetcher)
     
     useEffect(() => {
+      console.log("refreshing (remote)!");
       if (remoteerror) {
         addToast({
           "title": "Checkmate",
           "message": "An error occured whilst retrieving remote games."
         });
+      } else if (remotegames) {
+        console.log(remotegames);
       }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [remotegames, remoteerror])
