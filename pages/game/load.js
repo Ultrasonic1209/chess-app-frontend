@@ -98,23 +98,23 @@ export default function Preferences() {
                   (gamemode === "NET")
                   ? (
                     data?.map(game => (
-                    <tr key={game.id}>
-                      <td>{game.id}</td>
-                      {
-                        (gamemode === "BOT") || (gamemode === "NET")
-                        ? (<td>
-                          {gamemode === "BOT"
-                          ? "Bot (" + game.difficulty + ")"
-                          : (undefined)
-                          }
-                        </td>)
-                        : (undefined)
-                      }
+                    <tr key={game.game_id}>
+                      <td>{game.game_id}</td>
+                      <td>(tobedone)</td>
                       <td>
-                        {game.gameWon ? game.gameWon : "None yet"}
+                        {game.time_ended
+                          ? ((game.white_won === true)
+                            ? "White"
+                            : ((game.white_won === false)
+                              ? "Black"
+                              : "Draw"
+                            )
+                          )
+                          : "None yet"
+                        }
                       </td>
                       <td>
-                        <Button variant="primary" data-id={game.id} data-type={game.gameType} onClick={onClick}>Enter Game</Button>
+                        <Button variant="primary" data-id={game.game_id} data-type={"NET"} onClick={onClick}>Enter Game</Button>
                       </td>
                     </tr>
                     )))
