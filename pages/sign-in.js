@@ -12,6 +12,7 @@ import Button from 'react-bootstrap-button-loader';
 
 import { useToastContext } from "../contexts/ToastContext";
 import Main from "../components/Main";
+import { url } from "../hooks/useProfile";
 
 const FriendlyCaptcha = dynamic(() =>
   import('../components/FriendlyCaptcha'),
@@ -68,7 +69,7 @@ export default function SignIn() {
                 "message": "You have sucessfully logged in."
               });
 
-              await mutate('https://apichessapp.server.ultras-playroom.xyz/login/identify', result.profile);
+              await mutate(url, result.profile);
             })
           }
         } else {

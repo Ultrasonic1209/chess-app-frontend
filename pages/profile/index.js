@@ -7,7 +7,7 @@ import Button from 'react-bootstrap-button-loader';
 
 import { useToastContext } from "../../contexts/ToastContext";
 import { useState } from 'react';
-import { fetcher } from '../../hooks/useProfile';
+import { fetcher, url } from '../../hooks/useProfile';
 
 export default function Profile() {
     const router = useRouter();
@@ -17,7 +17,7 @@ export default function Profile() {
 
     const [loggingOut, setLoggingOut] = useState(false);
 
-    const { data, error, isValidating, mutate } = useSWR(shouldUpdate ? 'https://apichessapp.server.ultras-playroom.xyz/login/identify' : null, fetcher)
+    const { data, error, isValidating, mutate } = useSWR(shouldUpdate ? url : null, fetcher)
 
     if (error) {
       return (
