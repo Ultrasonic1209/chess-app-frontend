@@ -7,8 +7,8 @@ import Button from 'react-bootstrap-button-loader';
 
 import { useToastContext } from "../../contexts/ToastContext";
 import { useState } from 'react';
+import { fetcher } from '../../hooks/useProfile';
 
-const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'}).then(r => r.json())
 export default function Profile() {
     const router = useRouter();
     const addToast = useToastContext();

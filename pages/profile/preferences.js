@@ -1,5 +1,5 @@
 import Main from "../../components/Main";
-import useLocalStorage from "../../components/useLocalStorage";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 import { Form, FloatingLabel } from "react-bootstrap";
 
