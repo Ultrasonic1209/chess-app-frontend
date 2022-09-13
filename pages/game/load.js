@@ -46,20 +46,20 @@ export default function Preferences() {
       my_games: false,
     });
 
-    const { remotegames, remoteerror } = useSWR(gamemode === "NET" ? "https://apichessapp.server.ultras-playroom.xyz/chess/get-games/?" + params.toString(): null, fetcher)
+    const { data, error } = useSWR(gamemode === "NET" ? "https://apichessapp.server.ultras-playroom.xyz/chess/get-games/?" + params.toString(): null, fetcher)
     
     useEffect(() => {
       console.log("refreshing (remote)!");
-      if (remoteerror) {
+      if (error) {
         addToast({
           "title": "Checkmate",
           "message": "An error occured whilst retrieving remote games."
         });
-      } else if (remotegames) {
-        console.log(remotegames);
+      } else if (data) {
+        console.log(data);
       }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [remotegames, remoteerror])
+    }, [data, error])
 
 
     const onClick = (ev) => {
