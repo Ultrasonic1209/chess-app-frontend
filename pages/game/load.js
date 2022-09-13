@@ -97,7 +97,7 @@ export default function Preferences() {
                 {
                   (gamemode === "NET")
                   ? (
-                    remotegames?.map(game => (
+                    data?.map(game => (
                     <tr key={game.id}>
                       <td>{game.id}</td>
                       {
