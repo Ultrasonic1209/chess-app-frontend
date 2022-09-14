@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^4.1.3",
+    "@next/bundle-analyzer": "^12.3.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.17.0",
     "eslint-config-next": "^12.1.6",
@@ -36,7 +37,7 @@
   },
   "scripts": {
     "build": "next build",
-    "dev": "next dev",
+    "dev": "cross-env NOSW=1 next dev",
     "start": "next start",
     "export": "next export",
     "staticbuild": "cross-env STATIC=1 NOSW=1 next build && cross-env STATIC=1 NOSW=1 next export",
@@ -52,14 +53,7 @@
   },
   "browserslist": {
     "production": [
-      ">= 0.5%",
-      "last 2 major versions",
-      "not dead",
-      "Chrome >= 60",
-      "Firefox >= 60",
-      "Firefox ESR",
-      "iOS >= 12",
-      "Safari >= 12"
+      "defaults"
     ],
     "development": [
       "last 1 chrome version",

@@ -1,5 +1,3 @@
-/** @type {import('next').NextConfig} */
-
 const child_process = require('child_process')
 
 const withPWA = require('next-pwa')({
@@ -12,6 +10,10 @@ const withPWA = require('next-pwa')({
     fallbacks: (process.env.NOSW === "1") ? null : {
         image: '/offline.png'
     }
+})
+
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
 })
 
 const GIT_BRANCH = process.env.VERCEL_GIT_COMMIT_REF ||= child_process.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
@@ -74,7 +76,8 @@ const globalHeaders = [
     },
 ]
 
-module.exports = withPWA({
+/** @type {import('next').NextConfig} */
+const nextConfig = {
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
     swcMinify: true,
@@ -101,4 +104,14 @@ module.exports = withPWA({
         lastModified: date.toLocaleString(),
         friendlyCaptchaSitekey: "FCMM6JV285I5GS1J"
     }
-});
+}
+
+const plugins = [
+    withPWA,
+    withBundleAnalyzer
+]
+
+// eslint-disable-next-line no-unused-vars
+module.exports = (_phase, { defaultConfig }) => {
+    return plugins.reduce((acc, plugin) => plugin(acc), { ...nextConfig })
+}

@@ -6,7 +6,16 @@ export const url = 'https://apichessapp.server.ultras-playroom.xyz/login/identif
 export const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'}).then(r => r.json())
 
 export default function useProfile() {
-  const { data, error } = useSWR(url, fetcher)
 
-  return [ data, error ]
+  const { data, mutate, error } = useSWR(url, fetcher) // suspense when swr2 drops maybe
+
+  const loading = (!data && !error) || typeof window === "undefined"
+  const loggedOut = data && !data.name
+
+  return {
+    loading,
+    loggedOut,
+    user: data,
+    mutate
+  };
 }

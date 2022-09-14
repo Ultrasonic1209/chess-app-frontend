@@ -2,9 +2,8 @@
 // But it doesnt fully work on Next.js!!
 
 import Dexie from 'dexie';
-import { indexedDB, IDBKeyRange } from "fake-indexeddb";
 
-const args = ((typeof window === 'undefined') || !window.indexedDB) ? { indexedDB: indexedDB, IDBKeyRange: IDBKeyRange } : undefined
+const args = ((typeof window === 'undefined') || !window.indexedDB) ? { indexedDB: import("fake-indexeddb").indexedDB, IDBKeyRange: import("fake-indexeddb").IDBKeyRange } : undefined
 
 export const db = new Dexie(
     'testDatabase',
