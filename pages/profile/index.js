@@ -71,6 +71,7 @@ export default function Profile() {
         <Main title="Profile">
           <h2>Profile</h2>
           <p>Username: {user.name}</p>
+          <p>Email: {user.email === "" ? "None" : user.email}</p>&nbsp;<Button variant="secondary" size="sm" onClick={() => alert("not implemented yet")}>Change</Button>
           <Button variant="danger" onClick={handleSignOut} loading={loggingOut}>Sign Out</Button>
         </Main>
       );
