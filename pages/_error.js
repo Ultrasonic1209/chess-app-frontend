@@ -10,7 +10,7 @@ const statusCodes = {
 
 function Error({ statusCode, message }) {
     return (
-        <Main title={statusCode}>
+        <Main title={statusCode ? statusCode : "Error"}>
             <h2>{statusCode
                     ? `HTTP ${statusCode}`
                     : 'Internal Client Error'
@@ -19,7 +19,7 @@ function Error({ statusCode, message }) {
             <p>{message}</p>
 
             {
-              statusCode != ""
+              statusCode
               ? <HttpCat statuscode={statusCode} />
               : undefined
             }
