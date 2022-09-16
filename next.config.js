@@ -1,13 +1,16 @@
 const child_process = require('child_process')
 
+const IS_STATIC = process.env.STATIC && true
+const NO_SW = process.env.NOSW === "1"
+
 const withPWA = require('next-pwa')({
-    //disable: process.env.NODE_ENV === 'development',
+    disable: NO_SW,
     dest: 'public',
     dynamicStartUrl: true,
     cacheOnFrontEndNav: true,
     reloadOnOnline: false,
 
-    fallbacks: (process.env.NOSW === "1") ? null : {
+    fallbacks: {
         image: '/offline.png'
     }
 })
@@ -16,9 +19,9 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
-const GIT_BRANCH = process.env.VERCEL_GIT_COMMIT_REF ||= child_process.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+const GIT_BRANCH = process.env.GIT_COMMIT_REF ||= process.env.VERCEL_GIT_COMMIT_REF ||= child_process.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 
-const GIT_COMMIT_SHA = process.env.VERCEL_GIT_COMMIT_SHA ||= child_process.execSync('git rev-parse HEAD').toString().trim() // https://stackoverflow.com/a/35778030
+const GIT_COMMIT_SHA = process.env.GIT_COMMIT_SHA ||= process.env.VERCEL_GIT_COMMIT_SHA ||= child_process.execSync('git rev-parse HEAD').toString().trim() // https://stackoverflow.com/a/35778030
 
 var APP_NAME;
 
@@ -89,7 +92,7 @@ const nextConfig = {
     },
     images: {
         domains: ['http.cat'],
-        unoptimized: process.env.STATIC && true
+        unoptimized: IS_STATIC
     },
     async headers() { // for vercel
         return [
