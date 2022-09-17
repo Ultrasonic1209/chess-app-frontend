@@ -17,6 +17,7 @@ const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'
 function getOpponent (players, is_white) {
   if ((typeof players === "undefined") || (typeof is_white === "undefined")) { return {} }
   players.forEach(player => {
+    console.log(player, player.isWhite != is_white)
     if (player.isWhite != is_white) {
       return player
     }
