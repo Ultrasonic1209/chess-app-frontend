@@ -119,7 +119,7 @@ export default function SignUp() {
                     label="Password"
                     className="mb-3 text-muted"
                 >
-                    <Form.Control name="password" type="password" placeholder="password" autoComplete="current-password" required={true} />
+                    <Form.Control name="password" type="password" placeholder="password" autoComplete="new-password" required={true} />
                 </FloatingLabel>
             </FormFloating>
             <FormFloating>
