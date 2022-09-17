@@ -16,13 +16,16 @@ const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'
 
 function getOpponent (players, is_white) {
   if ((typeof players === "undefined") || (typeof is_white === "undefined")) { return {} }
+  
+  let found_player = {}
+
   players.forEach(player => {
-    console.log(player, player.isWhite != is_white)
     if (player.isWhite != is_white) {
-      return player
+      return found_player
     }
   });
-  return {}
+  
+  return found_player
 }
 
 export default function Preferences() {
