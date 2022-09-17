@@ -22,8 +22,10 @@ export default function Preferences() {
     const addToast = useToastContext()
 
     const [gamemode, setGamemode] = useState();
+    const [presence, setPresence] = useState(true);
 
     const gamemodeOnClick = (ev) => setGamemode(ev.target.dataset.gamemode);
+    const presenceOnClick = (ev) => setPresence(ev.target.dataset.presence);
 
     const games = useLiveQuery(async () => {
         console.log("refreshing!");
@@ -43,7 +45,7 @@ export default function Preferences() {
     const params = new URLSearchParams({
       page: remotePage,
       page_size: 48,
-      my_games: false,
+      my_games: presence,
     });
 
     const { data, error } = useSWR(gamemode === "NET" ? "https://apichessapp.server.ultras-playroom.xyz/chess/get-games/?" + params.toString(): null, fetcher)
@@ -78,6 +80,15 @@ export default function Preferences() {
             <ListGroup.Item active={gamemode === "NET"} onClick={gamemodeOnClick} data-gamemode="NET" type="button" action disabled={!isOnline}>Vs. Online Player</ListGroup.Item>
           </ListGroup>
         </Container>
+        {gamemode === "NET"
+        ? <Container id="selectOwner" className="p-0 pt-3">
+            <h5>Select presence</h5>
+            <ListGroup horizontal="sm">
+              <ListGroup.Item active={presence} onClick={presenceOnClick} data-presence={true} type="button" action>Games I&rsquo;m in</ListGroup.Item>
+              <ListGroup.Item active={!presence} onClick={presenceOnClick} data-presence={false} type="button" action>Games I&rsquo;m not in</ListGroup.Item>
+            </ListGroup>
+          </Container>
+        : undefined}
         {gamemode
           ? (
             <Table bordered hover className="p-0 mt-3">
