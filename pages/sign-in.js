@@ -106,7 +106,7 @@ export default function SignIn() {
 
             <FormFloating>
                 <FloatingLabel
-                    controlId="floatingInput"
+                    controlId="floatingUsername"
                     label="Username"
                     className="mb-3 text-muted"
                 >

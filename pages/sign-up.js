@@ -106,7 +106,7 @@ export default function SignUp() {
 
             <FormFloating>
                 <FloatingLabel
-                    controlId="floatingInput"
+                    controlId="floatingUsername"
                     label="Username"
                     className="mb-3 text-muted"
                 >
@@ -124,7 +124,7 @@ export default function SignUp() {
             </FormFloating>
             <FormFloating>
                 <FloatingLabel
-                    controlId="floatingInput"
+                    controlId="floatingEmail"
                     label="E-mail address"
                     className="mb-3 text-muted"
                 >
