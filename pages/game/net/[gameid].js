@@ -460,6 +460,7 @@ export default function PlayNet(/*{initialdata, gameid}*/) {
 
   return (
     <Main title="Play">
+
       <Modal show={canJoinGame && showJoinGame} onHide={closeJoinGame}>
         <Modal.Header closeButton>
           <Modal.Title>Join game?</Modal.Title>
@@ -474,6 +475,7 @@ export default function PlayNet(/*{initialdata, gameid}*/) {
           </Button>
         </Modal.Footer>
       </Modal>
+      
       <h2>Play</h2>
       <CheckmateBoard
         storedgame={storedgame}
