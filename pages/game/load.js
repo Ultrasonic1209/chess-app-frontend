@@ -21,10 +21,10 @@ function getOpponent (players, is_white) {
 
   players.forEach(player => {
     if (player.isWhite != is_white) {
-      return found_player
+      found_player = player
     }
   });
-  
+
   return found_player
 }
 
