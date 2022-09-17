@@ -15,12 +15,13 @@ import { useToastContext } from "../../contexts/ToastContext";
 const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'}).then(r => r.json())
 
 function getOpponent (players, is_white) {
-  if ((typeof players === "undefined") || (!is_white)) { return {} }
+  if ((typeof players === "undefined") || (typeof is_white === "undefined")) { return {} }
   players.forEach(player => {
     if (player.isWhite != is_white) {
       return player
     }
   });
+  return {}
 }
 
 export default function Preferences() {
