@@ -15,6 +15,7 @@ import { round, secondsToTime } from '../../../components/CountUp';
 import CheckmateBoard from '../../../components/CheckmateBoard';
 
 import { Modal, Button } from 'react-bootstrap';
+import useLocalStorage from '../../../hooks/useLocalStorage';
 
 const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include', headers: { "Accept": "application/json", }})
                             .then(r => r.json())
@@ -24,7 +25,9 @@ const clkRegex = new RegExp('\\[%clk (.*)]', 'g');
 // https://spectrum.chat/date-fns/general/duration-object-milliseconds~1dfb088c-01fc-48df-a78c-babbd9b5e522?m=MTYwMzEzNTczMzEyMQ==
 const durationToMillis = duration => +add(0, duration)
 
-export default function Play(/*{initialdata, gameid}*/) {
+export default function PlayNet(/*{initialdata, gameid}*/) {
+
+  const [ boardOrientation ] = useLocalStorage("boardOrientation", "1");
 
   const router = useRouter();
 
@@ -453,6 +456,8 @@ export default function Play(/*{initialdata, gameid}*/) {
     return true;
   }
 
+  const rotateBoard = ((storedgame?.is_white) && (boardOrientation === "1")) || (boardOrientation === "3")
+
   return (
     <Main title="Play">
       <Modal show={canJoinGame && showJoinGame} onHide={closeJoinGame}>
@@ -484,6 +489,7 @@ export default function Play(/*{initialdata, gameid}*/) {
         setBlackTime={setBlackTime}
 
         boardEnabled={boardEnabled && userAuthorised}
+        rotateBoard={rotateBoard}
       />
     </Main>
   );

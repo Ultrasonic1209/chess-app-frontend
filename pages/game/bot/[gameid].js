@@ -12,12 +12,14 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 import { round, secondsToTime } from '../../../components/CountUp';
 import CheckmateBoard from '../../../components/CheckmateBoard';
+import useLocalStorage from '../../../hooks/useLocalStorage';
 
 const clkRegex = new RegExp('\\[%clk (.*)]', 'g');
 
-export default function Play() {
+export default function PlayBot() {
 
-  // todo: figure out why (on countdown mode) opposing team time gets set to player's time
+  const [ boardOrientation ] = useLocalStorage("boardOrientation", "1");
+
   const router = useRouter();
   const gameid = parseInt(router.query.gameid);
   const isReady = router.isReady;
@@ -317,10 +319,12 @@ export default function Play() {
     return true;
   }
 
+  const rotateBoard = ((storedgame?.colourPlaying === "BLACK") && (boardOrientation === "1")) || (boardOrientation === "3")
+
   return (
     <Main title="Play">
       <h2>Play</h2>
-      <h3>Vs: Bot ({storedgame?.difficulty})</h3>
+      <h3>Vs: Bot ({storedgame?.difficulty || "Loading"})</h3>
       <CheckmateBoard
         storedgame={storedgame}
         game={game}
@@ -335,6 +339,7 @@ export default function Play() {
         setBlackTime={setBlackTime}
 
         boardEnabled={boardEnabled}
+        rotateBoard={rotateBoard}
       />
     </Main>
   );
