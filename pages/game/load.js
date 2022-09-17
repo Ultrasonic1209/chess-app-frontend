@@ -14,7 +14,7 @@ import { useToastContext } from "../../contexts/ToastContext";
 
 const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'}).then(r => r.json())
 
-function getOpponent ({players, is_white}) {
+function getOpponent (players, is_white) {
   if ((typeof players === "undefined") || (is_white === null)) { return undefined }
   players.forEach(player => {
     if (player.isWhite != is_white) {
@@ -38,7 +38,7 @@ export default function Preferences() {
 
     const games = useLiveQuery(async () => {
         console.log("refreshing!");
-        if (gamemode === undefined) { return [] }
+        if ((typeof gamemode === "undefined") || (gamemode === "NET")) { return [] }
         const gamearray = await db.table("games")
           .where("gameType")
           .equals(gamemode)
