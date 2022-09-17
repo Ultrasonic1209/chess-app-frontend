@@ -22,7 +22,7 @@ export default function Preferences() {
     const addToast = useToastContext()
 
     const [gamemode, setGamemode] = useState();
-    const [presence, setPresence] = useState(true);
+    const [presence, setPresence] = useState(1);
 
     const gamemodeOnClick = (ev) => setGamemode(ev.target.dataset.gamemode);
     const presenceOnClick = (ev) => setPresence(ev.target.dataset.presence);
@@ -84,8 +84,8 @@ export default function Preferences() {
         ? <Container id="selectOwner" className="p-0 pt-3">
             <h5>Select presence</h5>
             <ListGroup horizontal="sm">
-              <ListGroup.Item active={presence} onClick={presenceOnClick} data-presence={true} type="button" action>Games I&rsquo;m in</ListGroup.Item>
-              <ListGroup.Item active={!presence} onClick={presenceOnClick} data-presence={false} type="button" action>Games I&rsquo;m not in</ListGroup.Item>
+              <ListGroup.Item active={presence === 1} onClick={presenceOnClick} data-presence={1} type="button" action>Games I&rsquo;m in</ListGroup.Item>
+              <ListGroup.Item active={presence === 0} onClick={presenceOnClick} data-presence={0} type="button" action>Games I&rsquo;m not in</ListGroup.Item>
             </ListGroup>
           </Container>
         : undefined}
