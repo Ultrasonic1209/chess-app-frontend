@@ -45,7 +45,7 @@ export default function Preferences() {
     const params = new URLSearchParams({
       page: remotePage,
       page_size: 48,
-      my_games: presence === "1",
+      my_games: presence === "2",
     });
 
     const { data, error } = useSWR(gamemode === "NET" ? "https://apichessapp.server.ultras-playroom.xyz/chess/get-games/?" + params.toString(): null, fetcher)
