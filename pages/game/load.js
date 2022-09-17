@@ -120,7 +120,7 @@ export default function Preferences() {
                     data?.map(game => (
                     <tr key={game.game_id}>
                       <td>{game.game_id}</td>
-                      <td>{(typeof game.is_white === "undefined") ? 'N/A' : (getOpponent(game).username || "Anonymous")}</td>
+                      <td>{(typeof game.is_white === "undefined") ? 'N/A' : (getOpponent(game)?.username || "Anonymous")}</td>
                       <td>
                         {game.time_ended
                           ? ((game.white_won === true)
