@@ -1,4 +1,5 @@
 import Main from "../components/Main";
+import HttpCat from "../components/HttpCat";
 
 const statusCodes = {
     400: 'Bad request.',
@@ -9,13 +10,19 @@ const statusCodes = {
 
 function Error({ statusCode, message }) {
     return (
-        <Main title={statusCode}>
+        <Main title={statusCode ? statusCode : "Error"}>
             <h2>{statusCode
                     ? `HTTP ${statusCode}`
                     : 'Internal Client Error'
             }</h2>
             
             <p>{message}</p>
+
+            {
+              statusCode
+              ? <HttpCat statuscode={statusCode} />
+              : undefined
+            }
 
       </Main>
     )

@@ -1,9 +1,10 @@
-/** @type {import('next').NextConfig} */
-
 const child_process = require('child_process')
 
+const IS_STATIC = process.env.STATIC && true
+const NO_SW = process.env.NOSW === "1"
+
 const withPWA = require('next-pwa')({
-    //disable: process.env.NODE_ENV === 'development',
+    disable: NO_SW,
     dest: 'public',
     dynamicStartUrl: true,
     cacheOnFrontEndNav: true,
@@ -14,9 +15,13 @@ const withPWA = require('next-pwa')({
     }
 })
 
-const GIT_BRANCH = process.env.VERCEL_GIT_COMMIT_REF ||= child_process.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
 
-const GIT_COMMIT_SHA = process.env.VERCEL_GIT_COMMIT_SHA ||= child_process.execSync('git rev-parse HEAD').toString().trim() // https://stackoverflow.com/a/35778030
+const GIT_BRANCH = process.env.GIT_COMMIT_REF ||= process.env.VERCEL_GIT_COMMIT_REF ||= child_process.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+
+const GIT_COMMIT_SHA = process.env.GIT_COMMIT_SHA ||= process.env.VERCEL_GIT_COMMIT_SHA ||= child_process.execSync('git rev-parse HEAD').toString().trim() // https://stackoverflow.com/a/35778030
 
 var APP_NAME;
 
@@ -74,7 +79,8 @@ const globalHeaders = [
     },
 ]
 
-module.exports = withPWA({
+/** @type {import('next').NextConfig} */
+const nextConfig = {
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
     swcMinify: true,
@@ -83,6 +89,10 @@ module.exports = withPWA({
         optimizeCss: true,
         browsersListForSwc: true
         //esmExternals: false // for preact compat
+    },
+    images: {
+        domains: ['http.cat'],
+        unoptimized: IS_STATIC
     },
     async headers() { // for vercel
         return [
@@ -97,4 +107,14 @@ module.exports = withPWA({
         lastModified: date.toLocaleString(),
         friendlyCaptchaSitekey: "FCMM6JV285I5GS1J"
     }
-});
+}
+
+const plugins = [
+    withPWA,
+    withBundleAnalyzer
+]
+
+// eslint-disable-next-line no-unused-vars
+module.exports = (_phase, { defaultConfig }) => {
+    return plugins.reduce((acc, plugin) => plugin(acc), { ...nextConfig })
+}

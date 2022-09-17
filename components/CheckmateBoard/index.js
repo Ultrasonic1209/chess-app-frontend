@@ -3,7 +3,8 @@ import dynamic from "next/dynamic";
 
 import { Container, Dropdown, Modal, Button, ButtonToolbar, FormControl } from "react-bootstrap";
 
-//import { Chessboard } from "react-chessboard";
+import styles from './Chessboard.module.css';
+
 const Chessboard = dynamic(() =>
   import('./Chessboard'),
   {
@@ -13,8 +14,8 @@ const Chessboard = dynamic(() =>
 
 import { WHITE, BLACK } from 'chess.js';
 
-import CountUp from "./CountUp";
-import CountDown from "./CountDown";
+import CountUp from "../CountUp";
+import CountDown from "../CountDown";
 
 function ExportModal({ show, handleClose, string, allowDownload, allowShare, mode }) {
 
@@ -54,16 +55,22 @@ function ExportModal({ show, handleClose, string, allowDownload, allowShare, mod
       let types = {
         pgn: {
           description: 'PGN File',
-          accept: {'application/x-chess-pgn': ['.pgn', '.txt']}
+          accept: {'application/x-chess-pgn': ['.pgn']}
         },
         fen: {
           description: 'FEN File',
-          accept: {'application/x-chess-fen': ['.fen', '.txt']}
+          accept: {'application/x-chess-fen': ['.fen']}
         }
       }
 
       const options = {
-        types: [(mode === "pgn") ? types.pgn : types.fen], // this is so scuffed
+        types: [
+          ((mode === "pgn") ? types.pgn : types.fen), // this is so scuffed
+          {
+            description: "Text File",
+            accept: {'text/plain': ['.txt']}
+          }
+        ],
         suggestedName: (mode === "pgn") ? 'game.pgn' : 'game.fen'
       }
 
@@ -122,7 +129,7 @@ function ExportModal({ show, handleClose, string, allowDownload, allowShare, mod
           draggable={false}
           cols={50}
           rows={2}
-          style={{resize: "none"}}
+          id={styles.shareTextArea}
         >
           {string}
         </FormControl>
@@ -137,10 +144,10 @@ function BoardPlaceholder({ text, chessboardSize }) {
     height: chessboardSize + "px"
   }
 
-  return <Container id="BasicBoard" className={"bg-secondary"} style={style}>{text}</Container>
+  return <Container id={"CheckmateBoard"} className={"bg-secondary text-white"} style={style}>{text}</Container>
 }
 
-export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, whiteTime, setWhiteTime, blackTimer, blackTime, setBlackTime, boardEnabled }) {
+export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, whiteTime, setWhiteTime, blackTimer, blackTime, setBlackTime, boardEnabled, rotateBoard }) {
 
   const [chessboardSize, setChessboardSize] = useState(320);
 
@@ -299,7 +306,7 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
         mode={exportMode}
       />
       
-      <Dropdown className={"mb-2"} style={{ width: "100%" }}>
+      <Dropdown className={"mb-2"} id={styles.shareDropdown}>
         <Dropdown.Toggle letiant="secondary" id="export-dropdown">
           Share game
         </Dropdown.Toggle>
@@ -316,17 +323,18 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
               <Chessboard
                 position={game.fen()}
                 onPieceDrop={onDrop}
-                id="BasicBoard"
+                id={"CheckmateBoard"}
                 boardWidth={chessboardSize}
                 onMouseOverSquare={onMouseOverSquare}
                 onMouseOutSquare={onMouseOutSquare}
                 customSquareStyles={boardEnabled && optionSquares}
                 arePiecesDraggable={boardEnabled}
+                boardOrientation={rotateBoard ? 'black' : 'white'}
               />
             </Suspense>)
           : (<BoardPlaceholder chessboardSize={chessboardSize} text={"Loading data..."}/>)
       }
-      <div id={"moveBoard"} className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
+      <div id={styles.moveBoard} className={"p-2 m-2 mw-75 bg-dark flex-fill rounded text-white"}>
         <Container>
           <div className="row row-cols-2">
             {
