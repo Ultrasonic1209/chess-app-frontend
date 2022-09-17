@@ -45,7 +45,7 @@ export default function Preferences() {
     const params = new URLSearchParams({
       page: remotePage,
       page_size: 48,
-      my_games: presence === "2",
+      my_games: presence === "1",
     });
 
     useEffect(() => {
