@@ -143,7 +143,7 @@ export default function SignUp() {
                   }}
               />
             </Suspense>
-            <Button loading={makingAccount} disabled={!submitButtonEnabled} className="w-100 btn btn-lg btn-primary mt-2" type="submit">Sign in</Button>
+            <Button loading={makingAccount} disabled={!submitButtonEnabled} className="w-100 btn btn-lg btn-primary mt-2" type="submit">Create Account</Button>
             <Form.Text className="text-muted">
               By creating an account, you agree to cookies being stored on your computer.
             </Form.Text>
