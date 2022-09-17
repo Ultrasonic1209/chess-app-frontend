@@ -48,6 +48,10 @@ export default function Preferences() {
       my_games: presence === "2",
     });
 
+    useEffect(() => {
+      console.log(presence, params)
+    }, [presence])
+
     const { data, error } = useSWR(gamemode === "NET" ? "https://apichessapp.server.ultras-playroom.xyz/chess/get-games/?" + params.toString(): null, fetcher)
     
     useEffect(() => {
