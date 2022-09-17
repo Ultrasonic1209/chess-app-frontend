@@ -45,7 +45,7 @@ export default function Preferences() {
     const params = new URLSearchParams({
       page: remotePage,
       page_size: 48,
-      my_games: presence,
+      my_games: presence === "1",
     });
 
     const { data, error } = useSWR(gamemode === "NET" ? "https://apichessapp.server.ultras-playroom.xyz/chess/get-games/?" + params.toString(): null, fetcher)
@@ -84,8 +84,8 @@ export default function Preferences() {
         ? <Container id="selectOwner" className="p-0 pt-3">
             <h5>Select presence</h5>
             <ListGroup horizontal="sm">
-              <ListGroup.Item active={presence === 1} onClick={presenceOnClick} data-presence={1} type="button" action>Games I&rsquo;m in</ListGroup.Item>
-              <ListGroup.Item active={presence === 0} onClick={presenceOnClick} data-presence={0} type="button" action>Games I&rsquo;m not in</ListGroup.Item>
+              <ListGroup.Item active={presence === "1"} onClick={presenceOnClick} data-presence={"1"} type="button" action>Games I&rsquo;m in</ListGroup.Item>
+              <ListGroup.Item active={presence === "0"} onClick={presenceOnClick} data-presence={"0"} type="button" action>All games</ListGroup.Item>
             </ListGroup>
           </Container>
         : undefined}
