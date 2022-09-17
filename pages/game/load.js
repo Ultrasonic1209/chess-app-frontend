@@ -15,7 +15,7 @@ import { useToastContext } from "../../contexts/ToastContext";
 const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'}).then(r => r.json())
 
 function getOpponent (players, is_white) {
-  if ((typeof players === "undefined") || (is_white === null)) { return undefined }
+  if ((typeof players === "undefined") || (!is_white)) { return {} }
   players.forEach(player => {
     if (player.isWhite != is_white) {
       return player
@@ -120,7 +120,7 @@ export default function Preferences() {
                     data?.map(game => (
                     <tr key={game.game_id}>
                       <td>{game.game_id}</td>
-                      <td>{(game.is_white === null) ? 'N/A' : (getOpponent(game?.players, game?.is_white)?.username || "Anonymous")}</td>
+                      <td>{(game.is_white === null) ? 'N/A' : (getOpponent(game?.players, game?.is_white).username || "Anonymous")}</td>
                       <td>
                         {game.time_ended
                           ? ((game.white_won === true)
