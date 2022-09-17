@@ -22,7 +22,7 @@ export default function Preferences() {
     const addToast = useToastContext()
 
     const [gamemode, setGamemode] = useState();
-    const [presence, setPresence] = useState(1);
+    const [presence, setPresence] = useState("1");
 
     const gamemodeOnClick = (ev) => setGamemode(ev.target.dataset.gamemode);
     const presenceOnClick = (ev) => setPresence(ev.target.dataset.presence);
