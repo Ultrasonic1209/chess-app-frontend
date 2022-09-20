@@ -45,7 +45,7 @@
     "staticbuild": "cross-env STATIC=1 NOSW=1 next build && cross-env STATIC=1 NOSW=1 next export",
     "lint": "next lint",
     "test": "jest --watch",
-    "citest": "jest --ci"
+    "citest": "cross-env NODE_ENV=test jest --ci"
   },
   "eslintConfig": {
     "extends": [
