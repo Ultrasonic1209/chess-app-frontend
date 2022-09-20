@@ -4,9 +4,6 @@ import { useEffect, useState } from "react";
 import { Table, Container, ListGroup, Button } from "react-bootstrap";
 import Link from "next/link";
 
-
-import { useRouter } from 'next/router'
-
 import { useOnlineStatus } from "../../contexts/OnlineStatus";
 
 import { db } from "../../db";
