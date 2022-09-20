@@ -62,7 +62,7 @@ export default function Preferences() {
       my_games: presence === "1",
     });
 
-    const { data, error } = useSWR(gamemode === "NET" ? "https://apichessapp.server.ultras-playroom.xyz/chess/get-games/?" + params.toString(): null, fetcher)
+    const { data, error } = useSWR(gamemode === "NET" ? "https://apichessapp.server.ultras-playroom.xyz/chess/get-games/?" + params.toString(): null, fetcher, { fallbackData: [] })
     
     useEffect(() => {
       console.log("refreshing (remote)!");
