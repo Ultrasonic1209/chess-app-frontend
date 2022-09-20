@@ -83,6 +83,8 @@ export default function Preferences() {
       router.push("/game/" + type.toLowerCase() + "/" + id);
     }
 
+    const amountOfGames = (gamemode === "NET") ? data?.length || 0 : games.length
+
     return (
       <Main title="Load Game">
         <h2>Load Game</h2>
@@ -169,6 +171,14 @@ export default function Preferences() {
             </Table>
             )
           : (undefined)
+        }
+        {
+          (amountOfGames < 1)
+              ? <>
+                <strong>No games?</strong>
+                <Button variant="primary" onClick={() => router.push("/game/new")}>New Game</Button>
+              </>
+              : undefined
         }
       </Main>
     );
