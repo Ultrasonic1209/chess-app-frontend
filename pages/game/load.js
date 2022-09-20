@@ -2,6 +2,8 @@ import Main from "../../components/Main";
 
 import { useEffect, useState } from "react";
 import { Table, Container, ListGroup, Button } from "react-bootstrap";
+import Link from "next/link";
+
 
 import { useRouter } from 'next/router'
 
@@ -29,8 +31,6 @@ function getOpponent (players, is_white) {
 }
 
 export default function Preferences() {
-    const router = useRouter();
-
     const isOnline = useOnlineStatus();
 
     const addToast = useToastContext()
@@ -77,13 +77,7 @@ export default function Preferences() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, error])
 
-
-    const onClick = (ev) => {
-      const { id, type } = ev.target.dataset;
-      router.push("/game/" + type.toLowerCase() + "/" + id);
-    }
-
-    const amountOfGames = (gamemode === "NET") ? ((typeof data === "undefined") ? [] : data)?.length || 0 : games.length
+    const amountOfGames = (gamemode === "NET") ? data?.length || 0 : games?.length || 0
 
     return (
       <Main title="Load Game">
@@ -105,7 +99,7 @@ export default function Preferences() {
             </ListGroup>
           </Container>
         : undefined}
-        {gamemode
+        {(gamemode) && (amountOfGames > 0)
           ? (
             <Table bordered hover className="p-0 mt-3">
               <thead>
@@ -141,7 +135,11 @@ export default function Preferences() {
                         }
                       </td>
                       <td>
-                        <Button variant="primary" data-id={game.game_id} data-type={"NET"} onClick={onClick}>Enter Game</Button>
+                        <Button
+                          variant="primary"
+                          href={"/game/net/" + game.game_id}
+                          as={Link}
+                        >Enter Game</Button>
                       </td>
                     </tr>
                     )))
@@ -163,7 +161,11 @@ export default function Preferences() {
                         {game.gameWon ? game.gameWon : "None yet"}
                       </td>
                       <td>
-                        <Button variant="primary" data-id={game.id} data-type={game.gameType} onClick={onClick}>Enter Game</Button>
+                        <Button
+                          variant="primary"
+                          href={"/game/" + game.gameType.toLowerCase() + "/" + game.id}
+                          as={Link}
+                        >Enter Game</Button>
                       </td>
                     </tr>
                 )))}
@@ -173,11 +175,17 @@ export default function Preferences() {
           : (undefined)
         }
         {
-          (amountOfGames < 1)
-              ? <>
-                <strong>No games?</strong>
-                <Button variant="primary" onClick={() => router.push("/game/new")}>New Game</Button>
-              </>
+          ((gamemode) && (amountOfGames < 1))
+              ? <div className={"mt-5 text-center"}>
+                  <strong>No games?</strong>
+                  <br/>
+                  <Button
+                    className={"mt-2"}
+                    variant="primary"
+                    as={Link}
+                    href="/game/new"
+                  >New Game</Button>
+                </div>
               : undefined
         }
       </Main>
