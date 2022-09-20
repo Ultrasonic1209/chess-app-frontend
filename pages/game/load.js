@@ -83,7 +83,7 @@ export default function Preferences() {
       router.push("/game/" + type.toLowerCase() + "/" + id);
     }
 
-    const amountOfGames = (gamemode === "NET") ? data?.length || 0 : games.length
+    const amountOfGames = (gamemode === "NET") ? ((typeof data === "undefined") ? [] : data)?.length || 0 : games.length
 
     return (
       <Main title="Load Game">
