@@ -2,8 +2,12 @@ import Head from "next/head";
 import { Suspense } from "react";
 
 // https://stackoverflow.com/a/52695341
-const isInStandaloneMode = () =>
-      (window.matchMedia('(display-mode: standalone)').matches) || (window.navigator.standalone) || document.referrer.includes('android-app://');
+const isInStandaloneMode = () => {
+  if (typeof window === "undefined") { return false; }
+  if (!window.matchMedia) { return (window.navigator.standalone) || document.referrer.includes('android-app://') }
+
+  return (window.matchMedia('(display-mode: standalone)').matches) || (window.navigator.standalone) || document.referrer.includes('android-app://');
+}
 
 const Main = (props) => {
 
