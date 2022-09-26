@@ -101,6 +101,11 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'www.gravatar.com',
                 pathname: '/avatar/*',
+            },
+            {
+                protocol: 'https',
+                hostname: 'chessapp.ultras-playroom.xyz',
+                pathname: '/maskable_icon.png',
             }
         ],
         formats: ['image/avif', 'image/webp'],
