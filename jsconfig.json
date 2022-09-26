@@ -5,8 +5,7 @@
         "target": "ES2020",
         "jsx": "react",
         "strictNullChecks": true,
-        "strictFunctionTypes": true,
-        "types": ["bun-types"]
+        "strictFunctionTypes": true
     },
     "exclude": [
         "node_modules",

@@ -101,18 +101,9 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'www.gravatar.com',
                 pathname: '/avatar/*',
-            },
-            {
-                protocol: 'https',
-                hostname: 'chessapp.ultras-playroom.xyz',
-                pathname: '/*',
-            },
-            {
-                protocol: 'https',
-                hostname: 'dev.chessapp.ultras-playroom.xyz',
-                pathname: '/*',
             }
         ],
+        formats: ['image/avif', 'image/webp'],
         unoptimized: IS_STATIC
     },
     async headers() { // for vercel

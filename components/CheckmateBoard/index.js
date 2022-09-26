@@ -295,7 +295,7 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
           whiteplr = {
             username: plrName,
             rank: player.rank,
-            avatar: player.avatar_url
+            avatar: player.avatar_hash
           }
         } else if (!player.is_white) {
 
@@ -306,7 +306,7 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
           blackplr = {
             username: plrName,
             rank: player.rank,
-            avatar: player.avatar_url
+            avatar: player.avatar_hash
           }
         }
       })
@@ -364,7 +364,7 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
                       <UserCard
                         className={"mt-2 mb-2 me-0"} // did i say how much i hate CSS
                         username={whiteplr?.username}
-                        avatarurl={whiteplr?.avatar}
+                        avatarhash={whiteplr?.avatar}
                         rank={whiteplr?.rank}
                         priority={true}
                       />
@@ -373,7 +373,7 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
                     <UserCard
                         className={"mt-2 mb-2 me-0"}
                         username={blackplr?.username}
-                        avatarurl={blackplr?.avatar}
+                        avatarhash={blackplr?.avatar}
                         rank={blackplr?.rank}
                         priority={true}
                       />

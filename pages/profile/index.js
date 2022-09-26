@@ -79,7 +79,7 @@ export default function Profile() {
           <h4 className={"mt-4"}>Card</h4>
           <UserCard
             username={user.name}
-            avatarurl={user.avatar_url}
+            avatarhash={user.avatar_hash}
             rank={user.rank}
           />
         </Main>
