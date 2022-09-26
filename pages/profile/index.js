@@ -9,6 +9,7 @@ import { useToastContext } from "../../contexts/ToastContext";
 import useProfile from '../../hooks/useProfile';
 
 import UserCard from '../../components/UserCard';
+import Link from 'next/link';
 
 export default function Profile() {
     const router = useRouter();
@@ -82,6 +83,8 @@ export default function Profile() {
             avatarhash={user.avatar_hash}
             rank={user.rank}
           />
+          <p>Want to customise your avatar? Create a <Link href={"https://gravatar.com/"}>Gravatar</Link></p>
+          <small>Custom avatars will only be displayed if they are rated PG.</small>
         </Main>
       );
     }
