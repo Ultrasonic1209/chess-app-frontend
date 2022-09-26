@@ -19,7 +19,7 @@ function getOpponent (players, is_white) {
   let found_player = {}
 
   players.forEach(player => {
-    if (player.isWhite != is_white) {
+    if (player.is_white != is_white) {
       found_player = player
     }
   });
