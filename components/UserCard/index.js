@@ -31,6 +31,7 @@ export default function UserCard({className, username, rank, avatarurl}) {
                 width={80}
                 height={80}
                 src={avatarurl}
+                placeholder={"blur"}
                 sizes={"100vw"}
                 alt={`${username}'s profile picture.`}
             />
