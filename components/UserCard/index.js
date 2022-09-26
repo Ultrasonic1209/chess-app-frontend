@@ -41,6 +41,7 @@ export default function UserCard({className, username, rank, avatarhash, priorit
                 height={80}
                 src={avatarhash || "nosrc"}
                 loader={gravatarLoader}
+                sizes={"10vw"}
                 priority={priority}
                 alt={`${username}'s profile picture.`}
             />
