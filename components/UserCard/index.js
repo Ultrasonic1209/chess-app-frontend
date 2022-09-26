@@ -23,14 +23,15 @@ function getRank(rank) {
     return response
 }
 
-function gravatarLoader({src, width}) {
-    const params = new URLSearchParams({
-        d: "https://chessapp.ultras-playroom.xyz/maskable_icon.png",
-        r: "pg",
-        s: width
-    })
+/*function gravatarLoader({src, width}) {
+
     return `https://www.gravatar.com/avatar/${src}?${params.toString()}`
-}
+}*/
+
+const STATICIMGPARAMS = new URLSearchParams({
+    d: "https://chessapp.ultras-playroom.xyz/maskable_icon.png",
+    r: "pg"
+})
 
 export default function UserCard({className, username, rank, avatarhash, priority}) {
     return (
@@ -39,8 +40,7 @@ export default function UserCard({className, username, rank, avatarhash, priorit
                 className={styles.image}
                 width={80}
                 height={80}
-                src={avatarhash || "nosrc"}
-                loader={gravatarLoader}
+                src={`https://www.gravatar.com/avatar/${avatarhash}?${STATICIMGPARAMS.toString()}`}
                 sizes={"10vw"}
                 priority={priority}
                 alt={`${username}'s profile picture.`}
