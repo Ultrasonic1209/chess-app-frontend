@@ -83,7 +83,7 @@ export default function Profile() {
             avatarhash={user.avatar_hash}
             rank={user.rank}
           />
-          <p>Want to customise your avatar? Create a <Link href={"https://gravatar.com/"}>Gravatar</Link></p>
+          <p className={"mb-0"}>Want to customise your avatar? Create a <Link href={"https://gravatar.com/"}>Gravatar</Link></p>
           <small>Custom avatars will only be displayed if they are rated PG.</small>
         </Main>
       );
