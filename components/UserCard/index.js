@@ -26,15 +26,18 @@ function getRank(rank) {
 export default function UserCard({className, username, rank, avatarurl, priority}) {
     return (
         <div className={[styles.card, "p-1", "me-2", "bg-secondary", "text-white", "text-start", "rounded", "border", "border-light", className].join(' ')}>
-            <Image
-                className={styles.image}
-                width={80}
-                height={80}
-                src={avatarurl}
-                sizes={"100vw"}
-                priority={priority}
-                alt={`${username}'s profile picture.`}
-            />
+            {avatarurl
+            ?   <Image
+                    className={styles.image}
+                    width={80}
+                    height={80}
+                    src={avatarurl}
+                    sizes={"100vw"}
+                    priority={priority}
+                    alt={`${username}'s profile picture.`}
+                />
+            :   <div className={styles.image} style={{width: '60px', height: '60px'}}/>
+            }
             <div className={[styles.info, "ms-5", "ps-3"].join(' ')}>
                 <center><b>{username}</b></center>
                 {
