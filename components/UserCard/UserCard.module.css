@@ -9,6 +9,7 @@
     align-items: center;
     overflow: clip;
     width: min-content;
+    overflow-x: scroll;
 }
 
 .card .image {
