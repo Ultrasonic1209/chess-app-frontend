@@ -91,7 +91,28 @@ const nextConfig = {
         //esmExternals: false // for preact compat
     },
     images: {
-        domains: ['http.cat'],
+        remotePatterns: [
+            {
+              protocol: 'https',
+              hostname: 'http.cat',
+              pathname: '/*',
+            },
+            {
+                protocol: 'https',
+                hostname: 'www.gravatar.com',
+                pathname: '/avatar/*',
+            },
+            {
+                protocol: 'https',
+                hostname: 'chessapp.ultras-playroom.xyz',
+                pathname: '/*',
+            },
+            {
+                protocol: 'https',
+                hostname: 'dev.chessapp.ultras-playroom.xyz',
+                pathname: '/*',
+            }
+        ],
         unoptimized: IS_STATIC
     },
     async headers() { // for vercel

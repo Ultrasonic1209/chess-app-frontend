@@ -1,0 +1,23 @@
+@media (min-aspect-ratio: 16/10) {
+    .card {
+        aspect-ratio: 2.5;
+    }
+}
+
+.card {
+    height: 70px;
+    align-items: center;
+    overflow: clip;
+    width: min-content;
+}
+
+.card .image {
+    float: left;
+    width: auto;
+    height: 100%;
+}
+
+.card .info {
+    font-size: small;
+    white-space: nowrap;
+}
