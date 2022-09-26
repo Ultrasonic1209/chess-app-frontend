@@ -366,6 +366,7 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
                         username={whiteplr?.username}
                         avatarurl={whiteplr?.avatar}
                         rank={whiteplr?.rank}
+                        priority={true}
                       />
                     </div>
                     <div id="blackPlayer" className={"col chessMove align-self-end bg-secondary text-center align-items-center justify-content-center d-flex"}>
@@ -374,6 +375,7 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
                         username={blackplr?.username}
                         avatarurl={blackplr?.avatar}
                         rank={blackplr?.rank}
+                        priority={true}
                       />
                     </div>
                   </>
