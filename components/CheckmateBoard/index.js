@@ -286,23 +286,18 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
     if (storedgame?.players) {
       storedgame.players.forEach((player) => {
         let plrName = player.username || "Anonymous"
+
+        if ((player.is_white === storedgame.is_white) && !player.username) {
+          plrName += " ⚙️"
+        }
+
         if (player.is_white) {
-
-          if (player.isWhite === storedgame.is_white) {
-            plrName += " (You)"
-          }
-
           whiteplr = {
             username: plrName,
             rank: player.rank,
             avatar: player.avatar_hash
           }
-        } else if (!player.is_white) {
-
-          if (player.isWhite === storedgame.is_white) {
-            plrName += " (You)"
-          }
-
+        } else {
           blackplr = {
             username: plrName,
             rank: player.rank,
