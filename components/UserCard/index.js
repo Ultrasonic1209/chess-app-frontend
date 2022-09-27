@@ -48,6 +48,7 @@ export default function UserCard({className, username, rank, avatarhash, priorit
                     )}
                 sizes={"33vw"}
                 priority={priority}
+                quality={48}
                 placeholder={"blur"}
                 alt={`${username}'s profile picture.`}
             />
