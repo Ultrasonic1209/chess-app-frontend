@@ -23,9 +23,6 @@
 **/public/fallback-*.js
 **/public/worker-*.js
 
-# bun!
-*.bun
-
 # misc
 .DS_Store
 .env.local
