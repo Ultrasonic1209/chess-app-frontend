@@ -46,9 +46,8 @@ export default function UserCard({className, username, rank, avatarhash, priorit
                     ? `https://www.gravatar.com/avatar/${avatarhash}?${STATICIMGPARAMS.toString()}`
                     : "https://chessapp.ultras-playroom.xyz/maskable_icon.png"
                     )}
-                sizes={"33vw"}
+                sizes={"25vw"}
                 priority={priority}
-                quality={10}
                 placeholder={"blur"}
                 alt={`${username}'s profile picture.`}
             />
