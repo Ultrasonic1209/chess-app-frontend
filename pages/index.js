@@ -21,8 +21,14 @@ export default function Home() {
           <h2 data-testid="welcome">Welcome to Checkmate</h2>
           <p>This area is under construction. Check back soon!</p>
           <p>In the future, this website will offer many different ways to play chess.</p>
-          {IS_DEV ? <p><b>You are currently accessing a developer build of Checkmate. Things may break.</b></p> : ''}
-          <Button variant="danger" onClick={resetLocalStorage}>Reset Local Storage</Button>
+          {
+            IS_DEV
+            ? <>
+                <p><b>You are currently accessing a developer build of Checkmate. Things may break.</b></p>
+                <Button variant="danger" onClick={resetLocalStorage}>Reset Local Storage</Button>
+              </>
+            : ''
+          }
         </Main>
       </>
     );
