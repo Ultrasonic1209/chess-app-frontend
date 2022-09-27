@@ -37,6 +37,11 @@ export default function SignUp() {
     const handleFormSubmit = async (event, setMessage, resetWidget) => {
       event.preventDefault();
 
+      if (event.target["password"].value != event.target["confirmPassword"].value) {
+        setSuccess(false);
+        setMessage("Passwords do not equal")
+      }
+
       setMakingAccount(true);
   
       await fetch("https://apichessapp.server.ultras-playroom.xyz/login/create", {
@@ -124,6 +129,15 @@ export default function SignUp() {
             </FormFloating>
             <FormFloating>
                 <FloatingLabel
+                    controlId="floatingPasswordConfirm"
+                    label="Confirm Password"
+                    className="mb-3 text-muted"
+                >
+                    <Form.Control name="confirmPassword" type="password" placeholder="confirm password" autoComplete="new-password" required={true} />
+                </FloatingLabel>
+            </FormFloating>
+            <FormFloating>
+                <FloatingLabel
                     controlId="floatingEmail"
                     label="E-mail address"
                     className="mb-3 text-muted"
@@ -149,7 +163,7 @@ export default function SignUp() {
             </Form.Text>
         </Form>
 
-        {(message && !creationSuccess) ? (
+        {(message && !creationSuccess && !makingAccount) ? (
             <Alert className="mt-3" variant={creationSuccess ? "success" : "danger"}>
               {message}
             </Alert>
