@@ -21,14 +21,14 @@ const FriendlyCaptcha = dynamic(() =>
   }
 )
 
-export default function SignIn() {
+export default function SignUp() {
     const router = useRouter();
 
     const { mutate } = useSWRConfig()
 
     const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false);
-    const [loginSuccess, setSuccess] = useState(false);
-    const [loggingIn, setLoggingIn] = useState(false);
+    const [creationSuccess, setSuccess] = useState(false);
+    const [makingAccount, setMakingAccount] = useState(false);
     const [message, setMessage] = useState("");
     
     const widgetRef = useRef();
@@ -37,13 +37,18 @@ export default function SignIn() {
     const handleFormSubmit = async (event, setMessage, resetWidget) => {
       event.preventDefault();
 
-      setLoggingIn(true);
+      if (event.target["password"].value != event.target["confirmPassword"].value) {
+        setSuccess(false);
+        setMessage("Passwords do not equal")
+      }
+
+      setMakingAccount(true);
   
-      await fetch("https://apichessapp.server.ultras-playroom.xyz/login", {
+      await fetch("https://apichessapp.server.ultras-playroom.xyz/login/create", {
         body: JSON.stringify({
           username: event.target["username"].value,
           password: event.target["password"].value,
-          rememberMe: event.target["remember-me"].checked,
+          email: event.target["email"].value,
           frcCaptchaSolution: event.target["frc-captcha-solution"].value,
         }),
         headers: {
@@ -85,7 +90,7 @@ export default function SignIn() {
         setSuccess(false);
         setMessage("An unknown error occured while connecting to the server.")
       })
-      .finally(() => setLoggingIn(false));
+      .finally(() => setMakingAccount(false));
     
 
     };
@@ -100,9 +105,9 @@ export default function SignIn() {
     };
 
     return (
-      <Main title="Sign in">
-        <Form name="sign-in" onSubmit={(ev) => handleFormSubmit(ev, setMessage, reset)}>
-            <h1 className="h3 mb-3 fw-normal">Sign in</h1>
+      <Main title="Sign up">
+        <Form name="sign-up" onSubmit={(ev) => handleFormSubmit(ev, setMessage, reset)}>
+            <h1 className="h3 mb-3 fw-normal">Sign up</h1>
 
             <FormFloating>
                 <FloatingLabel
@@ -119,22 +124,27 @@ export default function SignIn() {
                     label="Password"
                     className="mb-3 text-muted"
                 >
-                    <Form.Control name="password" type="password" placeholder="password" autoComplete="current-password" required={true} />
+                    <Form.Control name="password" type="password" placeholder="password" autoComplete="new-password" required={true} />
                 </FloatingLabel>
             </FormFloating>
-
-            <div className="mb-2 mt-3">
-                <Form.Check
-                    type="checkbox"
-                    
-                    title="Remember me"
-                    label="Remember Me"
-                    aria-label="Remember me"
-
-                    value="remember-me"
-                    name="remember-me"
-                />
-            </div>
+            <FormFloating>
+                <FloatingLabel
+                    controlId="floatingPasswordConfirm"
+                    label="Confirm Password"
+                    className="mb-3 text-muted"
+                >
+                    <Form.Control name="confirmPassword" type="password" placeholder="confirm password" autoComplete="new-password" required={true} />
+                </FloatingLabel>
+            </FormFloating>
+            <FormFloating>
+                <FloatingLabel
+                    controlId="floatingEmail"
+                    label="E-mail address"
+                    className="mb-3 text-muted"
+                >
+                    <Form.Control name="email" type="email" placeholder="email@address.com" autoComplete="email" required={false} />
+                </FloatingLabel>
+            </FormFloating>
 
             <Suspense fallback={`Loading captcha`}>
               <FriendlyCaptcha
@@ -147,14 +157,14 @@ export default function SignIn() {
                   }}
               />
             </Suspense>
-            <Button loading={loggingIn} disabled={!submitButtonEnabled} className="w-100 btn btn-lg btn-primary mt-2" type="submit">Sign in</Button>
+            <Button loading={makingAccount} disabled={!submitButtonEnabled} className="w-100 btn btn-lg btn-primary mt-2" type="submit">Create Account</Button>
             <Form.Text className="text-muted">
-              By signing in, you agree to cookies being stored on your computer.
+              By creating an account, you agree to cookies being stored on your computer.
             </Form.Text>
         </Form>
 
-        {(message && !loginSuccess) ? (
-            <Alert className="mt-3" variant={loginSuccess ? "success" : "danger"}>
+        {(message && !creationSuccess && !makingAccount) ? (
+            <Alert className="mt-3" variant={creationSuccess ? "success" : "danger"}>
               {message}
             </Alert>
         ) : undefined}

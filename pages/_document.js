@@ -1,4 +1,4 @@
-import { Html, Head, Main, NextScript } from 'next/document';
+import NextDocument, { Html, Head, Main, NextScript } from 'next/document';
 
 const IS_DEV = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
 
@@ -37,3 +37,5 @@ export default function Document() {
     </Html>
   )
 }
+
+Document.getInitialProps = NextDocument.getInitialProps;

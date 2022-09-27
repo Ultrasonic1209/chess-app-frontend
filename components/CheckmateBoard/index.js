@@ -1,4 +1,4 @@
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState, Suspense, useMemo } from "react";
 import dynamic from "next/dynamic";
 
 import { Container, Dropdown, Modal, Button, ButtonToolbar, FormControl } from "react-bootstrap";
@@ -16,6 +16,8 @@ import { WHITE, BLACK } from 'chess.js';
 
 import CountUp from "../CountUp";
 import CountDown from "../CountDown";
+
+import UserCard from "../UserCard";
 
 function ExportModal({ show, handleClose, string, allowDownload, allowShare, mode }) {
 
@@ -278,22 +280,35 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
     }
   }
 
-  let blackplr, whiteplr
-  if (storedgame?.players) {
-    storedgame.players.forEach((player) => {
-      if (player.isWhite) {
-        whiteplr = player.username || "Anonymous"
-        if (player.isWhite === storedgame.is_white) {
-          whiteplr += " (You)"
+  let [blackplr, whiteplr] = useMemo(() => {
+
+    let blackplr, whiteplr
+    if (storedgame?.players) {
+      storedgame.players.forEach((player) => {
+        let plrName = player.username || "Anonymous"
+
+        if ((player.is_white === storedgame.is_white) && !player.username) {
+          plrName += " ⚙️"
         }
-      } else if (!player.isWhite) {
-        blackplr = player.username || "Anonymous"
-        if (player.isWhite === storedgame.is_white) {
-          blackplr += " (You)"
+
+        if (player.is_white) {
+          whiteplr = {
+            username: plrName,
+            rank: player.rank,
+            avatar: player.avatar_hash
+          }
+        } else {
+          blackplr = {
+            username: plrName,
+            rank: player.rank,
+            avatar: player.avatar_hash
+          }
         }
-      }
-    })
-  }
+      })
+    }
+
+    return [blackplr, whiteplr]
+  }, [storedgame?.players, storedgame?.is_white])
 
   return (
     <Container className={"d-flex flex-row mb-3"}>
@@ -340,11 +355,23 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
             {
               storedgame?.players
               ? ( <>
-                    <div id="whitePlayer" className={"col chessMove align-self-start bg-white text-dark text-center"}>
-                      {whiteplr}
+                    <div id="whitePlayer" className={"col chessMove align-self-start bg-white text-dark text-center align-items-center justify-content-center d-flex"}>
+                      <UserCard
+                        className={"mt-2 mb-2 me-0"} // did i say how much i hate CSS
+                        username={whiteplr?.username}
+                        avatarhash={whiteplr?.avatar}
+                        rank={whiteplr?.rank}
+                        priority={true}
+                      />
                     </div>
-                    <div id="blackPlayer" className={"col chessMove align-self-end bg-secondary text-center"}>
-                      {blackplr}
+                    <div id="blackPlayer" className={"col chessMove align-self-end bg-secondary text-center align-items-center justify-content-center d-flex"}>
+                    <UserCard
+                        className={"mt-2 mb-2 me-0"}
+                        username={blackplr?.username}
+                        avatarhash={blackplr?.avatar}
+                        rank={blackplr?.rank}
+                        priority={true}
+                      />
                     </div>
                   </>
               ) : undefined

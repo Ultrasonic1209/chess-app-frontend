@@ -1,12 +1,15 @@
 // https://nextjs.org/docs/basic-features/data-fetching/client-side
+import { useState } from 'react';
 import { useRouter } from 'next/router'
 import Main from "../../components/Main";
 
 import Button from 'react-bootstrap-button-loader';
 
 import { useToastContext } from "../../contexts/ToastContext";
-import { useState } from 'react';
 import useProfile from '../../hooks/useProfile';
+
+import UserCard from '../../components/UserCard';
+import Link from 'next/link';
 
 export default function Profile() {
     const router = useRouter();
@@ -71,8 +74,17 @@ export default function Profile() {
         <Main title="Profile">
           <h2>Profile</h2>
           <p>Username: {user.name}</p>
+          <p>Rank: {user.rank}</p>
           <p>Email: {user.email === "" ? "None" : user.email}</p>&nbsp;<Button variant="secondary" size="sm" onClick={() => alert("not implemented yet")}>Change</Button>
           <Button variant="danger" onClick={handleSignOut} loading={loggingOut}>Sign Out</Button>
+          <h4 className={"mt-4"}>Card</h4>
+          <UserCard
+            username={user.name}
+            avatarhash={user.avatar_hash}
+            rank={user.rank}
+          />
+          <p className={"mb-0"}>Want to customise your avatar? Create a <Link href={"https://gravatar.com/"}>Gravatar</Link></p>
+          <small>Custom avatars will only be displayed if they are rated PG.</small>
         </Main>
       );
     }
