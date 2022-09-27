@@ -49,6 +49,7 @@ export default function UserCard({className, username, rank, avatarhash, priorit
                 sizes={"25vw"}
                 priority={priority}
                 placeholder={"blur"}
+                blurDataURL={"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII="}
                 alt={`${username}'s profile picture.`}
             />
             <div className={[styles.info, "ms-5", "ps-3"].join(' ')}>

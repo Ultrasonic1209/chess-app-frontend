@@ -87,7 +87,8 @@ const nextConfig = {
     experimental: {
         newNextLinkBehavior: true, /* this is not documented properly AT ALL. */
         optimizeCss: true,
-        browsersListForSwc: true
+        browsersListForSwc: true,
+        runtime: 'experimental-edge'
         //esmExternals: false // for preact compat
     },
     images: {

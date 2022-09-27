@@ -55,7 +55,7 @@ export default function PlayNet(/*{initialdata, gameid}*/) {
     fetcher,
     {
       refreshInterval: 1000,
-      fallbackData: null //initialdata
+      fallbackData: null//initialdata
     }
   );
 
@@ -513,9 +513,8 @@ export default function PlayNet(/*{initialdata, gameid}*/) {
         gameid: parseInt(context.params.gameid)
     }, // will be passed to the page component as props
     }
-}
+}*/
 
-
-export const config = {
+/*export const config = {
     runtime: 'nodejs', // getServerSideProps would stall if the game wasnt found without this (default is experimental-edge)
 }*/
