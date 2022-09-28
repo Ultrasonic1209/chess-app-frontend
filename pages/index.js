@@ -22,11 +22,14 @@ export default function Home() {
           <h2 data-testid="welcome">Welcome to Checkmate</h2>
           <p>
             Checkmate is a webapp intended to allow users to play games of Chess.
+            <br/>
             You are able to play Chess with the computer, someone who is next to you, or someone over the Internet.
+            <br/>
             Checkmate automatically registers itself with your web browser so you are able to use Checkmate whilst offline.
           </p>
           <p>
             To start playing, click <Link href="/game/new">here</Link> or use the topbar.
+            <br/>
             Optionally, you may also create an account <Link href="/sign-up">here</Link>.
           </p>
           {
