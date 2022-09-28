@@ -12,7 +12,7 @@ import Button from 'react-bootstrap-button-loader';
 
 import { useToastContext } from "../contexts/ToastContext";
 import Main from "../components/Main";
-import { url } from "../hooks/useProfile";
+import useProfile, { url } from "../hooks/useProfile";
 import Link from "next/link";
 
 const FriendlyCaptcha = dynamic(() =>
@@ -34,6 +34,7 @@ export default function SignIn() {
     
     const widgetRef = useRef();
     const addToast = useToastContext();
+    const { loggedOut } = useProfile()
 
     const handleFormSubmit = async (event, setMessage, resetWidget) => {
       event.preventDefault();
@@ -104,6 +105,12 @@ export default function SignIn() {
       <Main title="Sign in">
         <Form name="sign-in" onSubmit={(ev) => handleFormSubmit(ev, setMessage, reset)}>
             <h1 className="h3 mb-3 fw-normal">Sign in</h1>
+
+            {(!loggedOut) ? (
+              <Alert className="mt-3" variant={"warning"}>
+                You are already logged into an account! Would you like to <Link href="/profile">sign out</Link>?
+              </Alert>
+            ) : undefined}
 
             <FormFloating>
                 <FloatingLabel
