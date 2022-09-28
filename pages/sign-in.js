@@ -106,12 +106,6 @@ export default function SignIn() {
         <Form name="sign-in" onSubmit={(ev) => handleFormSubmit(ev, setMessage, reset)}>
             <h1 className="h3 mb-3 fw-normal">Sign in</h1>
 
-            {(!loggedOut) ? (
-              <Alert className="mt-3" variant={"warning"}>
-                You are already logged into an account! Would you like to <Link href="/profile">sign out</Link>?
-              </Alert>
-            ) : undefined}
-
             <FormFloating>
                 <FloatingLabel
                     controlId="floatingUsername"
@@ -168,6 +162,12 @@ export default function SignIn() {
         ) : undefined}
 
         <small className={"mt-5"}>No account? Go <Link href="/sign-up">make one</Link>!</small>
+
+        {(!loggedOut) ? (
+          <Alert className="mt-3" variant={"warning"}>
+            You are already signed into an account! Would you like to <Link href="/profile">sign out</Link>?
+          </Alert>
+        ) : undefined}
 
       </Main>
     );

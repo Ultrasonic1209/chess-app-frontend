@@ -112,12 +112,6 @@ export default function SignUp() {
         <Form name="sign-up" onSubmit={(ev) => handleFormSubmit(ev, setMessage, reset)}>
             <h1 className="h3 mb-3 fw-normal">Sign up</h1>
 
-            {(!loggedOut) ? (
-              <Alert className="mt-3" variant={"warning"}>
-                You are already logged into an account! Would you like to <Link href="/profile">sign out</Link>?
-              </Alert>
-            ) : undefined}
-
             <FormFloating>
                 <FloatingLabel
                     controlId="floatingUsername"
@@ -176,6 +170,12 @@ export default function SignUp() {
             <Alert className="mt-3" variant={creationSuccess ? "success" : "danger"}>
               {message}
             </Alert>
+        ) : undefined}
+
+        {(!loggedOut) ? (
+          <Alert className="mt-3" variant={"warning"}>
+            You are already signed into an account! Would you like to <Link href="/profile">sign out</Link>?
+          </Alert>
         ) : undefined}
 
       </Main>
