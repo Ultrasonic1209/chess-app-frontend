@@ -44,7 +44,7 @@ export default function SignUp() {
 
       setMakingAccount(true);
   
-      await fetch("https://apichessapp.server.ultras-playroom.xyz/login/create", {
+      await fetch("https://apichessapp.server.ultras-playroom.xyz/login/signup", {
         body: JSON.stringify({
           username: event.target["username"].value,
           password: event.target["password"].value,
@@ -62,7 +62,7 @@ export default function SignUp() {
         if (response.ok) {
           const result = await response.json();
           setSuccess(result.accept || false)
-          setMessage(result.userFacingMessage || "An unknown error occured while logging you in.");
+          setMessage(result.message || "An unknown error occured while creating your account.");
     
           // We should always reset the widget as a solution can not be used twice.
           resetWidget();
@@ -71,7 +71,7 @@ export default function SignUp() {
             router.push("/").then(async () => {
               addToast({
                 "title": "Checkmate",
-                "message": "You have sucessfully logged in."
+                "message": "Account sucessfully created! " + result.message
               });
 
               await mutate(url, result.profile);
@@ -79,14 +79,14 @@ export default function SignUp() {
           }
         } else {
           setSuccess(false)
-          setMessage("An unknown error occured while logging you in. HTTP " + response.status);
+          setMessage("An unknown error occured while creating your account. HTTP " + response.status);
     
           // We should always reset the widget as a solution can not be used twice.
           resetWidget();
         }
       })
       .catch((error) => {
-        console.error('Log-in failed', error);
+        console.error('Account creation failed', error);
         setSuccess(false);
         setMessage("An unknown error occured while connecting to the server.")
       })
