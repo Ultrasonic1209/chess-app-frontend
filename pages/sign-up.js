@@ -69,7 +69,7 @@ export default function SignUp() {
           resetWidget();
         
           if (result.accept) {
-            router.push("/").then(async () => {
+            router.push("/sign-in").then(async () => {
               addToast({
                 "title": "Checkmate",
                 "message": "Account sucessfully created! " + result.message
