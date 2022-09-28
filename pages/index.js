@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 
 import { Button } from "react-bootstrap";
 import Main from "../components/Main";
@@ -19,8 +20,11 @@ export default function Home() {
         </Head>
         <Main title="Home">
           <h2 data-testid="welcome">Welcome to Checkmate</h2>
-          <p>This area is under construction. Check back soon!</p>
-          <p>In the future, this website will offer many different ways to play chess.</p>
+          <p>Checkmate is a webapp intended to allow users to play games of Chess.</p>
+          <p>You are able to play Chess with the computer, someone who is next to you, or someone over the Internet.</p>
+          <p>Checkmate automatically registers itself with your web browser so you are able to use Checkmate whilst offline.</p>
+          <p>To start playing, click <Link href="/game/new">here</Link> or use the topbar.</p>
+          <p>Optionally, you may also create an account <Link href="/sign-up">here</Link>.</p>
           {
             IS_DEV
             ? <>
