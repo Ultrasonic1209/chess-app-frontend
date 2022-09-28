@@ -107,6 +107,8 @@ export default function SignUp() {
       }
     };
 
+    console.log(loggedOut);
+
     return (
       <Main title="Sign up">
         <Form name="sign-up" onSubmit={(ev) => handleFormSubmit(ev, setMessage, reset)}>
