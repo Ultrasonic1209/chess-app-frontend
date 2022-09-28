@@ -13,6 +13,7 @@ import Button from 'react-bootstrap-button-loader';
 import { useToastContext } from "../contexts/ToastContext";
 import Main from "../components/Main";
 import { url } from "../hooks/useProfile";
+import Link from "next/link";
 
 const FriendlyCaptcha = dynamic(() =>
   import('../components/FriendlyCaptcha'),
@@ -158,6 +159,8 @@ export default function SignIn() {
               {message}
             </Alert>
         ) : undefined}
+
+        <small className={"mt-5"}>No account? Go <Link href="/sign-up">make one</Link>!</small>
 
       </Main>
     );

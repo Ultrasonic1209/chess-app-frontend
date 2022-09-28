@@ -39,7 +39,8 @@ export default function SignUp() {
 
       if (event.target["password"].value != event.target["confirmPassword"].value) {
         setSuccess(false);
-        setMessage("Passwords do not equal")
+        setMessage("Passwords do not equal");
+        return;
       }
 
       setMakingAccount(true);
