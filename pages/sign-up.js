@@ -142,7 +142,7 @@ export default function SignUp() {
             <FormFloating>
                 <FloatingLabel
                     controlId="floatingEmail"
-                    label="E-mail address"
+                    label="E-mail address (optional)"
                     className="mb-3 text-muted"
                 >
                     <Form.Control name="email" type="email" placeholder="email@address.com" autoComplete="email" required={false} />
