@@ -234,7 +234,7 @@ export default function PlayNet(/*{initialdata, gameid}*/) {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [storedgame, syncGame, terminated]);
+  }, [addToast, gameid, storedgame, syncGame, terminated]);
 
   useEffect(() => {
     if (!data && !error) {
