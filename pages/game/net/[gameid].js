@@ -102,7 +102,7 @@ export default function PlayNet(/*{initialdata, gameid}*/) {
   const syncGame = useCallback(
     () => {
       const startTime = parseISO(storedgame.time_started)
-      const currentTime = new Date()
+      const currentTime = storedgame.time_ended ? parseISO(storedgame.time_ended) : new Date()
 
       const duration = intervalToDuration({
         start: startTime,
@@ -215,16 +215,26 @@ export default function PlayNet(/*{initialdata, gameid}*/) {
     [storedgame]
   )
 
+  const [terminated, setTerminated] = useState(false);
+
   useEffect(() => {
     let interval;
     if (storedgame) {
-      interval = setInterval(syncGame, 999);
+      if (storedgame.time_ended && !terminated) {
+        setTerminated(true)
+        addToast({
+          "title": "Checkmate Remote Game ID " + gameid,
+          "message": "Game over. " + (storedgame.white_won === null ? 'Nobody' : (storedgame.white_won === true ? 'White' : 'Black')) + " wins."
+        });
+      } else {
+        interval = setInterval(syncGame, 999);
+      }
       syncGame()
     } else if (!storedgame) {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [storedgame, syncGame]);
+  }, [storedgame, syncGame, terminated]);
 
   useEffect(() => {
     if (!data && !error) {
