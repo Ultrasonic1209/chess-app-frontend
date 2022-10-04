@@ -108,6 +108,8 @@ const nextConfig = {
                 pathname: '/maskable_icon.png',
             }
         ],
+        dangerouslyAllowSVG: true,
+        contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
         formats: ['image/avif', 'image/webp'],
         unoptimized: IS_STATIC
     },
