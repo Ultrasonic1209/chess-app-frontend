@@ -33,7 +33,7 @@ function formatPlayer(player) {
   return (player?.username || "Anonymous") + " (" + colour + ")";
 }
 
-export default function Preferences() {
+export default function LoadGame() {
     const isOnline = useOnlineStatus();
 
     const addToast = useToastContext()
