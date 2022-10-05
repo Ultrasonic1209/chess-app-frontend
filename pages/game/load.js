@@ -27,6 +27,12 @@ function getOpponent (players, is_white) {
   return found_player
 }
 
+function formatPlayer(player) {
+  if (typeof player.is_white === "undefined") { return "?" }
+  const colour = player.is_white ? "White" : "Black"
+  return (player?.username || "Anonymous") + " (" + colour + ")";
+}
+
 export default function Preferences() {
     const isOnline = useOnlineStatus();
 
@@ -118,7 +124,7 @@ export default function Preferences() {
                     data?.map(game => (
                     <tr key={game.game_id}>
                       <td>{game.game_id}</td>
-                      <td>{(game.is_white === null) ? 'N/A' : (getOpponent(game?.players, game?.is_white).username || "Anonymous")}</td>
+                      <td>{(game.is_white === null) ? 'N/A' : formatPlayer(getOpponent(game?.players, game?.is_white))}</td>
                       <td>
                         {game.time_ended
                           ? ((game.white_won === true)
