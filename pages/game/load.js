@@ -28,7 +28,7 @@ function getOpponent (players, is_white) {
 }
 
 function formatPlayer(player) {
-  if (typeof player.is_white === "undefined") { return "?" }
+  if (typeof player.is_white === "undefined") { return "None yet" }
   const colour = player.is_white ? "White" : "Black"
   return (player?.username || "Anonymous") + " (" + colour + ")";
 }
