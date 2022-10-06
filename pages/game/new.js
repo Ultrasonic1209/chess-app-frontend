@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 import { useOnlineStatus } from "../../contexts/OnlineStatus";
 import { useToastContext } from "../../contexts/ToastContext";
 
-export default function Preferences() {
+export default function NewGame() {
     const router = useRouter();
 
     const isOnline = useOnlineStatus();

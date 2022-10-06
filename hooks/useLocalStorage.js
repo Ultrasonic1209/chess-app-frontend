@@ -1,11 +1,11 @@
 // https://usehooks.com/useLocalStorage/
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function useLocalStorage(key, initialValue) {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
-  const [storedValue, setStoredValue] = useState(() => {
+  const getBrowserValue = () => {
     if (typeof window === "undefined") {
       return initialValue;
     }
@@ -19,7 +19,9 @@ export default function useLocalStorage(key, initialValue) {
       console.log(error);
       return initialValue;
     }
-  });
+  }
+
+  const [storedValue, setStoredValue] = useState(getBrowserValue);
   // Return a wrapped version of useState's setter function that ...
   // ... persists the new value to localStorage.
   const setValue = (value) => {
@@ -38,6 +40,19 @@ export default function useLocalStorage(key, initialValue) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const handleFocus = () => {
+      setStoredValue(getBrowserValue);
+    }  
+
+    window.addEventListener('focus', handleFocus);
+
+    // cleanup this component
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+    };
+  })
 
   return [storedValue, setValue];
 }

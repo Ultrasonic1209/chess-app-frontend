@@ -12,7 +12,8 @@ import Button from 'react-bootstrap-button-loader';
 
 import { useToastContext } from "../contexts/ToastContext";
 import Main from "../components/Main";
-import { url } from "../hooks/useProfile";
+import useProfile, { url } from "../hooks/useProfile";
+import Link from "next/link";
 
 const FriendlyCaptcha = dynamic(() =>
   import('../components/FriendlyCaptcha'),
@@ -33,18 +34,20 @@ export default function SignUp() {
     
     const widgetRef = useRef();
     const addToast = useToastContext();
+    const { loggedOut } = useProfile();
 
     const handleFormSubmit = async (event, setMessage, resetWidget) => {
       event.preventDefault();
 
       if (event.target["password"].value != event.target["confirmPassword"].value) {
         setSuccess(false);
-        setMessage("Passwords do not equal")
+        setMessage("Passwords do not equal");
+        return;
       }
 
       setMakingAccount(true);
   
-      await fetch("https://apichessapp.server.ultras-playroom.xyz/login/create", {
+      await fetch("https://apichessapp.server.ultras-playroom.xyz/login/signup", {
         body: JSON.stringify({
           username: event.target["username"].value,
           password: event.target["password"].value,
@@ -62,16 +65,16 @@ export default function SignUp() {
         if (response.ok) {
           const result = await response.json();
           setSuccess(result.accept || false)
-          setMessage(result.userFacingMessage || "An unknown error occured while logging you in.");
+          setMessage(result.message || "An unknown error occured while creating your account.");
     
           // We should always reset the widget as a solution can not be used twice.
           resetWidget();
         
           if (result.accept) {
-            router.push("/").then(async () => {
+            router.push("/sign-in").then(async () => {
               addToast({
                 "title": "Checkmate",
-                "message": "You have sucessfully logged in."
+                "message": "Account sucessfully created! " + result.message
               });
 
               await mutate(url, result.profile);
@@ -79,14 +82,14 @@ export default function SignUp() {
           }
         } else {
           setSuccess(false)
-          setMessage("An unknown error occured while logging you in. HTTP " + response.status);
+          setMessage("An unknown error occured while creating your account. HTTP " + response.status);
     
           // We should always reset the widget as a solution can not be used twice.
           resetWidget();
         }
       })
       .catch((error) => {
-        console.error('Log-in failed', error);
+        console.error('Account creation failed', error);
         setSuccess(false);
         setMessage("An unknown error occured while connecting to the server.")
       })
@@ -139,7 +142,7 @@ export default function SignUp() {
             <FormFloating>
                 <FloatingLabel
                     controlId="floatingEmail"
-                    label="E-mail address"
+                    label="E-mail address (optional)"
                     className="mb-3 text-muted"
                 >
                     <Form.Control name="email" type="email" placeholder="email@address.com" autoComplete="email" required={false} />
@@ -167,6 +170,12 @@ export default function SignUp() {
             <Alert className="mt-3" variant={creationSuccess ? "success" : "danger"}>
               {message}
             </Alert>
+        ) : undefined}
+
+        {(!loggedOut) ? (
+          <Alert className="mt-3" variant={"warning"}>
+            You are already signed into an account! Would you like to <Link href="/profile">sign out</Link>?
+          </Alert>
         ) : undefined}
 
       </Main>
