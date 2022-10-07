@@ -47,7 +47,7 @@ export default function SignUp() {
 
       setMakingAccount(true);
   
-      await fetch("https://apichessapp.server.ultras-playroom.xyz/login/signup", {
+      await fetch("https://apichessapp.server.ultras-playroom.xyz/user/new", {
         body: JSON.stringify({
           username: event.target["username"].value,
           password: event.target["password"].value,

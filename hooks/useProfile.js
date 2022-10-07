@@ -1,7 +1,7 @@
 // https://swr.vercel.app/docs/getting-started
 import useSWR from 'swr'
 
-export const url = 'https://apichessapp.server.ultras-playroom.xyz/login/identify'
+export const url = 'https://apichessapp.server.ultras-playroom.xyz/user/identify'
 
 export const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'}).then(r => r.json())
 

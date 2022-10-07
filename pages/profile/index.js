@@ -46,7 +46,7 @@ export default function Profile() {
 
       const handleSignOut = async () => {
         setLoggingOut(true)
-        await fetch("https://apichessapp.server.ultras-playroom.xyz/login/logout", {
+        await fetch("https://apichessapp.server.ultras-playroom.xyz/user/logout", {
           method: "DELETE",
           withCredentials: true,
           credentials: 'include'

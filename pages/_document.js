@@ -39,7 +39,7 @@ export default function Document() {
         <meta name="theme-color" content="#3b3b3b" media="(prefers-color-scheme: dark)" />
         <link rel="manifest" href={IS_DEV ? "/site-dev.webmanifest" : "/site.webmanifest"} />
 
-        <link rel="preload" href="https://apichessapp.server.ultras-playroom.xyz/login/identify" as="fetch" crossOrigin='use-credentials'/>
+        <link rel="preload" href="https://apichessapp.server.ultras-playroom.xyz/user/identify" as="fetch" crossOrigin='use-credentials'/>
       </Head>
       <body>
         <Main />
