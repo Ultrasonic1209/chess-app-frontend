@@ -28,9 +28,9 @@ export default function Home() {
             Checkmate automatically registers itself with your web browser so you are able to use Checkmate whilst offline.
           </p>
           <p>
-            To start playing, click <Link href="/game/new">here</Link> or use the topbar.
+            To start playing, create a <Link href="/game/new">new game</Link>! You can also use the topbar to do this.
             <br/>
-            Optionally, you may also create an account <Link href="/sign-up">here</Link>.
+            Optionally, you may also <Link href="/sign-up">create an account</Link>.
           </p>
           {
             IS_DEV

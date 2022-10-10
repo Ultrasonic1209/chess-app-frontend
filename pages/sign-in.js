@@ -41,7 +41,7 @@ export default function SignIn() {
 
       setLoggingIn(true);
   
-      await fetch("https://apichessapp.server.ultras-playroom.xyz/login", {
+      await fetch("https://apichessapp.server.ultras-playroom.xyz/user/login", {
         body: JSON.stringify({
           username: event.target["username"].value,
           password: event.target["password"].value,

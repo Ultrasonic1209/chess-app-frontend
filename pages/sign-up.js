@@ -47,7 +47,7 @@ export default function SignUp() {
 
       setMakingAccount(true);
   
-      await fetch("https://apichessapp.server.ultras-playroom.xyz/login/signup", {
+      await fetch("https://apichessapp.server.ultras-playroom.xyz/user/new", {
         body: JSON.stringify({
           username: event.target["username"].value,
           password: event.target["password"].value,
@@ -81,9 +81,11 @@ export default function SignUp() {
             })
           }
         } else {
+          response.json().then((result) => {
+            setMessage(result.message || "An unknown error occured while creating your account. HTTP " + response.status);
+          }).catch(() => setMessage("An unknown error occured while creating your account. HTTP " + response.status))
           setSuccess(false)
-          setMessage("An unknown error occured while creating your account. HTTP " + response.status);
-    
+          
           // We should always reset the widget as a solution can not be used twice.
           resetWidget();
         }
