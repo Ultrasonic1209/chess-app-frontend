@@ -9,8 +9,8 @@ export default function Stats() {
     return (
       <Main title="Stats">
         <h2>Stats</h2>
-        <p>{data}</p>
-        <b>{error}</b>
+        <p>{JSON.stringify(data)}</p>
+        <b>{JSON.stringify(error)}</b>
       </Main>
     );
 }
