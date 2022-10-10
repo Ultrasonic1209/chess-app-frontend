@@ -85,7 +85,7 @@ export default function SignUp() {
             setMessage(result.message || "An unknown error occured while creating your account. HTTP " + response.status);
           }).catch(() => setMessage("An unknown error occured while creating your account. HTTP " + response.status))
           setSuccess(false)
-    
+          
           // We should always reset the widget as a solution can not be used twice.
           resetWidget();
         }
