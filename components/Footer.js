@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Popover, OverlayTrigger, Container } from 'react-bootstrap';
 
 const GIT_TAG = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA;
@@ -28,7 +29,7 @@ export default function Footer() {
           <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-1S border-top">
             <div className="col-md-4 d-flex mb-0 align-items-center">
               <p className="align-top text-decoration-none text-muted">
-                &copy; lol no
+                <Link className="text-reset text-decoration-none" href="https://chess-app-frontend-5vb8a1e4p-ultrasonic1209.vercel.app/" target="_blank">&copy; lol no</Link>
               </p>
             </div>
 
