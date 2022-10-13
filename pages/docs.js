@@ -20,7 +20,8 @@ export default function Docs() {
                 rel="preload"
                 href="https://apichessapp.server.ultras-playroom.xyz/docs/openapi.json"
                 as="fetch"
-                crossOrigin={true}
+                type="application/json"
+                crossOrigin="with-credentials"
             />
         </Head>
         <Main title="Docs">
