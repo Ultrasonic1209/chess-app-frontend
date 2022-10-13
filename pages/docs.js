@@ -16,7 +16,7 @@ const SwaggerUI = dynamic(() => import('swagger-ui-react'), {
 export default function Docs() {
     return <>
         <Head>
-            <link rel="preload" href="https://apichessapp.server.ultras-playroom.xyz/docs/openapi.json" as="fetch" />
+            <link rel="preload" href="https://apichessapp.server.ultras-playroom.xyz/docs/openapi.json" as="fetch" crossOrigin={true}/>
         </Head>
         <Main title="Docs">
             <SwaggerUI
