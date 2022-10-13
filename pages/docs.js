@@ -1,7 +1,8 @@
 import dynamic from "next/dynamic"
 import Head from "next/head";
-import "swagger-ui-react/swagger-ui.css";
 import Main from "../components/Main";
+
+import "swagger-ui-react/swagger-ui.css";
 
 const fallback = () => <>
     <h2>Checkmate API</h2>
@@ -23,12 +24,13 @@ export default function Docs() {
                 type="application/json"
                 crossOrigin="with-credentials"
             />
+            <style dangerouslySetInnerHTML={{__html:"@media (prefers-color-scheme:dark){.swagger-ui{filter:invert(88%) hue-rotate(180deg)}.swagger-ui .highlight-code{filter:invert(100%) hue-rotate(180deg)}}"}}/>
         </Head>
         <Main title="Docs">
             <SwaggerUI
                 url="https://apichessapp.server.ultras-playroom.xyz/docs/openapi.json"
                 displayRequestDuration={true}
-                tryItOutEnabled={true}
+                tryItOutEnabled={false}
             />
         </Main>
     </>
