@@ -2,7 +2,7 @@ import dynamic from "next/dynamic"
 import "swagger-ui-react/swagger-ui.css";
 import Main from "../components/Main";
 
-const fallback = <>
+const fallback = () => <>
     <h2>Checkmate API</h2>
     <p>Swagger is currently loading, please wait...</p>
 </>
