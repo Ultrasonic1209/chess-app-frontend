@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic"
+import Head from "next/head";
 import "swagger-ui-react/swagger-ui.css";
 import Main from "../components/Main";
 
@@ -13,11 +14,16 @@ const SwaggerUI = dynamic(() => import('swagger-ui-react'), {
 });
 
 export default function Docs() {
-    return <Main title="API Docs">
-        <SwaggerUI
-            url="https://apichessapp.server.ultras-playroom.xyz/docs/openapi.json"
-            displayRequestDuration={true}
-            tryItOutEnabled={true}
-        />
-    </Main>
+    return <>
+        <Head>
+            <link rel="preload" href="https://apichessapp.server.ultras-playroom.xyz/docs/openapi.json" as="fetch" />
+        </Head>
+        <Main title="Docs">
+            <SwaggerUI
+                url="https://apichessapp.server.ultras-playroom.xyz/docs/openapi.json"
+                displayRequestDuration={true}
+                tryItOutEnabled={true}
+            />
+        </Main>
+    </>
 }
