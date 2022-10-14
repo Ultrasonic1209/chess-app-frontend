@@ -10,6 +10,7 @@ import { db } from "../../db";
 import { useLiveQuery } from "dexie-react-hooks";
 import useSWR from "swr";
 import { useToastContext } from "../../contexts/ToastContext";
+import { useRouter } from "next/router";
 
 const fetcher = url => fetch(url, {withCredentials: true, credentials: 'include'}).then(r => r.json())
 
@@ -38,11 +39,28 @@ export default function LoadGame() {
 
     const addToast = useToastContext()
 
-    const [gamemode, setGamemode] = useState();
-    const [presence, setPresence] = useState("1");
+    const router = useRouter();
 
-    const gamemodeOnClick = (ev) => setGamemode(ev.target.dataset.gamemode);
-    const presenceOnClick = (ev) => setPresence(ev.target.dataset.presence);
+    const gamemode = router.query.gamemode
+    const presence = router.query.presence
+
+    useEffect(() => {
+      if ((typeof presence === "undefined") && (gamemode === "NET")) {
+        router.replace({
+          query: { ...router.query, presence: "1" },
+        });
+      }
+    }, [presence, router, gamemode]);
+
+    //const [gamemode, setGamemode] = useState();
+    //const [presence, setPresence] = useState("1");
+
+    const gamemodeOnClick = (ev) => router.replace({
+      query: { ...router.query, gamemode: ev.target.dataset.gamemode },
+    });
+    const presenceOnClick = (ev) => router.replace({
+      query: { ...router.query, presence: ev.target.dataset.presence },
+    });
 
     const games = useLiveQuery(async () => {
         console.log("refreshing!");
