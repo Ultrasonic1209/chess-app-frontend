@@ -83,7 +83,7 @@ export default function LoadGame() {
       my_games: presence === "1",
     });
 
-    const { data, error, isLoading } = useSWR(gamemode === "NET" ? "https://apichessapp.server.ultras-playroom.xyz/chess/get-games/?" + params.toString(): null, fetcher, { fallbackData: [] })
+    const { data, error, isValidating } = useSWR(gamemode === "NET" ? "https://apichessapp.server.ultras-playroom.xyz/chess/get-games/?" + params.toString(): null, fetcher, { fallbackData: [] })
     
     useEffect(() => {
       console.log("refreshing (remote)!");
@@ -197,7 +197,7 @@ export default function LoadGame() {
         }
         {
           ((gamemode) && (amountOfGames < 1))
-              ? (((gamemode === "NET") && isLoading)
+              ? (((gamemode === "NET") && isValidating)
                 ? <div className={"mt-5 text-center"}>
                     <strong>Loading...</strong>
                   </div>
