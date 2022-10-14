@@ -83,7 +83,7 @@ export default function LoadGame() {
       my_games: presence === "1",
     });
 
-    const { data, error } = useSWR(gamemode === "NET" ? "https://apichessapp.server.ultras-playroom.xyz/chess/get-games/?" + params.toString(): null, fetcher, { fallbackData: [] })
+    const { data, error, isLoading } = useSWR(gamemode === "NET" ? "https://apichessapp.server.ultras-playroom.xyz/chess/get-games/?" + params.toString(): null, fetcher, { fallbackData: [] })
     
     useEffect(() => {
       console.log("refreshing (remote)!");
@@ -197,16 +197,21 @@ export default function LoadGame() {
         }
         {
           ((gamemode) && (amountOfGames < 1))
-              ? <div className={"mt-5 text-center"}>
-                  <strong>No games?</strong>
-                  <br/>
-                  <Button
-                    className={"mt-2"}
-                    variant="primary"
-                    as={Link}
-                    href="/game/new"
-                  >New Game</Button>
-                </div>
+              ? (((gamemode === "NET") && isLoading)
+                ? <div className={"mt-5 text-center"}>
+                    <strong>Loading...</strong>
+                  </div>
+                : <div className={"mt-5 text-center"}>
+                    <strong>No games?</strong>
+                    <br/>
+                    <Button
+                      className={"mt-2"}
+                      variant="primary"
+                      as={Link}
+                      href="/game/new"
+                    >New Game</Button>
+                  </div>
+              )
               : undefined
         }
       </Main>
