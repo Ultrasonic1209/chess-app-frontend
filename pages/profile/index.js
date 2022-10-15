@@ -86,12 +86,12 @@ export default function Profile() {
 
           <ButtonToolbar className={"mb-2"} aria-label={"Share options"}>
             <Button
-              classname={"me-2"}
+              className={"me-2"}
               variant="secondary"
               onClick={() => setUserPromptOpen(true)}
             >Edit User</Button>
             <Button
-              classname={"me-2"}
+              className={"me-2"}
               variant="danger"
               onClick={handleSignOut}
               loading={loggingOut}
