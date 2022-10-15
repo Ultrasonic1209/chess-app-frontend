@@ -10,12 +10,16 @@ import useProfile from '../../hooks/useProfile';
 
 import UserCard from '../../components/UserCard';
 import Link from 'next/link';
+import UpdateUserPrompt from '../../components/UpdateUserPrompt';
+import { ButtonToolbar } from 'react-bootstrap';
 
 export default function Profile() {
     const router = useRouter();
     const addToast = useToastContext();
 
     const [loggingOut, setLoggingOut] = useState(false);
+
+    const [userPromptOpen, setUserPromptOpen] = useState(false);
 
     const { user, error, loading, mutate, loggedOut } = useProfile()
 
@@ -72,11 +76,26 @@ export default function Profile() {
       }
       return (
         <Main title="Profile">
+          <UpdateUserPrompt show={userPromptOpen} handleClose={() => setUserPromptOpen(false)}/>
           <h2>Profile</h2>
           <p>Username: {user.name}</p>
           <p>Rank: {user.rank}</p>
-          <p>Email: {user.email === "" ? "None" : user.email}</p>&nbsp;<Button variant="secondary" size="sm" onClick={() => alert("not implemented yet")}>Change</Button>
-          <Button variant="danger" onClick={handleSignOut} loading={loggingOut}>Sign Out</Button>
+          <p className={"mb-0"}>Email: {user.email === "" ? "None" : user.email}</p>&nbsp;
+
+          <br/>
+
+          <ButtonToolbar className={"mb-2"} aria-label={"Share options"}>
+            <Button
+              variant="secondary"
+              onClick={() => setUserPromptOpen(true)}
+            >Edit User</Button>
+            <Button
+              variant="danger"
+              onClick={handleSignOut}
+              loading={loggingOut}
+            >Sign Out</Button>
+          </ButtonToolbar>
+
           <h4 className={"mt-4"}>Card</h4>
           <UserCard
             username={user.name}

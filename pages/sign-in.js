@@ -5,14 +5,13 @@ import { useState, useRef, Suspense } from "react";
 
 import { useRouter } from 'next/router'
 import dynamic from "next/dynamic";
-import { useSWRConfig } from 'swr'
 
 import { Form, FormFloating, FloatingLabel, Alert } from "react-bootstrap";
 import Button from 'react-bootstrap-button-loader';
 
 import { useToastContext } from "../contexts/ToastContext";
 import Main from "../components/Main";
-import useProfile, { url } from "../hooks/useProfile";
+import useProfile from "../hooks/useProfile";
 import Link from "next/link";
 
 const FriendlyCaptcha = dynamic(() =>
@@ -25,8 +24,6 @@ const FriendlyCaptcha = dynamic(() =>
 export default function SignIn() {
     const router = useRouter();
 
-    const { mutate } = useSWRConfig()
-
     const [submitButtonEnabled, setSubmitButtonEnabled] = useState(false);
     const [loginSuccess, setSuccess] = useState(false);
     const [loggingIn, setLoggingIn] = useState(false);
@@ -34,7 +31,7 @@ export default function SignIn() {
     
     const widgetRef = useRef();
     const addToast = useToastContext();
-    const { loggedOut } = useProfile()
+    const { loggedOut, mutate } = useProfile()
 
     const handleFormSubmit = async (event, setMessage, resetWidget) => {
       event.preventDefault();
@@ -59,7 +56,7 @@ export default function SignIn() {
         if (response.ok) {
           const result = await response.json();
           setSuccess(result.accept || false)
-          setMessage(result.userFacingMessage || "An unknown error occured while logging you in.");
+          setMessage(result.message || "An unknown error occured while logging you in.");
     
           // We should always reset the widget as a solution can not be used twice.
           resetWidget();
@@ -71,7 +68,7 @@ export default function SignIn() {
                 "message": "You have sucessfully logged in."
               });
 
-              await mutate(url, result.profile);
+              await mutate(result.profile);
             })
           }
         } else {
