@@ -27,7 +27,7 @@ async function updateUser(old_password, new_password, new_email) {
       "newUser": null
     }
   }).then(async (response) => {
-    const body = await response.json()
+    const body = (await response?.json()) || {}
 
     return {
       "success": response.ok,
