@@ -156,7 +156,7 @@ export default function UpdateUserPrompt({ show, handleClose }) {
         <Button variant="secondary" onClick={closeModal}>
           Close
         </Button>
-        <Button variant="primary" type="submit" form="update-user-form" loading={updating}>
+        <Button variant="primary" type="submit" form="update-user-form" loading={updating} spinAlignment={"right"}>
           Submit
         </Button>
       </Modal.Footer>
