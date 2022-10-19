@@ -9,6 +9,7 @@ const withPWA = require('next-pwa')({
     dynamicStartUrl: true,
     cacheOnFrontEndNav: true,
     reloadOnOnline: false,
+    runtimeCaching: require("./worker/cache"),
 
     fallbacks: {
         image: '/offline.png'
