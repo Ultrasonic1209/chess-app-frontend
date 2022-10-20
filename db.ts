@@ -5,7 +5,7 @@ import { Dexie } from 'dexie';
 
 const args = ((typeof window === 'undefined') || !window.indexedDB) ? { indexedDB: import("fake-indexeddb").indexedDB, IDBKeyRange: import("fake-indexeddb").IDBKeyRange } : undefined
 
-export const db = new Dexie(
+export const db: Dexie = new Dexie(
     'testDatabase',
     args
 );
