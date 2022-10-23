@@ -29,7 +29,7 @@ export default function Stats() {
     return {
       games_played: amountOfGames,
       games_won: 0,
-      percentage_of_starting_white: (amountOfGamesWhite / amountOfGames) * 100
+      percentage_of_starting_white: ((amountOfGamesWhite / amountOfGames) * 100) || 0
     }
   }, [gamemode]);
 
