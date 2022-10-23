@@ -47,18 +47,23 @@ export default function Stats() {
       >
         <Tab eventKey="BOT" title="Bot">
           {localQuery
-          ? <>
-            <p>Games played: {localQuery.games_played}</p>
-            <p>Games won: {localQuery.games_won} ({((localQuery.games_won / localQuery.games_played) * 100).toFixed(2)}%)</p>
-            <p>Percentage of games played as white: {(localQuery.percentage_of_starting_white).toFixed(2)}%</p>
-          </>
-          : <b>Loading</b>
+            ? <>
+              <p>Games played: {localQuery.games_played}</p>
+              <p>Games won: {localQuery.games_won} ({((localQuery.games_won / localQuery.games_played) * 100).toFixed(2)}%)</p>
+              <p>Percentage of games played as white: {(localQuery.percentage_of_starting_white).toFixed(2)}%</p>
+            </>
+            : <b>Loading</b>
           }
-
-          <p>{JSON.stringify(localQuery)}</p>
         </Tab>
         <Tab eventKey="LOCAL" title="Local">
-          <p>{JSON.stringify(localQuery)}</p>
+          {localQuery
+            ? <>
+              <p>Games played: {localQuery.games_played}</p>
+              <p>Games won: {localQuery.games_won} ({((localQuery.games_won / localQuery.games_played) * 100).toFixed(2)}%)</p>
+              <p>Percentage of games played as white: {(localQuery.percentage_of_starting_white).toFixed(2)}%</p>
+            </>
+            : <b>Loading</b>
+          }
         </Tab>
         <Tab eventKey="NET" title="Online">
           <p>{JSON.stringify(netstats)}</p>
