@@ -46,7 +46,7 @@ export default function Stats() {
         className="mb-3"
       >
         <Tab eventKey="BOT" title="Bot">
-          {localQuery
+          {localQuery && (gamemode != "NET")
             ? <>
               <p>Games played: {localQuery.games_played}</p>
               <p>Games won: {localQuery.games_won} ({(((localQuery.games_won / localQuery.games_played) || 0) * 100).toFixed(2)}%)</p>
@@ -56,7 +56,7 @@ export default function Stats() {
           }
         </Tab>
         <Tab eventKey="LOCAL" title="Local">
-          {localQuery
+          {localQuery && (gamemode != "NET")
               ? <>
                 <p>Games played: {localQuery.games_played}</p>
                 <p>Games won: {localQuery.games_won} ({(((localQuery.games_won / localQuery.games_played) || 0) * 100).toFixed(2)}%)</p>
