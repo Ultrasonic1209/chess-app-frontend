@@ -49,7 +49,7 @@ export default function Stats() {
           {localQuery
           ? <>
             <p>Games played: {localQuery.games_played}</p>
-            <p>Games won: {localQuery.games_won} {((localQuery.games_won / localQuery.games_played) * 100).toFixed(2)}%</p>
+            <p>Games won: {localQuery.games_won} ({((localQuery.games_won / localQuery.games_played) * 100).toFixed(2)}%)</p>
             <p>Percentage of games played as white: {(localQuery.percentage_of_starting_white).toFixed(2)}%</p>
           </>
           : <b>Loading</b>
