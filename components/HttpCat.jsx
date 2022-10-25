@@ -1,4 +1,4 @@
-import Image from "next/future/image";
+import Image from "next/image";
 
 export default function HttpCat({statuscode}) {
     const css = { maxWidth: '100%', height: 'auto' }

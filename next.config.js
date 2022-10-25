@@ -83,11 +83,9 @@ const globalHeaders = [
 const nextConfig = {
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
-    swcMinify: true,
     experimental: {
         newNextLinkBehavior: true, /* this is not documented properly AT ALL. */
-        optimizeCss: true,
-        browsersListForSwc: true
+        optimizeCss: true
         //esmExternals: false // for preact compat
     },
     images: {
