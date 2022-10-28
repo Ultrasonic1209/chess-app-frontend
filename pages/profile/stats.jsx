@@ -59,6 +59,8 @@ export default function Stats() {
 
     const amountOfGames = await games.count();
 
+    console.log({amountOfGames, amountOfGamesWhite})
+
     return {
       games_played: amountOfGames,
       games_won: amountOfGamesWon,
