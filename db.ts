@@ -9,6 +9,6 @@ export const db: Dexie = new Dexie(
     'testDatabase',
     args
 );
-db.version(1).stores({
-  games: '++id, gameType, colourPlaying, gameWon', // Primary key and indexed props
+db.version(2).stores({
+  games: '++id, gameType, colourPlaying, gameWon, [gameType+colourPlaying]', // Primary key and indexed props
 });

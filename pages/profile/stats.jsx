@@ -57,12 +57,12 @@ export default function Stats() {
       return game.colourPlaying === game.gameWon
     }).count();
 
-    const amountOfGames = await games.count()
+    const amountOfGames = await games.count();
 
     return {
       games_played: amountOfGames,
       games_won: amountOfGamesWon,
-      percentage_of_starting_white: ((amountOfGamesWhite / amountOfGames) * 100) || 0
+      percentage_of_starting_white: ((amountOfGamesWhite / Math.max(amountOfGames, 1)) * 100) || 0
     }
   }, [gamemode]);
 
@@ -74,7 +74,7 @@ export default function Stats() {
       ? <GlobalStats
           games_played={globalQuery.amountOfGames + netstats.games_played + ' (' + netstats.games_played + ' online)'}
           games_won={globalQuery.amountOfGamesWon + netstats.games_won + ' (' + netstats.games_won + ' online)'}
-          percentage_of_playing_white={(((globalQuery.amountOfGamesWhite / globalQuery.amountOfGames) * 100) || 0).toFixed(2) + '% offline, ' + (netstats.percentage_of_playing_white || 0).toFixed(2) + '% online'}
+          percentage_of_playing_white={((globalQuery.amountOfGamesWhite / Math.max(globalQuery.amountOfGames, 1)) * 100).toFixed(2) + '% offline, ' + (netstats.percentage_of_playing_white || 0).toFixed(2) + '% online'}
         />
       : ((globalQuery && neterror)
           ? <>
@@ -82,7 +82,7 @@ export default function Stats() {
               <GlobalStats
                 games_played={globalQuery.amountOfGames}
                 games_won={globalQuery.gamesWon}
-                percentage_of_playing_white={(((globalQuery.amountOfGamesWhite / globalQuery.amountOfGames) * 100) || 0).toFixed(2) + '% offline'}
+                percentage_of_playing_white={((globalQuery.amountOfGamesWhite / Math.max(globalQuery.amountOfGames, 1)) * 100).toFixed(2) + '% offline'}
               />
             </>
           : <b>Loading</b>
@@ -98,8 +98,8 @@ export default function Stats() {
           {localQuery && (gamemode != "NET")
             ? <>
               <p>Games played: {localQuery.games_played}</p>
-              <p>Games won: {localQuery.games_won} ({(((localQuery.games_won / localQuery.games_played) || 0) * 100).toFixed(2)}%)</p>
-              <p>Percentage of games played as white: {(localQuery.percentage_of_starting_white || 0).toFixed(2)}%</p>
+              <p>Games won: {localQuery.games_won} ({((localQuery.games_won / Math.max(localQuery.games_played, 1)) * 100).toFixed(2)}%)</p>
+              <p>Percentage of games played as white: {localQuery.percentage_of_starting_white.toFixed(2)}%</p>
             </>
             : <b>Loading</b>
           }
@@ -108,8 +108,8 @@ export default function Stats() {
           {localQuery && (gamemode != "NET")
             ? <>
               <p>Games played: {localQuery.games_played}</p>
-              <p>Games won: {localQuery.games_won} ({(((localQuery.games_won / localQuery.games_played) || 0) * 100).toFixed(2)}%)</p>
-              <p>Percentage of games played as white: {(localQuery.percentage_of_starting_white || 0).toFixed(2)}%</p>
+              <p>Games won: {localQuery.games_won} ({((localQuery.games_won / Math.max(localQuery.games_played, 1)) * 100).toFixed(2)}%)</p>
+              <p>Percentage of games played as white: {localQuery.percentage_of_starting_white.toFixed(2)}%</p>
             </>
             : <b>Loading</b>
           }
@@ -118,7 +118,7 @@ export default function Stats() {
           {netstats && (gamemode === "NET")
             ? <>
               <p>Games played: {netstats.games_played}</p>
-              <p>Games won: {netstats.games_won} ({(((netstats.games_won / netstats.games_played) || 0) * 100).toFixed(2)}%)</p>
+              <p>Games won: {netstats.games_won} ({((netstats.games_won / Math.max(netstats.games_played, 1)) * 100).toFixed(2)}%)</p>
               <p>Percentage of games played as white: {(netstats.percentage_of_playing_white || 0).toFixed(2)}%</p>
               <p className={"mb-0"}>Favourite opponent:</p> {
                 netstats.favourite_opponent
