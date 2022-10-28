@@ -1,7 +1,15 @@
-const child_process = require('child_process')
+const child_process = require('child_process');
+const { readFileSync } = require("fs");
 
 const IS_STATIC = process.env.STATIC && true
 const NO_SW = process.env.NOSW === "1"
+
+const RELEASE = process.env.RELEASE && true
+
+
+const { version } = JSON.parse(
+    readFileSync("package.json")
+)
 
 const withPWA = require('next-pwa')({
     disable: NO_SW,
@@ -25,7 +33,9 @@ const GIT_COMMIT_SHA = process.env.GIT_COMMIT_SHA ||= process.env.VERCEL_GIT_COM
 
 var APP_NAME;
 
-if (process.env.__VERCEL_DEV_RUNNING) {
+if (RELEASE) {
+    APP_NAME = "Checkmate"
+} else if (process.env.__VERCEL_DEV_RUNNING) {
     APP_NAME = "Checkmate Pre"
 } else {
     switch (GIT_BRANCH) {
@@ -84,7 +94,6 @@ const nextConfig = {
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
     experimental: {
-        newNextLinkBehavior: true, /* this is not documented properly AT ALL. */
         optimizeCss: true
         //esmExternals: false // for preact compat
     },
@@ -121,6 +130,7 @@ const nextConfig = {
     },
     env: {
         appName: APP_NAME,
+        appVersion: RELEASE && version,
         lastModified: date.toLocaleString(),
         friendlyCaptchaSitekey: "FCMM6JV285I5GS1J"
     }

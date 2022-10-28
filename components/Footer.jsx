@@ -3,11 +3,11 @@ import { Popover, OverlayTrigger, Container } from 'react-bootstrap';
 
 const GIT_TAG = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA;
 
-var VERSION;
+let VERSION;
 if (GIT_TAG === undefined) {
-    VERSION = "Unknown";
+  VERSION = process.env.appVersion || "Unknown";
 } else {
-    VERSION = GIT_TAG.substring(0,7);
+  VERSION = GIT_TAG.substring(0,7);
 }
 
 // footer from https://getbootstrap.com/docs/5.1/examples/footers/ - first example
