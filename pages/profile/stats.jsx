@@ -62,7 +62,7 @@ export default function Stats() {
     return {
       games_played: amountOfGames,
       games_won: amountOfGamesWon,
-      percentage_of_starting_white: ((amountOfGamesWhite / Math.max(amountOfGames, 1)) * 100) || 0
+      percentage_of_starting_white: ((amountOfGamesWhite / Math.max(amountOfGames, 1)) * 100)
     }
   }, [gamemode]);
 
@@ -99,7 +99,7 @@ export default function Stats() {
             ? <>
               <p>Games played: {localQuery.games_played}</p>
               <p>Games won: {localQuery.games_won} ({((localQuery.games_won / Math.max(localQuery.games_played, 1)) * 100).toFixed(2)}%)</p>
-              <p>Percentage of games played as white: {localQuery.percentage_of_starting_white.toFixed(2)}%</p>
+              <p>Percentage of games played as white: {(localQuery.percentage_of_starting_white || 0).toFixed(2)}%</p>
             </>
             : <b>Loading</b>
           }
@@ -109,7 +109,7 @@ export default function Stats() {
             ? <>
               <p>Games played: {localQuery.games_played}</p>
               <p>Games won: {localQuery.games_won} ({((localQuery.games_won / Math.max(localQuery.games_played, 1)) * 100).toFixed(2)}%)</p>
-              <p>Percentage of games played as white: {localQuery.percentage_of_starting_white.toFixed(2)}%</p>
+              <p>Percentage of games played as white: {(localQuery.percentage_of_starting_white || 0).toFixed(2)}%</p>
             </>
             : <b>Loading</b>
           }
