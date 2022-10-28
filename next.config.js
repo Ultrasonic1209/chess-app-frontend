@@ -94,6 +94,7 @@ const nextConfig = {
     reactStrictMode: true,
     productionBrowserSourceMaps: true,
     experimental: {
+        newNextLinkBehavior: true, /* this is not documented properly AT ALL. */
         optimizeCss: true
         //esmExternals: false // for preact compat
     },
