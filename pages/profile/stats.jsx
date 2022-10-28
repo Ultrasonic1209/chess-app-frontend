@@ -48,6 +48,8 @@ export default function Stats() {
       gameType: gamemode
     });
 
+    const amountOfGames = await games.count();
+
     const amountOfGamesWhite = await db.table("games").where({
       gameType: gamemode,
       colourPlaying: "WHITE"
@@ -56,8 +58,6 @@ export default function Stats() {
     const amountOfGamesWon = await games.filter(function (game) {
       return game.colourPlaying === game.gameWon
     }).count();
-
-    const amountOfGames = await games.count();
 
     console.log(gamemode, {amountOfGames, amountOfGamesWhite})
 
