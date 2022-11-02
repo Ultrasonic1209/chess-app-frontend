@@ -1,7 +1,7 @@
 import Main from "../../components/Main";
 
 import { useEffect, useState } from "react";
-import { Table, Container, ListGroup, Button } from "react-bootstrap";
+import { Table, Container, ListGroup, Button, Pagination } from "react-bootstrap";
 import Link from "next/link";
 
 import { useOnlineStatus } from "../../contexts/OnlineStatus";
@@ -41,8 +41,7 @@ export default function LoadGame() {
 
     const router = useRouter();
 
-    const gamemode = router.query.gamemode
-    const presence = router.query.presence
+    const {gamemode, presence, page} = router.query;
 
     useEffect(() => {
       if ((typeof presence === "undefined") && (gamemode === "NET")) {
@@ -60,6 +59,9 @@ export default function LoadGame() {
     });
     const presenceOnClick = (ev) => router.replace({
       query: { ...router.query, presence: ev.target.dataset.presence },
+    });
+    const pageOnClick = (ev) => router.replace({
+      query: { ...router.query, page: ev.target.dataset.page },
     });
 
     const games = useLiveQuery(async () => {
@@ -213,6 +215,17 @@ export default function LoadGame() {
                   </div>
               )
               : undefined
+        }
+        {
+          ((gamemode === "NET") && ((amountOfGames > 0) || (page > 1)))
+          ? (
+            <Pagination className="p-0 pt-3">
+              <Pagination.First data-page={1} onClick={pageOnClick} />
+              <Pagination.Prev data-page={page - 1} onClick={pageOnClick} />
+              <Pagination.Item>{page}</Pagination.Item>
+              <Pagination.Next data-page={page + 1} onClick={pageOnClick} />
+            </Pagination>
+          ) : undefined
         }
       </Main>
     );
