@@ -1,6 +1,6 @@
 import { Pagination } from "react-bootstrap";
 
-export function Paginator(page, setPage) {
+export default function Paginator(page, setPage) {
     <Pagination className="p-0 pt-3">
     <Pagination.First data-page={"1"} onClick={setPage} disabled={(page || "1") === "1"} />
     <Pagination.Prev data-page={(parseInt(page) || 2) - 1} onClick={setPage} disabled={(page || "1") === "1"} />
