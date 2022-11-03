@@ -3,7 +3,7 @@
         "module": "ESNext",
         "moduleResolution": "Node",
         "target": "ES2020",
-        "jsx": "react",
+        "jsx": "react-jsx",
         "strictNullChecks": true,
         "strictFunctionTypes": true,
         "types": ["@types/react"]
