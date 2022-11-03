@@ -225,10 +225,10 @@ export default function LoadGame() {
           ((gamemode === "NET") && ((amountOfGames > 0) || (page > 1)))
           ? (
             <Pagination className="p-0 pt-3">
-              <Pagination.First data-page={"1"} onClick={pageOnClick} active={page === "1"}/>
-              <Pagination.Prev data-page={toString(parseInt(page || "2") - 1)} onClick={pageOnClick} disabled={(page || "1") === "1"}/>
-              <Pagination.Item active hr>{parseInt(page || 0) + 1}</Pagination.Item>
-              <Pagination.Next data-page={toString(parseInt(page || "1") + 1)} onClick={pageOnClick} disabled={amountOfGames < 1} />
+              <Pagination.First data-page={"1"} onClick={pageOnClick} disabled={(page || "1") === "1"}/>
+              <Pagination.Prev data-page={(parseInt(page) || 2) - 1} onClick={pageOnClick} disabled={(page || "1") === "1"}/>
+              <Pagination.Item active hr>{parseInt(page) || 1}</Pagination.Item>
+              <Pagination.Next data-page={(parseInt(page) || 1) + 1} onClick={pageOnClick} disabled={amountOfGames < 1} />
             </Pagination>
           ) : undefined
         }
