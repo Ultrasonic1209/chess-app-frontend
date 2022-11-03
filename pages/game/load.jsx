@@ -44,12 +44,20 @@ export default function LoadGame() {
     const {gamemode, presence, page} = router.query;
 
     useEffect(() => {
-      if ((typeof presence === "undefined") && (gamemode === "NET")) {
-        router.replace({
-          query: { ...router.query, presence: "1" },
-        });
+      if (gamemode === "NET") {
+        if (typeof presence === "undefined") {
+          router.replace({
+            query: { ...router.query, presence: "1" },
+          });
+        }
+
+        if (typeof page === "undefined") {
+          router.replace({
+            query: { ...router.query, page: "1" },
+          });
+        }
       }
-    }, [presence, router, gamemode]);
+    }, [router, presence, gamemode, page]);
 
     //const [gamemode, setGamemode] = useState();
     //const [presence, setPresence] = useState("1");
@@ -77,7 +85,7 @@ export default function LoadGame() {
     [gamemode]);
 
     const params = new URLSearchParams({
-      page: (page - 1) || 0,
+      page: parseInt(page || 1) - 1,
       page_size: 25,
       my_games: presence === "1",
     });
@@ -217,10 +225,10 @@ export default function LoadGame() {
           ((gamemode === "NET") && ((amountOfGames > 0) || (page > 1)))
           ? (
             <Pagination className="p-0 pt-3">
-              <Pagination.First data-page={"0"} onClick={pageOnClick} active={page === "0"}/>
-              <Pagination.Prev data-page={toString(parseInt(page || 1) - 1)} onClick={pageOnClick} disabled={(page || "0") === "0"}/>
+              <Pagination.First data-page={"1"} onClick={pageOnClick} active={page === "1"}/>
+              <Pagination.Prev data-page={toString(parseInt(page || "2") - 1)} onClick={pageOnClick} disabled={(page || "1") === "1"}/>
               <Pagination.Item active hr>{parseInt(page || 0) + 1}</Pagination.Item>
-              <Pagination.Next data-page={toString(parseInt(page || 0) + 1)} onClick={pageOnClick} disabled={amountOfGames < 1} />
+              <Pagination.Next data-page={toString(parseInt(page || "1") + 1)} onClick={pageOnClick} disabled={amountOfGames < 1} />
             </Pagination>
           ) : undefined
         }
