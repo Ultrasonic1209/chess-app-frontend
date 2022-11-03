@@ -1,18 +1,19 @@
-import Main from "../../components/Main";
+import Main from "../../../components/Main";
 
 import { useEffect } from "react";
-import { Table, Container, ListGroup, Button, Pagination } from "react-bootstrap";
+import { Table, Container, ListGroup, Button } from "react-bootstrap";
 import Link from "next/link";
 
-import { useOnlineStatus } from "../../contexts/OnlineStatus";
+import { useOnlineStatus } from "../../../contexts/OnlineStatus";
 
-import { db } from "../../db";
+import { db } from "../../../db";
 import { useLiveQuery } from "dexie-react-hooks";
 import useSWR from "swr";
-import { useToastContext } from "../../contexts/ToastContext";
+import { useToastContext } from "../../../contexts/ToastContext";
 import { useRouter } from "next/router";
 
-const fetcher = url => fetch(url, { withCredentials: true, credentials: 'include' }).then(r => r.json())
+import { fetcher } from "../../../hooks/useProfile"
+import { Paginator } from "./Paginator";
 
 function getOpponent(players, is_white) {
   if ((typeof players === "undefined") || (typeof is_white === "undefined")) { return {} }
@@ -126,7 +127,17 @@ export default function LoadGame() {
             <ListGroup.Item active={presence === "0"} onClick={presenceOnClick} data-presence={"0"} type="button" action>All games</ListGroup.Item>
           </ListGroup>
         </Container>
-        : undefined}
+        : undefined
+      }
+      {
+        ((gamemode === "NET") && ((amountOfGames > 0) || (page > 1)))
+          ? (
+            <Paginator
+              page={page}
+              setPage={pageOnClick}
+            />
+          ) : undefined
+      }
       {(gamemode) && (amountOfGames > 0)
         ? (
           <Table bordered hover className="p-0 mt-3">
@@ -239,12 +250,10 @@ export default function LoadGame() {
       {
         ((gamemode === "NET") && ((amountOfGames > 0) || (page > 1)))
           ? (
-            <Pagination className="p-0 pt-3">
-              <Pagination.First data-page={"1"} onClick={pageOnClick} disabled={(page || "1") === "1"} />
-              <Pagination.Prev data-page={(parseInt(page) || 2) - 1} onClick={pageOnClick} disabled={(page || "1") === "1"} />
-              <Pagination.Item active hr>{parseInt(page) || 1}</Pagination.Item>
-              <Pagination.Next data-page={(parseInt(page) || 1) + 1} onClick={pageOnClick} disabled={amountOfGames < 1} />
-            </Pagination>
+            <Paginator
+              page={page}
+              setPage={pageOnClick}
+            />
           ) : undefined
       }
     </Main>
