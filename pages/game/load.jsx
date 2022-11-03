@@ -76,12 +76,9 @@ export default function LoadGame() {
       },
     [gamemode]);
 
-    // eslint-disable-next-line no-unused-vars
-    const [ remotePage, setRemotePageNumber ] = useState(0)
-
     const params = new URLSearchParams({
-      page: remotePage,
-      page_size: 48,
+      page: (page - 1) || 0,
+      page_size: 25,
       my_games: presence === "1",
     });
 
@@ -220,10 +217,10 @@ export default function LoadGame() {
           ((gamemode === "NET") && ((amountOfGames > 0) || (page > 1)))
           ? (
             <Pagination className="p-0 pt-3">
-              <Pagination.First data-page={1} onClick={pageOnClick} />
-              <Pagination.Prev data-page={page - 1} onClick={pageOnClick} />
-              <Pagination.Item>{page}</Pagination.Item>
-              <Pagination.Next data-page={page + 1} onClick={pageOnClick} />
+              <Pagination.First data-page={"0"} onClick={pageOnClick} active={page === "0"}/>
+              <Pagination.Prev data-page={toString(parseInt(page) - 1)} onClick={pageOnClick} />
+              <Pagination.Item active>{parseInt(page) + 1}</Pagination.Item>
+              <Pagination.Next data-page={toString(parseInt(page) + 1)} onClick={pageOnClick} />
             </Pagination>
           ) : undefined
         }
