@@ -8,7 +8,7 @@ const RELEASE = process.env.RELEASE && true
 
 
 const { version } = JSON.parse(
-    readFileSync("package.json")
+    readFileSync("package.json").toString()
 )
 
 const withPWA = require('next-pwa')({
@@ -95,9 +95,16 @@ const nextConfig = {
     productionBrowserSourceMaps: true,
     experimental: {
         newNextLinkBehavior: true, /* this is not documented properly AT ALL. */
-        optimizeCss: true
+        optimizeCss: true,
         //esmExternals: false // for preact compat
     },
+    webpack: (config) => {
+        // this will override the experiments
+        config.experiments = { ...config.experiments, ...{ topLevelAwait: true }};
+        // this will just update topLevelAwait property of config.experiments
+        // config.experiments.topLevelAwait = true 
+        return config;
+      },
     images: {
         remotePatterns: [
             {

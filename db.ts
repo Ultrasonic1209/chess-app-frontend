@@ -3,7 +3,7 @@
 
 import { Dexie } from 'dexie';
 
-const args = ((typeof window === 'undefined') || !window.indexedDB) ? { indexedDB: import("fake-indexeddb").indexedDB, IDBKeyRange: import("fake-indexeddb").IDBKeyRange } : undefined
+const args = ((typeof window === 'undefined') || !window.indexedDB) ? { indexedDB: (await import("fake-indexeddb")).indexedDB, IDBKeyRange: (await import("fake-indexeddb")).IDBKeyRange } : undefined
 
 export const db: Dexie = new Dexie(
     'testDatabase',

@@ -1,5 +1,6 @@
 // https://w3collective.com/react-stopwatch/
 import { useEffect, forwardRef } from 'react';
+import { CounterArgs } from '../types';
 
 // https://stackoverflow.com/a/7343013/
 export const round = (value, precision) => {
@@ -17,7 +18,7 @@ export const secondsToTime = (e) => {
   //return `${h}:${m}:${s}`;
 }
 
-const CountUp = forwardRef(({getTime, setTime, running}, ref) => {
+const CountUp = forwardRef<HTMLSpanElement>(({getTime, setTime, running}: CounterArgs, ref) => {
   // running is to be a useState defined from elsewhere
 
   useEffect(() => {

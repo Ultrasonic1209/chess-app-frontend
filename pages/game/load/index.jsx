@@ -87,7 +87,7 @@ export default function LoadGame() {
 
   const params = new URLSearchParams({
     page: parseInt(page || 1) - 1,
-    page_size: 25,
+    page_size: toString(25),
     my_games: presence === "1",
   });
 
