@@ -1,9 +1,11 @@
+/*eslint require-await: "off"*/
+
 // https://dexie.org/docs/Tutorial/React
 // But it doesnt fully work on Next.js!!
 
 import { Dexie } from 'dexie';
 
-const args = ((typeof window === 'undefined') || !window.indexedDB) ? { indexedDB: (await import("fake-indexeddb")).indexedDB, IDBKeyRange: (await import("fake-indexeddb")).IDBKeyRange } : undefined
+const args = ((typeof window === 'undefined') || !window.indexedDB) ? { indexedDB: (import("fake-indexeddb") as any).indexedDB, IDBKeyRange: (import("fake-indexeddb") as any).IDBKeyRange } : undefined
 
 export const db: Dexie = new Dexie(
     'testDatabase',
