@@ -218,9 +218,9 @@ export default function LoadGame() {
           ? (
             <Pagination className="p-0 pt-3">
               <Pagination.First data-page={"0"} onClick={pageOnClick} active={page === "0"}/>
-              <Pagination.Prev data-page={toString(parseInt(page) - 1)} onClick={pageOnClick} />
-              <Pagination.Item active>{parseInt(page) + 1}</Pagination.Item>
-              <Pagination.Next data-page={toString(parseInt(page) + 1)} onClick={pageOnClick} />
+              <Pagination.Prev data-page={toString(parseInt(page || 1) - 1)} onClick={pageOnClick} disabled={(page || "0") === "0"}/>
+              <Pagination.Item active hr>{parseInt(page || 0) + 1}</Pagination.Item>
+              <Pagination.Next data-page={toString(parseInt(page || 0) + 1)} onClick={pageOnClick} disabled={amountOfGames < 1} />
             </Pagination>
           ) : undefined
         }
