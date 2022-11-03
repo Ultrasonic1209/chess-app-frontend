@@ -13,7 +13,7 @@ import { useToastContext } from "../../../contexts/ToastContext";
 import { useRouter } from "next/router";
 
 import { fetcher } from "../../../hooks/useProfile"
-import { Paginator } from "./Paginator";
+import Paginator from "./Paginator";
 
 function getOpponent(players, is_white) {
   if ((typeof players === "undefined") || (typeof is_white === "undefined")) { return {} }
