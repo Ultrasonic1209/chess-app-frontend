@@ -1,6 +1,6 @@
 import Main from "../../components/Main";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Table, Container, ListGroup, Button, Pagination } from "react-bootstrap";
 import Link from "next/link";
 
