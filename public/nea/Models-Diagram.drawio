@@ -94,14 +94,14 @@
                         <mxPoint x="675" y="89" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="33" value="" style="endArrow=classic;html=1;entryX=0.195;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="34" target="31">
+                <mxCell id="33" value="" style="endArrow=classic;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="34">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="770" y="339" as="sourcePoint"/>
-                        <mxPoint x="550" y="220" as="targetPoint"/>
+                        <mxPoint x="848" y="360" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="34" value="The hospice function checks the PGN formatted `game` column and updates the other columns (`time_ended`, `white_won`, etc.) if changes need to be made. This is to allow the game to be more easily queried without needing to parse the PGN file for each game.&lt;br&gt;&lt;br&gt;The Python Object argument is the representation of the parsed PGN file as a Python Object." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="780" y="390" width="232" height="170" as="geometry"/>
+                    <mxGeometry x="790" y="390" width="232" height="170" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
