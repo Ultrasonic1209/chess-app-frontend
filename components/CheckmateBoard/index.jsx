@@ -130,7 +130,7 @@ function ExportModal({ show, handleClose, string, allowDownload, allowShare, mod
           readOnly={true}
           draggable={false}
           cols={50}
-          rows={2}
+          rows={5}
           id={styles.shareTextArea}
         >
           {string}
@@ -288,7 +288,7 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
         let plrName = player.username || "Anonymous"
 
         if ((player.is_white === storedgame.is_white) && !player.username) {
-          plrName += " ⚙️"
+          plrName += " ⚙️" // in cases where it's anonymous v. anonymous, it's useful to know which colour you are.
         }
 
         if (player.is_white) {
