@@ -47,13 +47,13 @@ export default function LoadGame() {
   useEffect(() => {
     if (!router.isReady) { return }
     if (gamemode === "NET") {
-      if (typeof presence === "undefined") {
+      if (isNaN(parseInt(presence))) { // this will fire if presence querystring is "" or nonexistent
         router.replace({
           query: { ...router.query, presence: "1" },
         });
       }
 
-      if (typeof page === "undefined") {
+      if (isNaN(parseInt(page))) {
         router.replace({
           query: { ...router.query, page: "1" },
         });
