@@ -135,6 +135,7 @@ export default function LoadGame() {
             <Paginator
               page={page}
               setPage={pageOnClick}
+              disableNext={amountOfGames <= 0}
             />
           ) : undefined
       }
@@ -253,6 +254,7 @@ export default function LoadGame() {
             <Paginator
               page={page}
               setPage={pageOnClick}
+              disableNext={amountOfGames <= 0}
             />
           ) : undefined
       }
