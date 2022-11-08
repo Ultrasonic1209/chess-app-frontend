@@ -70,7 +70,7 @@ export default function LoadGame() {
     query: { ...router.query, presence: ev.target.dataset.presence },
   });
   const pageOnClick = async (ev) => await router.replace({
-    query: { ...router.query, page: ev.target.dataset.page },
+    query: { ...router.query, page: toString(ev.target.dataset.page) },
   });
 
   const games = useLiveQuery(async () => {
