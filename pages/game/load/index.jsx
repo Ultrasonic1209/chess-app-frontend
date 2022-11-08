@@ -63,13 +63,13 @@ export default function LoadGame() {
   //const [gamemode, setGamemode] = useState();
   //const [presence, setPresence] = useState("1");
 
-  const gamemodeOnClick = (ev) => router.replace({
+  const gamemodeOnClick = async (ev) => await router.replace({
     query: { ...router.query, gamemode: ev.target.dataset.gamemode },
   });
-  const presenceOnClick = (ev) => router.replace({
+  const presenceOnClick = async (ev) => await router.replace({
     query: { ...router.query, presence: ev.target.dataset.presence },
   });
-  const pageOnClick = (ev) => router.replace({
+  const pageOnClick = async (ev) => await router.replace({
     query: { ...router.query, page: ev.target.dataset.page },
   });
 
