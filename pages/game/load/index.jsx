@@ -45,6 +45,7 @@ export default function LoadGame() {
   const { gamemode, presence, page } = router.query;
 
   useEffect(() => {
+    if (!router.isReady) { return }
     if (gamemode === "NET") {
       if (typeof presence === "undefined") {
         router.replace({
@@ -74,6 +75,7 @@ export default function LoadGame() {
   });
 
   const games = useLiveQuery(async () => {
+    if (!router.isReady) { return }
     console.log("refreshing!");
     if ((typeof gamemode === "undefined") || (gamemode === "NET")) { return [] }
     const gamearray = await db.table("games")
@@ -83,7 +85,7 @@ export default function LoadGame() {
     console.log(gamearray);
     return gamearray;
   },
-    [gamemode]);
+    [gamemode, router.isReady]);
 
   const params = new URLSearchParams({
     page: parseInt(page || 1) - 1,
@@ -91,7 +93,7 @@ export default function LoadGame() {
     my_games: presence === "1",
   });
 
-  const { data, error, isValidating } = useSWR(gamemode === "NET" ? "https://apichessapp.server.ultras-playroom.xyz/chess/get-games/?" + params.toString() : null, fetcher, { fallbackData: [] })
+  const { data, error, isValidating } = useSWR((gamemode === "NET" && router.isReady) ? "https://apichessapp.server.ultras-playroom.xyz/chess/get-games/?" + params.toString() : null, fetcher, { fallbackData: [] })
 
   useEffect(() => {
     console.log("refreshing (remote)!");
