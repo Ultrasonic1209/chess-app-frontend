@@ -72,21 +72,10 @@ export default function LoadGame() {
   const presenceOnClick = async (ev) => await router.replace({
     query: { ...router.query, presence: ev.target.dataset.presence },
   });
-  const pageOnClick = async (ev) => {
-
-    // when i make the router use the target dataset, it is undefined.
-    // when i make it use the target's parent's dataset, it becomes undefined and the other one return validly.
-    // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    
-    console.log("target:", ev.target.dataset.page);
-
-    console.log("target parent:", ev.target.parentNode.dataset.page);
-
-    await router.replace({
-      query: { ...router.query, page: ev.target.dataset.page || ev.target.parentNode.dataset.page },
-    })
-  };
-
+  const pageOnClick = async (ev) => await router.replace({
+    query: { ...router.query, page: ev.target.dataset.page || ev.target.parentNode.dataset.page },
+  });
+  
   const games = useLiveQuery(async () => {
     if (!router.isReady) { return }
     console.log("refreshing!");
