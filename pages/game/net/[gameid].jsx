@@ -324,31 +324,35 @@ export default function PlayNet(/*{initialdata, gameid}*/) {
 
 
   function makeAMove(move) {
-    if (!timeForMove()) { return null; }
+    if (!timeForMove()) { return null; } // if the player has run out of time, reject the move immediately
 
-    let gametime = round(whiteTime + blackTime, 1);
-    if (storedgame.clockType === "DOWN") {
-      let timeLimit = parseInt(storedgame.timeLimit);
+    let gametime = round(whiteTime + blackTime, 1); // adds up the total amount of time spent by both white and black, and round it to 1.d.p
+    if (storedgame.clockType === "DOWN") { // if this game is timed...
+      let timeLimit = parseInt(storedgame.timeLimit); // gets the time limit that each player has 
 
-      let whiteSpent = round(timeLimit - whiteTime, 1)
-      let blackSpent = round(timeLimit - blackTime, 1)
+      let whiteRemaining = round(timeLimit - whiteTime, 1) // finds out how much time white has left, rounded to 1.d.p
+      let blackRemaining = round(timeLimit - blackTime, 1) // finds out how much time black has left, rounded to 1.d.p
 
-      const totalSpent = round(whiteSpent + blackSpent, 1);
-      console.log("most spent:", totalSpent)
-      gametime = (timeLimit * 2) - totalSpent
+      // finds out how much time both colours have left, rounded to 1.d.p
+      // this data is needed to store within PGN's "%clk" command for future reference
+      const totalRemaining = round(whiteRemaining + blackRemaining, 1);
+
+      console.log("total remaining:", totalRemaining)
+      gametime = (timeLimit * 2) - totalRemaining // updates the gametime with the total maximum time that the game can continue for
       console.log("total:", gametime)
     }
-    const formattedtime = secondsToTime(gametime);
+    const formattedtime = secondsToTime(gametime); // formats the gametime in a human-readable manner
 
-    const gameCopy = { ...game };
-    const result = gameCopy.move(move);
-    gameCopy.set_comment(`[%clk ${formattedtime}}]`);
+    const gameCopy = { ...game }; // deep copies the game, needed for React to refresh the page
+    const result = gameCopy.move(move); // makes the move on the deep copy
+    gameCopy.set_comment(`[%clk ${formattedtime}}]`); // sets the time associated with said move
     //console.log(gameCopy.get_comment());
 
-    if (result) {
+    if (result) { // if the move was valid locally...
+      // send the move to the server in the form of a HTTP POST request!
       const resp = fetch(`https://apichessapp.server.ultras-playroom.xyz/chess/game/${gameid}/move`, {
         body: JSON.stringify({
-          san: result.san
+          san: result.san // the move that the server needs to process
         }),
         headers: {
           "Content-Type": "application/json",
@@ -357,32 +361,32 @@ export default function PlayNet(/*{initialdata, gameid}*/) {
         withCredentials: true,
         credentials: 'include',
       })
-      .then(async (response) => {
-        const body = await response.json()
-        if (response.ok) {
-          return body
-        } else {
-          addToast({
-            "title": "Checkmate Remote Game ID " + gameid,
-            "message": body.message || "Server did not process move"
-          });
-          setGame(game);
-          return storedgame
-        }
-      })
+        .then(async (response) => { // if the request was made
+          const body = await response.json() // get server response
+          if (response.ok) { // if the request was successful
+            return body // update local game data with what the server responded with
+          } else { // server errored out while request was being processed
+            addToast({
+              "title": "Checkmate Remote Game ID " + gameid,
+              "message": body.message || "Server did not process move"
+            });
+            setGame(game); // reset the game back to what it was before the move
+            return storedgame // update local game data with... local game data.
+          }
+        })
 
       mutate(
-        resp,
+        resp, // mutate will wait (implicitly "await" the Promise) for the HTTP POST request to complete
         {
-          revalidate: true
+          revalidate: true // because i dont trust my own server, refetch game data by itself after the request completes
         }
-      ).catch(async (error) => {
+      ).catch(async (error) => { // if the request fails (no internet?)
         console.error(error);
         addToast({
           "title": "Checkmate Remote Game ID " + gameid,
           "message": "Error sending move to the server"
         });
-        setGame(game);
+        setGame(game); // reset the game to what it was before the move
       })
     }
     return result; // null if the move was illegal, the move object if the move was legal
@@ -458,11 +462,10 @@ export default function PlayNet(/*{initialdata, gameid}*/) {
     const move = makeAMove({
       from: sourceSquare,
       to: targetSquare,
-      promotion: 'q' // always promote to a queen for example simplicity
+      promotion: 'q' // always promote to a queen
     });
 
-    // illegal move
-    if (move === null) return false;
+    if (move === null) return false; // illegal move
     return true;
   }
 

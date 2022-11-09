@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "react-bootstrap";
 import Main from "../components/Main";
 
-const IS_DEV = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
+const IS_DEV = process.env.appName != "Checkmate";
 
 export default function Home() {
     const resetLocalStorage = async (ev) => {
