@@ -13,6 +13,7 @@ import { useToastContext } from "../../../contexts/ToastContext";
 import { useRouter } from "next/router";
 
 import { fetcher } from "../../../hooks/useProfile"
+
 import Paginator from "./Paginator";
 
 function getOpponent(players, is_white) {
@@ -47,6 +48,7 @@ export default function LoadGame() {
   useEffect(() => {
     if (!router.isReady) { return }
     if (gamemode === "NET") {
+      console.log("ready or not...", router.query)
       if (isNaN(parseInt(presence))) { // this will fire if presence querystring is "" or nonexistent
         router.replace({
           query: { ...router.query, presence: "1" },
@@ -70,9 +72,20 @@ export default function LoadGame() {
   const presenceOnClick = async (ev) => await router.replace({
     query: { ...router.query, presence: ev.target.dataset.presence },
   });
-  const pageOnClick = async (ev) => await router.replace({
-    query: { ...router.query, page: toString(ev.target.dataset.page) },
-  });
+  const pageOnClick = async (ev) => {
+
+    // when i make the router use the target dataset, it is undefined.
+    // when i make it use the target's parent's dataset, it becomes undefined and the other one return validly.
+    // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    
+    console.log("target:", ev.target.dataset.page);
+
+    console.log("target parent:", ev.target.parentNode.dataset.page);
+
+    await router.replace({
+      query: { ...router.query, page: ev.target.dataset.page || ev.target.parentNode.dataset.page },
+    })
+  };
 
   const games = useLiveQuery(async () => {
     if (!router.isReady) { return }
