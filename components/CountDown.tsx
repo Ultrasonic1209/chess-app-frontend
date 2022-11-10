@@ -18,7 +18,7 @@ export const secondsToTime = (e) => {
   //return `${h}:${m}:${s}`;
 }
 
-export default forwardRef<HTMLSpanElement>(memo(function CountDown({getTime, setTime, running}: CounterArgs, ref) {
+export default memo(forwardRef<HTMLSpanElement>(function CountDown({getTime, setTime, running}: CounterArgs, ref) {
   // running is to be a useState defined from elsewhere
 
   useEffect(() => {
