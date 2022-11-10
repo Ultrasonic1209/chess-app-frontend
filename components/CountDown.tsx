@@ -1,5 +1,5 @@
 // https://w3collective.com/react-stopwatch/
-import { useEffect, forwardRef } from 'react';
+import { useEffect, forwardRef, memo } from 'react';
 import { CounterArgs } from '../types';
 
 // https://stackoverflow.com/a/7343013/
@@ -18,17 +18,18 @@ export const secondsToTime = (e) => {
   //return `${h}:${m}:${s}`;
 }
 
-const CountDown = forwardRef<HTMLSpanElement>(({getTime, setTime, running}: CounterArgs, ref) => {
+export default forwardRef<HTMLSpanElement>(memo(function CountDown({getTime, setTime, running}: CounterArgs, ref) {
   // running is to be a useState defined from elsewhere
 
   useEffect(() => {
     let interval;
     if (running) {
       interval = setInterval(() => {
-        setTime((prevTime) => {
+        /*setTime((prevTime) => {
           if (prevTime <= 0.0) { return 0.0 }
           else { return round(prevTime - 0.1, 1); }
-        });
+        });*/
+        setTime((prevTime) => Math.max(round(prevTime - 0.1, 1), 0));
       }, 100);
     } else if (!running) {
       clearInterval(interval);
@@ -37,8 +38,4 @@ const CountDown = forwardRef<HTMLSpanElement>(({getTime, setTime, running}: Coun
   }, [running, setTime]);
 
   return <span ref={ref} data-time={getTime}>{secondsToTime(getTime)}</span>;
-});
-
-CountDown.displayName = "CountDown";
-
-export default CountDown;
+}));
