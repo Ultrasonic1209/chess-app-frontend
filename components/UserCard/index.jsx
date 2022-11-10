@@ -44,7 +44,7 @@ export default function UserCard({className, username, rank, avatarhash, priorit
                 src={(
                     avatarhash // if there is a hash available request through Gravatar, else just pull the Checkmate logo.
                     ? `https://www.gravatar.com/avatar/${avatarhash}?${STATICIMGPARAMS.toString()}`
-                    : "https://chessapp.ultras-playroom.xyz/maskable_icon_small.png"
+                    : "/maskable_icon_compressed.png"
                     )}
                 sizes={"25vw"}
                 priority={priority}
