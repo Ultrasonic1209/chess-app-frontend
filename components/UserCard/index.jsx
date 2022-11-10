@@ -29,7 +29,7 @@ function getRank(rank) {
 }*/
 
 const STATICIMGPARAMS = new URLSearchParams({
-    default: "https://chessapp.ultras-playroom.xyz/maskable_icon.png", // if Gravatar can't find any match for the email address, default to Checkmate logo
+    default: "https://chessapp.ultras-playroom.xyz/maskable_icon_small.png", // if Gravatar can't find any match for the email address, default to Checkmate logo
     rating: "pg", // Keeping it PG
     size: 1024, // I'd like a 1024px image
 })
@@ -44,7 +44,7 @@ export default function UserCard({className, username, rank, avatarhash, priorit
                 src={(
                     avatarhash // if there is a hash available request through Gravatar, else just pull the Checkmate logo.
                     ? `https://www.gravatar.com/avatar/${avatarhash}?${STATICIMGPARAMS.toString()}`
-                    : "https://chessapp.ultras-playroom.xyz/maskable_icon.png"
+                    : "https://chessapp.ultras-playroom.xyz/maskable_icon_small.png"
                     )}
                 sizes={"25vw"}
                 priority={priority}
