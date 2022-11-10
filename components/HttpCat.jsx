@@ -1,6 +1,7 @@
 import Image from "next/image";
+import { memo } from "react";
 
-export default function HttpCat({statuscode}) {
+export default memo(function HttpCat({statuscode}) {
     const css = { maxWidth: '100%', height: 'auto' }
     return <Image
       alt={`httpcat image (code ${statuscode})`}
@@ -9,4 +10,4 @@ export default function HttpCat({statuscode}) {
       height={600}
       style={css}
     />
-} 
+})

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { memo } from 'react';
 import { Popover, OverlayTrigger, Container } from 'react-bootstrap';
 
 const GIT_TAG = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA;
@@ -11,7 +12,7 @@ if (GIT_TAG === undefined) {
 }
 
 // footer from https://getbootstrap.com/docs/5.1/examples/footers/ - first example
-export default function Footer() {
+export default memo(function Footer() {
 
     const popover = (
       <Popover id="popover-version">
@@ -55,4 +56,4 @@ export default function Footer() {
         </footer>
       </Container>
     )
-}
+})

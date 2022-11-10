@@ -1,4 +1,4 @@
-import { useEffect, useState, Suspense, useMemo } from "react";
+import { useEffect, useState, Suspense, useMemo, memo } from "react";
 import dynamic from "next/dynamic";
 
 import { Container, Dropdown, Modal, Button, ButtonToolbar, FormControl } from "react-bootstrap";
@@ -19,7 +19,7 @@ import CountDown from "../CountDown";
 
 import UserCard from "../UserCard";
 
-function ExportModal({ show, handleClose, string, allowDownload, allowShare, mode }) {
+const ExportModal = memo(function ExportModal({ show, handleClose, string, allowDownload, allowShare, mode }) {
 
   function share() {
     if (!navigator.canShare) {
@@ -138,16 +138,16 @@ function ExportModal({ show, handleClose, string, allowDownload, allowShare, mod
       </Modal.Body>
     </Modal>
   )
-}
+})
 
-function BoardPlaceholder({ text, chessboardSize }) {
+const BoardPlaceholder = memo(function BoardPlaceholder({ text, chessboardSize }) {
   const style = {
     width: chessboardSize + "px",
     height: chessboardSize + "px"
   }
 
   return <Container id={"CheckmateBoard"} className={"bg-secondary text-white"} style={style}>{text}</Container>
-}
+})
 
 export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, whiteTime, setWhiteTime, blackTimer, blackTime, setBlackTime, boardEnabled, rotateBoard }) {
 
