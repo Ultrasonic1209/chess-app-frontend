@@ -1,10 +1,10 @@
-<mxfile host="app.diagrams.net" modified="2022-11-15T08:52:36.779Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.42" etag="bnu4K2yi8xKhNlSF7njW" version="20.5.3" type="github">
+<mxfile host="app.diagrams.net" modified="2022-11-15T09:25:46.969Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.42" etag="8dOey65lNqZtotBQxP_A" version="20.5.3" type="github">
   <diagram id="sADmDsKKLAJHKcJqgArQ" name="Page-1">
     <mxGraphModel dx="1375" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="_1aVd8an_PtlZR7n072Y-1" value="List All Games" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="_1aVd8an_PtlZR7n072Y-1" value="Client requests all games owned by the requestor" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="525" y="80" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="_1aVd8an_PtlZR7n072Y-2" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=1;entryDx=0;entryDy=0;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="_1aVd8an_PtlZR7n072Y-6" target="_1aVd8an_PtlZR7n072Y-1">
@@ -42,6 +42,78 @@
         </mxCell>
         <mxCell id="_1aVd8an_PtlZR7n072Y-9" value="Encode and respond to request" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
           <mxGeometry x="645" y="200" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_1aVd8an_PtlZR7n072Y-11" value="" style="endArrow=classic;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="500" y="140" as="sourcePoint" />
+            <mxPoint x="470" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_1aVd8an_PtlZR7n072Y-12" value="Requesting user&#39;s&lt;br&gt;session cookie" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;labelBackgroundColor=none;" connectable="0" vertex="1" parent="_1aVd8an_PtlZR7n072Y-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_1aVd8an_PtlZR7n072Y-13" value="" style="endArrow=classic;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="505" y="200" as="sourcePoint" />
+            <mxPoint x="530" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_1aVd8an_PtlZR7n072Y-14" value="Session ID" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;labelBackgroundColor=none;" connectable="0" vertex="1" parent="_1aVd8an_PtlZR7n072Y-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_1aVd8an_PtlZR7n072Y-16" value="" style="endArrow=classic;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="190" as="sourcePoint" />
+            <mxPoint x="540" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_1aVd8an_PtlZR7n072Y-17" value="Session ID" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;labelBackgroundColor=none;" connectable="0" vertex="1" parent="_1aVd8an_PtlZR7n072Y-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_1aVd8an_PtlZR7n072Y-19" value="" style="endArrow=classic;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="570" y="240" as="sourcePoint" />
+            <mxPoint x="570" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_1aVd8an_PtlZR7n072Y-20" value="User ID&lt;br&gt;(or null)" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;labelBackgroundColor=none;" connectable="0" vertex="1" parent="_1aVd8an_PtlZR7n072Y-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_1aVd8an_PtlZR7n072Y-21" value="" style="endArrow=classic;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="610" y="200" as="sourcePoint" />
+            <mxPoint x="610" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_1aVd8an_PtlZR7n072Y-22" value="Session ID&lt;br&gt;and&lt;br&gt;User ID&lt;br&gt;(or null)" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;labelBackgroundColor=none;" connectable="0" vertex="1" parent="_1aVd8an_PtlZR7n072Y-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_1aVd8an_PtlZR7n072Y-26" value="" style="endArrow=classic;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="220" as="sourcePoint" />
+            <mxPoint x="620" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_1aVd8an_PtlZR7n072Y-27" value="List of games" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;labelBackgroundColor=none;" connectable="0" vertex="1" parent="_1aVd8an_PtlZR7n072Y-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_1aVd8an_PtlZR7n072Y-29" value="" style="endArrow=classic;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;exitX=0.917;exitY=1.05;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="_1aVd8an_PtlZR7n072Y-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="670" y="340" as="sourcePoint" />
+            <mxPoint x="660" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_1aVd8an_PtlZR7n072Y-30" value="List of Games" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;labelBackgroundColor=none;" connectable="0" vertex="1" parent="_1aVd8an_PtlZR7n072Y-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_1aVd8an_PtlZR7n072Y-31" value="" style="endArrow=classic;html=1;rounded=0;fillColor=#e1d5e7;strokeColor=#9673a6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="700" y="190" as="sourcePoint" />
+            <mxPoint x="650" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_1aVd8an_PtlZR7n072Y-32" value="Formatted JSON&lt;br&gt;document" style="edgeLabel;resizable=0;html=1;align=center;verticalAlign=middle;labelBackgroundColor=none;" connectable="0" vertex="1" parent="_1aVd8an_PtlZR7n072Y-31">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
