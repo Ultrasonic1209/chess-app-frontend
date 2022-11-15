@@ -20,7 +20,15 @@ const withPWA = require('next-pwa')({
 
     fallbacks: {
         image: '/offline.png'
-    }
+    },
+
+    publicExcludes: [
+        '!nea/**/*'
+    ],
+
+    buildExcludes: [
+        '**/*.map'
+    ]
 })
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
