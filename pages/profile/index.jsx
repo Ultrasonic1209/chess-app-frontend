@@ -21,7 +21,12 @@ export default function Profile() {
 
     const [userPromptOpen, setUserPromptOpen] = useState(false);
 
+    // useProfile() returns a dictionary object.
     const { user, error, loading, mutate, loggedOut } = useProfile()
+    // JavaScript allows me to unpack this object on the fly, allowing me to define many variables or constants at once.
+    // the `user` constant itself is also a dictionary. I chose not to unpack this constant as to avoid polluting the namespace.
+    // Instead, I can access the contents inside the dictionary by using the dot or bracket notation.
+    // In this instance, I use the dot notation (user.name, user.rank, etc)
 
     if (error) {
       return (
