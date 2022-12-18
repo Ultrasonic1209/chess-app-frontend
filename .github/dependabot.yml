@@ -12,3 +12,4 @@ updates:
     # Raise pull requests for version updates
     # to yarn against the `staging` branch
     target-branch: "staging"
+    open-pull-requests-limit: 48
