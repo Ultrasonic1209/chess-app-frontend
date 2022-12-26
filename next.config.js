@@ -128,7 +128,7 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'chessapp.ultras-playroom.xyz',
-                pathname: '/maskable_icon.png',
+                pathname: '/*',
             }
         ],
         dangerouslyAllowSVG: true,
