@@ -339,6 +339,7 @@ export default function CheckmateBoard({ storedgame, game, onDrop, whiteTimer, w
                 position={game.fen()}
                 onPieceDrop={onDrop}
                 id={"CheckmateBoard"}
+                boardWidth={chessboardSize}
                 onMouseOverSquare={onMouseOverSquare}
                 onMouseOutSquare={onMouseOutSquare}
                 customSquareStyles={boardEnabled && optionSquares}
