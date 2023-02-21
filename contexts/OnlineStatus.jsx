@@ -6,7 +6,11 @@ const OnlineStatusContext = React.createContext(true);
 
 export const OnlineStatusProvider = ({ children }) => {
   // we check for window because it wont exist on the server, causing an error
-  const [onlineStatus, setOnlineStatus] = useState((typeof window !== 'undefined' && typeof window.navigator !== 'undefined') ? navigator.onLine : true);
+  const [onlineStatus, setOnlineStatus] = useState(
+    typeof window !== "undefined" && typeof window.navigator !== "undefined"
+      ? navigator.onLine
+      : true
+  );
 
   useEffect(() => {
     window.addEventListener("offline", () => {

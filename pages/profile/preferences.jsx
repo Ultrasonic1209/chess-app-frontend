@@ -4,8 +4,10 @@ import useLocalStorage from "../../hooks/useLocalStorage";
 import { Form, FloatingLabel } from "react-bootstrap";
 
 export default function Preferences() {
-
-  const [boardOrientation, setBoardOrientation] = useLocalStorage("boardOrientation", "1");
+  const [boardOrientation, setBoardOrientation] = useLocalStorage(
+    "boardOrientation",
+    "1"
+  );
 
   return (
     <Main title="Preferences">
@@ -20,7 +22,10 @@ export default function Preferences() {
           <option value={"2"}>White</option>
           <option value={"3"}>Black</option>
         </Form.Select>
-        <small>Whatever colour this is set to will appear to start at the bottom of the board.</small>
+        <small>
+          Whatever colour this is set to will appear to start at the bottom of
+          the board.
+        </small>
       </FloatingLabel>
     </Main>
   );

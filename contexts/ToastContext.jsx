@@ -1,8 +1,14 @@
 // https://codesandbox.io/s/react-toasts-melne?from-embed=&file=/src/contexts/ToastContext.js:0-808
-import React from 'react';
-import { useCallback, useContext, useState, createContext, Fragment } from "react";
-import ToastContainer from 'react-bootstrap/ToastContainer';
-import Toast from '../hooks/useToast';
+import React from "react";
+import {
+  useCallback,
+  useContext,
+  useState,
+  createContext,
+  Fragment,
+} from "react";
+import ToastContainer from "react-bootstrap/ToastContainer";
+import Toast from "../hooks/useToast";
 
 const ToastContext = createContext();
 
@@ -21,12 +27,17 @@ export function ToastContextProvider({ children }) {
   return (
     <ToastContext.Provider value={addToast}>
       {children}
-      <ToastContainer id="toastContainer" className="p-3" position='bottom-end'>
-        {toasts.map((toast, i) => ( // using array keys is officially seen as a last resort. maybe long-term switch to uuids?
+      <ToastContainer id="toastContainer" className="p-3" position="bottom-end">
+        {toasts.map(
+          (
+            toast,
+            i // using array keys is officially seen as a last resort. maybe long-term switch to uuids?
+          ) => (
             <Fragment key={i}>
-                <Toast title={toast.title} message={toast.message}/>
+              <Toast title={toast.title} message={toast.message} />
             </Fragment>
-        ))}
+          )
+        )}
       </ToastContainer>
     </ToastContext.Provider>
   );

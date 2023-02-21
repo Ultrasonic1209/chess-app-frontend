@@ -2,4 +2,4 @@
 
 import { Chessboard } from "react-chessboard";
 
-export default Chessboard
+export default Chessboard;
