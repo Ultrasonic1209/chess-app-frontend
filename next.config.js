@@ -31,6 +31,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 const GIT_BRANCH =
   (process.env.GIT_COMMIT_REF ||=
   process.env.VERCEL_GIT_COMMIT_REF ||=
+  process.env.CF_PAGES_BRANCH ||=
     child_process
       .execSync("git rev-parse --abbrev-ref HEAD")
       .toString()
@@ -39,6 +40,7 @@ const GIT_BRANCH =
 const GIT_COMMIT_SHA =
   (process.env.GIT_COMMIT_SHA ||=
   process.env.VERCEL_GIT_COMMIT_SHA ||=
+  process.env.CF_PAGES_COMMIT_SHA ||=
     child_process.execSync("git rev-parse HEAD").toString().trim()); // https://stackoverflow.com/a/35778030
 
 var APP_NAME;
