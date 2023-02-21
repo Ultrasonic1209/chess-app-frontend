@@ -8,6 +8,7 @@ type FriendlyCaptchaProps = {
   doneCallback: (solution: string) => any;
   errorCallback: (error: any) => any;
   startMode?: "auto" | "focus" | "none";
+  widgetRef: MutableRefObject<WidgetInstance>;
 };
 /* eslint-enable no-unused-vars */
 
@@ -15,7 +16,6 @@ import {
   useState,
   useEffect,
   useRef,
-  forwardRef,
   MutableRefObject,
 } from "react";
 import { WidgetInstance } from "friendly-challenge";
@@ -26,8 +26,8 @@ const FriendlyCaptcha = (
     doneCallback,
     errorCallback,
     startMode = "none",
+    widgetRef
   }: FriendlyCaptchaProps,
-  widget: MutableRefObject<WidgetInstance>
 ) => {
   const [darkMode, setMode] = useState(false);
 
@@ -45,8 +45,8 @@ const FriendlyCaptcha = (
   };
 
   useEffect(() => {
-    if (!widget.current && container.current) {
-      widget.current = new WidgetInstance(container.current, {
+    if (widgetRef && !widgetRef.current && container.current) {
+      widgetRef.current = new WidgetInstance(container.current, {
         startMode: startMode, // You could default to "auto" if you want to start even before interaction
         doneCallback: _doneCallback,
         errorCallback: _errorCallback,
@@ -64,7 +64,7 @@ const FriendlyCaptcha = (
     );
 
     return () => {
-      if (widget.current != undefined) widget.current.destroy();
+      if (widgetRef?.current != undefined) widgetRef.current.destroy();
 
       window
         .matchMedia?.("(prefers-color-scheme: dark)")
@@ -82,4 +82,4 @@ const FriendlyCaptcha = (
   );
 };
 
-export default forwardRef(FriendlyCaptcha);
+export default FriendlyCaptcha;

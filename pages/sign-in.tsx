@@ -150,7 +150,7 @@ export default function SignIn() {
 
         <Suspense fallback={`Loading captcha`}>
           <FriendlyCaptcha
-            ref={widgetRef}
+            widgetRef={widgetRef}
             sitekey={process.env.friendlyCaptchaSitekey}
             doneCallback={() => setSubmitButtonEnabled(true)}
             errorCallback={(err) => {
