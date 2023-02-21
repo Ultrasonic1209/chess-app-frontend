@@ -16,9 +16,16 @@
 #mainContainer > main > form > div.frc-captcha > div > div {
     overflow-x: inherit;
 }
-* {
-    user-select: none;
-}
 body {
     overscroll-behavior-y: contain;
+}
+
+
+/* https://stackoverflow.com/a/20495972/ 🤦‍♀️ */
+*:not(input.field) {    
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
