@@ -22,10 +22,6 @@ body {
 
 
 /* https://stackoverflow.com/a/20495972/ 🤦‍♀️ */
-*:not(input.field) {    
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+*:not(input.field) {
     user-select: none;
 }
