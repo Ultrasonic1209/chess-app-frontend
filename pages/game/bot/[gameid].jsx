@@ -1,39 +1,38 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router'
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 
-import { Chess, WHITE, BLACK } from 'chess.js';
+import { Chess, WHITE, BLACK } from "chess.js";
 
-import Main from '../../../components/Main';
+import Main from "../../../components/Main";
 
 import { useToastContext } from "../../../contexts/ToastContext";
 
 import { db } from "../../../db";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import { round, secondsToTime } from '../../../components/CountUp';
-import CheckmateBoard from '../../../components/CheckmateBoard';
-import useLocalStorage from '../../../hooks/useLocalStorage';
+import { round, secondsToTime } from "../../../components/CountUp";
+import CheckmateBoard from "../../../components/CheckmateBoard";
+import useLocalStorage from "../../../hooks/useLocalStorage";
 
-const clkRegex = new RegExp('\\[%clk (.*)]', 'g');
+const clkRegex = new RegExp("\\[%clk (.*)]", "g");
 
 export default function PlayBot() {
-
-  const [ boardOrientation ] = useLocalStorage("boardOrientation", "1");
+  const [boardOrientation] = useLocalStorage("boardOrientation", "1");
 
   const router = useRouter();
   const gameid = parseInt(router.query.gameid);
   const isReady = router.isReady;
 
   useEffect(() => {
-    if (isNaN(gameid) && (typeof window != 'undefined') && (isReady === true)) {
+    if (isNaN(gameid) && typeof window != "undefined" && isReady === true) {
       router.push("/").then(() => {
         addToast({
-          "title": "Checkmate Bot Game ID " + router.query.gameid,
-          "message": "Invalid ID"
+          title: "Checkmate Bot Game ID " + router.query.gameid,
+          message: "Invalid ID",
         });
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isReady]);
 
   const addToast = useToastContext();
@@ -50,37 +49,51 @@ export default function PlayBot() {
   const [blackTime, setBlackTime] = useState(0.0);
 
   const storedgame = useLiveQuery(async () => {
-    if ((typeof window === 'undefined') || isNaN(gameid) || (router.isReady === false)) { return }
+    if (
+      typeof window === "undefined" ||
+      isNaN(gameid) ||
+      router.isReady === false
+    ) {
+      return;
+    }
 
-    const loadedgame = db.table("games").get(gameid)
-    .then((retrievedgame) => {
-        if ((!retrievedgame) || (retrievedgame.gameType != "BOT")) {
+    const loadedgame = db
+      .table("games")
+      .get(gameid)
+      .then((retrievedgame) => {
+        if (!retrievedgame || retrievedgame.gameType != "BOT") {
           router.push("/").then(() => {
             addToast({
-              "title": "Checkmate Bot Game ID " + router.query.gameid,
-              "message": "No game could be found"
+              title: "Checkmate Bot Game ID " + router.query.gameid,
+              message: "No game could be found",
             });
-          })
+          });
           return;
         }
         const game = new Chess();
         game.load_pgn(retrievedgame.game);
 
-        const comments = game.get_comments()
+        const comments = game.get_comments();
 
         let times = comments.map((comment) => {
-          const text = comment.comment
+          const text = comment.comment;
 
-          const [ hours, minutes, seconds ] = (clkRegex.exec(text)?.at(1) || "00:00:00.0").split(":");
+          const [hours, minutes, seconds] = (
+            clkRegex.exec(text)?.at(1) || "00:00:00.0"
+          ).split(":");
           clkRegex.lastIndex = 0;
 
-          return (parseInt(hours) * 3600) + (parseInt(minutes) * 60) + parseFloat(seconds)
-        })
+          return (
+            parseInt(hours) * 3600 +
+            parseInt(minutes) * 60 +
+            parseFloat(seconds)
+          );
+        });
 
         let white = 0;
         let black = 0;
 
-        let isWhite, lastTime
+        let isWhite, lastTime;
         if (retrievedgame.clockType === "DOWN") {
           isWhite = true;
 
@@ -90,7 +103,8 @@ export default function PlayBot() {
 
           lastTime = timeLimit;
 
-          times.forEach((time) => { // i am so incredibly done with this
+          times.forEach((time) => {
+            // i am so incredibly done with this
             if (isWhite) {
               console.log(lastTime - time, " for white");
               white += lastTime - time;
@@ -100,7 +114,7 @@ export default function PlayBot() {
             }
             lastTime = time;
             isWhite = !isWhite;
-          })
+          });
 
           white = timeLimit - white;
           black = timeLimit - black;
@@ -130,7 +144,7 @@ export default function PlayBot() {
             }
             lastTime = time;
             isWhite = !isWhite;
-          })
+          });
         }
 
         setWhiteTime(white);
@@ -138,20 +152,22 @@ export default function PlayBot() {
 
         setGame(game);
         return retrievedgame;
-    })
-    .catch((reason) => {
-      console.error(reason);
-      addToast({
-        "title": "Checkmate Bot Game ID " + router.query.gameid,
-        "message": "Loading Failure"
+      })
+      .catch((reason) => {
+        console.error(reason);
+        addToast({
+          title: "Checkmate Bot Game ID " + router.query.gameid,
+          message: "Loading Failure",
+        });
       });
-    });
 
     return loadedgame;
   }, [isReady]);
 
   useEffect(() => {
-    if (!storedgame || !whiteTimer.current || !blackTimer.current) { return; }
+    if (!storedgame || !whiteTimer.current || !blackTimer.current) {
+      return;
+    }
     const whiteTime = parseFloat(whiteTimer.current.dataset.time);
     const blackTime = parseFloat(blackTimer.current.dataset.time);
 
@@ -161,8 +177,8 @@ export default function PlayBot() {
       setBoardEnabled(false);
     }
     if (storedgame.clockType === "DOWN") {
-      if ((whiteTime <= 0) || (blackTime <= 0) || storedgame.outOfTime) {
-        console.log("time up!")
+      if (whiteTime <= 0 || blackTime <= 0 || storedgame.outOfTime) {
+        console.log("time up!");
         setBoardEnabled(false);
       } else {
         setBoardEnabled(true);
@@ -170,35 +186,38 @@ export default function PlayBot() {
     } else {
       setBoardEnabled(true);
     }
-  }, [storedgame, game])
+  }, [storedgame, game]);
 
   const timeForMove = useCallback(() => {
-    if (storedgame.outOfTime) { return false; }
+    if (storedgame.outOfTime) {
+      return false;
+    }
     const whiteTime = parseFloat(whiteTimer.current.dataset.time);
     const blackTime = parseFloat(blackTimer.current.dataset.time);
 
-    if ((storedgame.clockType === "DOWN") && ((whiteTime <= 0) || (blackTime <= 0))) {
+    if (storedgame.clockType === "DOWN" && (whiteTime <= 0 || blackTime <= 0)) {
       return false;
     } else {
       return true;
     }
-  }, [storedgame, whiteTimer, blackTimer])
-
+  }, [storedgame, whiteTimer, blackTimer]);
 
   function makeAMove(move) {
-    if (!timeForMove()) { return null; }
+    if (!timeForMove()) {
+      return null;
+    }
 
     let gametime = round(whiteTime + blackTime, 1);
     if (storedgame.clockType === "DOWN") {
       let timeLimit = parseInt(storedgame.timeLimit);
 
-      let whiteSpent = round(timeLimit - whiteTime, 1)
-      let blackSpent = round(timeLimit - blackTime, 1)
+      let whiteSpent = round(timeLimit - whiteTime, 1);
+      let blackSpent = round(timeLimit - blackTime, 1);
 
       const totalSpent = round(whiteSpent + blackSpent, 1);
-      console.log("most spent:", totalSpent)
-      gametime = (timeLimit * 2) - totalSpent
-      console.log("total:", gametime)
+      console.log("most spent:", totalSpent);
+      gametime = timeLimit * 2 - totalSpent;
+      console.log("total:", gametime);
     }
     const formattedtime = secondsToTime(gametime);
 
@@ -208,24 +227,24 @@ export default function PlayBot() {
     //console.log(gameCopy.get_comment());
 
     if (result) {
-        db.table("games").update(gameid, {"game": gameCopy.pgn()})
-        .then(function(updated) {
-            if (!updated) {
-              addToast(
-                  "Checkmate Bot Game ID " + gameid,
-                  "Failed to save move"
-              );
-              setGame(game);
-            } else {
-              setGame(gameCopy);
-            }
+      db.table("games")
+        .update(gameid, { game: gameCopy.pgn() })
+        .then(function (updated) {
+          if (!updated) {
+            addToast("Checkmate Bot Game ID " + gameid, "Failed to save move");
+            setGame(game);
+          } else {
+            setGame(gameCopy);
+          }
         });
     }
     return result; // null if the move was illegal, the move object if the move was legal
   }
 
   const moveGameAlong = useCallback(() => {
-    if (storedgame.gameWon) { return false; }
+    if (storedgame.gameWon) {
+      return false;
+    }
     const canMove = timeForMove();
     const possibleMoves = game.moves();
     if (game.game_over() || possibleMoves.length === 0 || !canMove) {
@@ -239,11 +258,14 @@ export default function PlayBot() {
           gameWinner = "BLACK";
         }
       } else if (game.insufficient_material()) {
-        gameWinner = "DRAW - INSUFFICENT MATERIAL"
+        gameWinner = "DRAW - INSUFFICENT MATERIAL";
       } else if (game.in_threefold_repetition()) {
         gameWinner = "DRAW - THREEFOLD REPETITION";
       } else if (game.in_stalemate()) {
-        gameWinner = "DRAW - " + ((game.turn() === WHITE) ? "WHITE" : "BLACK") + " STALEMATED"
+        gameWinner =
+          "DRAW - " +
+          (game.turn() === WHITE ? "WHITE" : "BLACK") +
+          " STALEMATED";
       } else if (!canMove) {
         if (game.turn() === BLACK) {
           gameWinner = "WHITE - BLACK OUT OF TIME";
@@ -252,26 +274,28 @@ export default function PlayBot() {
         }
         outOfTime = game.turn();
       } else {
-        gameWinner = "DRAW - 100+ HALF MOVES"
+        gameWinner = "DRAW - 100+ HALF MOVES";
       }
 
-      db.table("games").update(gameid, {
-        gameWon: gameWinner,
-        outOfTime: outOfTime
-      })
-      .then(function(updated) {
-        if (updated) {
-          addToast({
-            "title": "Checkmate Bot Game ID " + gameid,
-            "message": "Game Over. Winner: " + gameWinner
-          });
-        } else {
-          addToast({
-            "title": "Checkmate Bot Game ID " + gameid,
-            "message": "Game Over. Winner: " + gameWinner + "\nFailed to save win."
-          });
-        }
-      });
+      db.table("games")
+        .update(gameid, {
+          gameWon: gameWinner,
+          outOfTime: outOfTime,
+        })
+        .then(function (updated) {
+          if (updated) {
+            addToast({
+              title: "Checkmate Bot Game ID " + gameid,
+              message: "Game Over. Winner: " + gameWinner,
+            });
+          } else {
+            addToast({
+              title: "Checkmate Bot Game ID " + gameid,
+              message:
+                "Game Over. Winner: " + gameWinner + "\nFailed to save win.",
+            });
+          }
+        });
       return false;
     } else {
       return true;
@@ -281,7 +305,9 @@ export default function PlayBot() {
   useEffect(() => {
     let interval;
     if (storedgame) {
-      interval = setInterval(() => { setBoardEnabled(moveGameAlong()); }, 1000);
+      interval = setInterval(() => {
+        setBoardEnabled(moveGameAlong());
+      }, 1000);
     } else if (!storedgame) {
       clearInterval(interval);
     }
@@ -298,28 +324,29 @@ export default function PlayBot() {
   }
 
   useEffect(() => {
-    if ((storedgame?.game === '') && (storedgame?.colourPlaying === "BLACK")) {
-      makeRandomMove()
+    if (storedgame?.game === "" && storedgame?.colourPlaying === "BLACK") {
+      makeRandomMove();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storedgame])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storedgame]);
 
   function onDrop(sourceSquare, targetSquare) {
-
     const move = makeAMove({
       from: sourceSquare,
       to: targetSquare,
-      promotion: 'q' // always promote to a queen for example simplicity
+      promotion: "q", // always promote to a queen for example simplicity
     });
 
     // illegal move
     if (move === null) return false;
-    
+
     setTimeout(makeRandomMove, 200);
     return true;
   }
 
-  const rotateBoard = ((storedgame?.colourPlaying === "BLACK") && (boardOrientation === "1")) || (boardOrientation === "3")
+  const rotateBoard =
+    (storedgame?.colourPlaying === "BLACK" && boardOrientation === "1") ||
+    boardOrientation === "3";
 
   return (
     <Main title="Play">
@@ -329,15 +356,12 @@ export default function PlayBot() {
         storedgame={storedgame}
         game={game}
         onDrop={onDrop}
-
         whiteTimer={whiteTimer}
         whiteTime={whiteTime}
         setWhiteTime={setWhiteTime}
-
         blackTimer={blackTimer}
         blackTime={blackTime}
         setBlackTime={setBlackTime}
-
         boardEnabled={boardEnabled}
         rotateBoard={rotateBoard}
       />

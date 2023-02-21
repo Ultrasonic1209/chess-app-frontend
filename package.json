@@ -39,6 +39,7 @@
     "postcss": "^8.4.21",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^7.7.1",
+    "prettier": "^2.8.4",
     "typescript": "^4.9.4",
     "webpack": "^5.75.0"
   },
@@ -51,7 +52,8 @@
     "packagebuild": "cross-env STATIC=1 NOSW=1 RELEASE=1 next build && cross-env STATIC=1 NOSW=1 RELEASE=1 next export",
     "lint": "next lint",
     "test": "jest --watch",
-    "citest": "cross-env NODE_ENV=test jest --ci"
+    "citest": "cross-env NODE_ENV=test jest --ci",
+    "pretty": "prettier --write \"./**/*.{js,jsx,ts,tsx,json}\""
   },
   "eslintConfig": {
     "extends": [

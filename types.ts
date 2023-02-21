@@ -2,7 +2,7 @@
 import { Dispatch, SetStateAction } from "react";
 
 export interface CounterArgs {
-    getTime: number,
-    setTime: Dispatch<SetStateAction<number>>,
-    running: boolean
+  getTime: number;
+  setTime: Dispatch<SetStateAction<number>>;
+  running: boolean;
 }

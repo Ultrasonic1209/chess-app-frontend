@@ -19,7 +19,7 @@ export default function useLocalStorage(key, initialValue) {
       console.log(error);
       return initialValue;
     }
-  }
+  };
 
   const [storedValue, setStoredValue] = useState(getBrowserValue);
   // Return a wrapped version of useState's setter function that ...
@@ -44,15 +44,15 @@ export default function useLocalStorage(key, initialValue) {
   useEffect(() => {
     const handleFocus = () => {
       setStoredValue(getBrowserValue);
-    }  
+    };
 
-    window.addEventListener('focus', handleFocus);
+    window.addEventListener("focus", handleFocus);
 
     // cleanup this component
     return () => {
-      window.removeEventListener('focus', handleFocus);
+      window.removeEventListener("focus", handleFocus);
     };
-  })
+  });
 
   return [storedValue, setValue];
 }
