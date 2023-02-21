@@ -20,7 +20,6 @@ body {
     overscroll-behavior-y: contain;
 }
 
-
 /* https://stackoverflow.com/a/20495972/ 🤦‍♀️ */
 *:not(input.field) {
     user-select: none;
