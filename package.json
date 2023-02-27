@@ -24,7 +24,7 @@
     "react-ssr-prepass": "latest",
     "sharp": "^0.31.3",
     "swagger-ui-react": "^4.14.3",
-    "swr": "^1.3.0"
+    "swr": "^2.0.4"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^5.0.0",
