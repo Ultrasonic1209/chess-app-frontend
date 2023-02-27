@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^5.0.0",
-    "@next/bundle-analyzer": "^13.1.0",
+    "@next/bundle-analyzer": "^13.2.1",
     "@types/react": "^18.0.26",
     "cross-env": "^7.0.3",
     "eslint": "^8.31.0",
