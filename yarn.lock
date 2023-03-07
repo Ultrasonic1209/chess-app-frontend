@@ -4248,10 +4248,10 @@ fraction.js@^4.2.0:
   resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.2.0.tgz#448e5109a313a3527f5a3ab2119ec4cf0e0e2950"
   integrity sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==
 
-friendly-challenge@^0.9.0:
-  version "0.9.10"
-  resolved "https://registry.yarnpkg.com/friendly-challenge/-/friendly-challenge-0.9.10.tgz#76109dc41ef678af1a4556109a64763ceaa5306d"
-  integrity sha512-tqJ8p1348puKNVIbZs+CwOoIwp4Dogw4EPMrFy68eF7EkVqJOL/7iopjTS4eDZ7fUKSGaZeOuwAd22Q+BLclBw==
+friendly-challenge@^0.9.11:
+  version "0.9.11"
+  resolved "https://registry.yarnpkg.com/friendly-challenge/-/friendly-challenge-0.9.11.tgz#b311ae47c826bc99b4fd5012942b526c049af6d1"
+  integrity sha512-5kpn5Fg4noxFDNl1OKrdisL5jCa7CYECc3RZ+ToUwEuTj1yg7ayQFofOTtAhiT+lmwp4VE4oxHqQadg5hvJEXg==
   dependencies:
     "@babel/runtime-corejs3" "^7.10.4"
     core-js "^3.6.5"
