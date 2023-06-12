@@ -29,7 +29,7 @@
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^5.0.0",
     "@next/bundle-analyzer": "^13.4.4",
-    "@types/react": "^18.2.7",
+    "@types/react": "^18.2.11",
     "cross-env": "^7.0.3",
     "eslint": "^8.42.0",
     "eslint-config-next": "^13.4.4",
