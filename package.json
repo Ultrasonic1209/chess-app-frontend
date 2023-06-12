@@ -41,7 +41,7 @@
     "postcss-preset-env": "^8.4.1",
     "prettier": "^2.8.4",
     "typescript": "^4.9.4",
-    "webpack": "^5.85.0"
+    "webpack": "^5.86.0"
   },
   "scripts": {
     "build": "next build",
