@@ -19,7 +19,7 @@
     "react": "latest",
     "react-bootstrap": "^2.8.0",
     "react-bootstrap-button-loader": "^2.0.0",
-    "react-chessboard": "^2.0.8",
+    "react-chessboard": "^4.0.0",
     "react-dom": "latest",
     "react-ssr-prepass": "latest",
     "sharp": "^0.32.1",
