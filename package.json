@@ -32,7 +32,7 @@
     "@types/react": "^18.2.13",
     "cross-env": "^7.0.3",
     "eslint": "^8.47.0",
-    "eslint-config-next": "^13.4.4",
+    "eslint-config-next": "^13.4.13",
     "fake-indexeddb": "^4.0.1",
     "jest": "^29.6.1",
     "jest-environment-jsdom": "^29.6.1",
