@@ -6974,10 +6974,10 @@ react-bootstrap@^2.8.0:
     uncontrollable "^7.2.1"
     warning "^4.0.3"
 
-react-chessboard@^2.0.8:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/react-chessboard/-/react-chessboard-2.1.0.tgz#2d426f9d8866352788b5ac1d0832cba3c9f9d474"
-  integrity sha512-XKMcXvHJ/zsGJCdPetrS2Iq+ZV6rSnHanTCABtk012A5jVejXM/TfM9koFbL1NSzT5j+AYnBRUArxjm6ZYj92w==
+react-chessboard@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/react-chessboard/-/react-chessboard-4.0.1.tgz#b8d888b28c9998330e6ab45e9777bd95d94741af"
+  integrity sha512-eJ5HDg+Nz7ZowVQaDY6xryZ9x7JSesOzNRIj5YPW4erUqZrV+WBK18OByUoFxI8l9ae59QASwOEgysWDhw2UCA==
   dependencies:
     react-dnd "^16.0.1"
     react-dnd-html5-backend "^16.0.1"
