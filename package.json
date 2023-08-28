@@ -13,7 +13,7 @@
     "date-fns": "^2.30.0",
     "dexie": "^3.2.2",
     "dexie-react-hooks": "^1.1.1",
-    "friendly-challenge": "^0.9.12",
+    "friendly-challenge": "^0.9.13",
     "next": "^13.4.4",
     "next-pwa": "latest",
     "react": "latest",
