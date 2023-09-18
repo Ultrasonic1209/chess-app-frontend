@@ -7001,10 +7001,10 @@ react-bootstrap@^2.8.0:
     uncontrollable "^7.2.1"
     warning "^4.0.3"
 
-react-chessboard@^2.0.8:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/react-chessboard/-/react-chessboard-2.1.0.tgz#2d426f9d8866352788b5ac1d0832cba3c9f9d474"
-  integrity sha512-XKMcXvHJ/zsGJCdPetrS2Iq+ZV6rSnHanTCABtk012A5jVejXM/TfM9koFbL1NSzT5j+AYnBRUArxjm6ZYj92w==
+react-chessboard@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/react-chessboard/-/react-chessboard-4.1.0.tgz#ff7594b75b2ca056ed9f8bcc5782113753e99de5"
+  integrity sha512-jk8XBzH7VLWcN3c0po+lrWbRSS/P5WemE5JVPh/Eki9gg/gm3dxe4gaNtJqPWYbbXT2wyRhK2Hh7D7GG98bJfQ==
   dependencies:
     react-dnd "^16.0.1"
     react-dnd-html5-backend "^16.0.1"
