@@ -17,7 +17,7 @@
     "next": "^13.5.2",
     "next-pwa": "latest",
     "react": "latest",
-    "react-bootstrap": "^2.8.0",
+    "react-bootstrap": "^2.9.0",
     "react-bootstrap-button-loader": "^2.0.0",
     "react-chessboard": "^2.0.8",
     "react-dom": "latest",
